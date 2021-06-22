@@ -1,11 +1,21 @@
-import './App.css';
-import Home from "./Home"
+// This is the main app handling the route switches.
+
+import './styles/App.css';
+import Signup from "./Signup"
 import Login from "./Login"
-import Main from "./Main"
+import Home from "./Home"
+import Home_artist from "./Home_artist"
+import Profile from "./Profile"
+import Username from "./edits/Username"
+import Email from "./edits/Email"
+import Gender from "./edits/Gender"
+import Age from "./edits/Age"
+import Artist from "./edits/Artist"
+import Country from "./edits/Country"
+import Phone from "./edits/Phone"
 import React, {Component, useEffect} from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
-// MAIN APP
 export class App extends Component {
   constructor(props) {
     super(props)
@@ -23,13 +33,40 @@ export class App extends Component {
           {/* Routes */}
           <Switch>
             <Route exact path="/">
-              <Home></Home>
+              <Signup></Signup>
             </Route>
             <Route exact path="/Login">
               <Login></Login>
             </Route>
-            <Route exact path="/Main">
-              <Main></Main>
+            <Route exact path="/Home">
+              <Home></Home>
+            </Route>
+            <Route exact path="/Home_artist">
+              <Home_artist></Home_artist>
+            </Route>
+            <Route exact path="/Username">
+              <Username></Username>
+            </Route>
+            <Route exact path="/Email">
+              <Email></Email>
+            </Route>
+            <Route exact path="/Gender">
+              <Gender></Gender>
+            </Route>
+            <Route exact path="/Age">
+              <Age></Age>
+            </Route>
+            <Route exact path="/Artist">
+              <Artist></Artist>
+            </Route>
+            <Route exact path="/Country">
+              <Country></Country>
+            </Route>
+            <Route exact path="/Phone">
+              <Phone></Phone>
+            </Route>
+            <Route exact path="/Profile">
+              <Profile></Profile>
             </Route>
           </Switch>
         </div>

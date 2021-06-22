@@ -1,6 +1,6 @@
 // Importing the necessary libraries.
-import './login.css';
-import volumefy from "./volumefy.png";
+import './styles/login.css';
+import volumefy from "./images/volumefy.png";
 import { useState } from "react";
 import * as React from "react";
 import Axios from "axios";
@@ -16,7 +16,7 @@ const Login = () => {
 
   React.useEffect(() => {
     if(localStorage.getItem("response")){
-      history.push("/main");
+      history.push("/Home");
     };
   })
 
@@ -33,7 +33,7 @@ const Login = () => {
       status = response.data.code;
       localStorage.setItem("response", response.data.accessToken);
       if(status === 200){
-        history.push("/main");
+        history.push("/home");
       }
     });
   };

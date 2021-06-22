@@ -1,12 +1,13 @@
 // This is the page where the user is directed after logging in.
-import './main.css';
-import volumefy from "./volumefy.png";
+import '../styles/home.css';
+import volumefy from "../images/volumefy.png";
 import { Link, useHistory } from "react-router-dom";
 import * as React from "react";
 import ReactDOM from "react-dom";
+import Profile from '../Profile';
 const jwt = require('jsonwebtoken');
 
-const Main = () => {
+const Home = () => {
   
   let history = useHistory();
 
@@ -29,6 +30,20 @@ const Main = () => {
     history.push("/");
   };
 
+  // This method is to route to the home page.
+  const toHome = () => {
+    history.push("/Home")
+  }
+
+  // This method is to route to the profile page.
+  const toProfile = () => {
+    history.push("/Profile")
+  }
+
+  const setGender = () => {
+    history.push("/Profile");
+  }
+
   return (
     <body class="bMain">
     <div className="Main" >
@@ -42,12 +57,13 @@ const Main = () => {
         </div>
         <div id = "left" className = "left">
           <br />
-          <button className="leftButton">Profile</button><br/><br/>
-          <button className="leftButton">Search</button><br/><br/>
-          <button className="leftButton">Library</button>
+          <button className="homeButton" onClick={toHome}>Home</button><br/><br/>
+          <button className="profileButton" onClick={toProfile}>Profile</button><br/><br/>
+          <button className="searchButton">Search</button><br/><br/>
+          <button className="libraryButton">Library</button>
         </div>
         <div id = "middle" className = "middle">
-          <h1>SONGS</h1>
+          <h1>gender</h1>
         </div>
         <div id = "right" className = "right">
           <h2>Friends</h2>
@@ -58,4 +74,4 @@ const Main = () => {
   );
 }
 
-export default Main;
+export default Home;

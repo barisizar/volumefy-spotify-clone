@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Monoton&family=Permanent+Marker&family=Poiret+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Monoton&family=Permanent+Marker&family=Poiret+One&display=swap');
 
-.Home{
+.Login{
   font-family: 'Permanent Marker', cursive;
   text-align: center;
   font-size:x-large;
   color: #DD7206;
   text-shadow: 2px 2px #ff0000;
-  background-image: url("images/crowd.jpg");
+  background-image: url("../images/goril.jpg");
   min-width: 100%;
   min-height: 100%;
   position: fixed;
@@ -15,6 +15,8 @@
   left: 0;
   background-size: cover;
   background-position: center;
+  overflow: hidden;
+  display: block;
 }
 
 input{
@@ -41,5 +43,4 @@ button{
   font-size: 100%;
   font-weight: bolder;
   color: #DD7206;
-  cursor: pointer;
 }

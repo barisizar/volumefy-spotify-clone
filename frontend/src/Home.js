@@ -1,100 +1,72 @@
-import "./home.css";
-import volumefy from "./volumefy.png";
-import { useState } from "react";
-import * as React from "react";
-import Axios from "axios";
+// This is the page where the user is directed after logging in.
+import './styles/home.css';
+import volumefy from "./images/volumefy.png";
 import { Link, useHistory } from "react-router-dom";
+import * as React from "react";
+import ReactDOM from "react-dom";
+const jwt = require('jsonwebtoken');
 
-// HOME (INDEX) PAGE
 const Home = () => {
-  const [id, setId] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [userlist, setUserList] = useState([]);
-
-  // Defining history. It'll be used while routing 
-  // between pages.
+  
   let history = useHistory();
 
+  // On load, get the token from the local storage and get
+  // the usarname from it. Then, create a h2 element with
+  // that usarname.
   React.useEffect(() => {
-    if(localStorage.getItem("response")){
-      history.push("/main");
-    };
+    var response = localStorage.getItem("response");
+    console.log(response);
+    response = jwt.decode(response);
+    response = response.username;
+    let h_element = React.createElement("h1", null, "- Hello, ", response, "!");
+    ReactDOM.render(h_element, document.getElementById("upper"));
   })
 
-  // This method is to add users to the database.
-  const addUser = (event) => {
-    var id =  null;
-    setId(id);
-    // If there's any null element, don't load the new
-    // page nor add the element to the table.
-    if(!username || !email || !password){
-      event.preventDefault();
-    }
-    // Add elements to the database.
-    else{
-      Axios.post("http://localhost:3001/create", {
-        id: id,
-        username: username,
-        email: email,
-        password: password,
-      }).then(() => {
-        setUserList([
-          ...userlist,
-          {
-            id: id,
-            username: username,
-            email: email,
-            password: password,
-          },
-        ]);
-      });
-      history.push("/login");
-    }
+  // This method is to delete the access token from the local storage
+  // and route back to the "/".
+  const logOut = () => {
+    localStorage.clear();
+    history.push("/");
   };
 
-  // This method is to route to the login page.
-  const login = () => {
-    history.push("/login");
+  // This method is to route to the home page.
+  const toHome = () => {
+    history.push("/Home")
   }
 
-  // This method is to get the elements from the database.
-  const getUsers = () => {
-    Axios.get("http://localhost:3001/users").then((response) => {
-      setUserList(response.data);
-    });
-  };
+  // This method is to route to the profile page.
+  const toProfile = () => {
+    history.push("/Profile")
+  }
 
   return (
-    <div className="Home">
+    <body class="bMain">
+    <div className="Main" >
       {/* Name and logo */}
-      <div>
-        <img src={volumefy} className="logo" />
-        <h1 className="h1text"> VOLUMEFY</h1>
-        <hr />
-      </div>
-      {/* Inputs */}
-      <h2>Email Address</h2>
-      <input className="input" type="email" onChange={(event) => {
-            setEmail(event.target.value);
-          }}/>
-      <h2>User Name</h2>
-      <input className="input" type="text" onChange={(event) => {
-            setUsername(event.target.value);
-          }}/>
-      <h2>Password</h2>
-      <input className="input" type="password" onChange={(event) => {
-            setPassword(event.target.value);
-          }}/>
-      <br />
-      <br />
-      <button onClick={addUser}>SIGN UP</button>
-      {/* Direct to the login page */}
-      <h2>Already have an account?</h2>
-      <button onClick={login}>SIGN IN</button>
+        <div id = "header" className = "header">
+            <img src={volumefy} className="logo2"/>
+            <h1 className="vol"> VOLUMEFY</h1>
+            <div id = "upper" className = "upper"></div>
+            <button className="logout" onClick={logOut}>SIGN Out</button>
+            <hr/>
+        </div>
+        <div id = "left" className = "left">
+          <br />
+          <button className="homeButton" onClick={toHome}>Home</button><br/><br/>
+          <button className="profileButton" onClick={toProfile}>Profile</button><br/><br/>
+          <button className="searchButton">Search</button><br/><br/>
+          <button className="libraryButton">Library</button>
+        </div>
+        <div id = "middle" className = "middle">
+          <h1>SONGS</h1>
+        </div>
+        <div id = "right" className = "right">
+          <h2>Friends</h2>
+        </div>
+        
     </div>
+    </body>
   );
-};
+}
 
 export default Home;

@@ -36,7 +36,6 @@ const createUser = async(req, res) => {
 
 // This method is to login.
 const loginUser = async (req, res) => {
-  
   const username = req.body.username;
   const password = req.body.password;
   db.query(
