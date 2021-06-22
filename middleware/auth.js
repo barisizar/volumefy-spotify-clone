@@ -4,8 +4,9 @@ const accessTokenSecret = 'mhpsecret';
 
 
 const auth = (req, res, next) => {
-  const token = req.headers;
-  console.log(token);
+  // console.log(req.cookies.token);
+  const token = req.cookies.token;
+  // console.log(req.cookies);
 
   // Check for token
   if (!token)

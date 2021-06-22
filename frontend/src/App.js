@@ -4,12 +4,12 @@ import Login from "./Login"
 import Main from "./Main"
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import {createStore } from 'redux';
-import { Provider } from 'react-redux';
-import reducer from '../redux/reducers/index'
+// import {createStore } from 'redux';
+// import { Provider } from 'react-redux';
+// import reducer from '../redux/reducers/index'
 
 
-const store = createStore(reducer);
+// const store = createStore(reducer);
 
 
 // MAIN APP

@@ -24,7 +24,12 @@ const Home = () => {
       username: username,
       email: email,
       password: password,
-    }).then(() => {
+    },{
+    headers: {
+      'Content-Type': 'application/json', 
+  },
+  withCredentials: true,
+  }).then(() => {
       setUserList([
         ...userlist,
         {

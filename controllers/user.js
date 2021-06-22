@@ -25,22 +25,33 @@ const createUser = async (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        res.send("Values Inserted");
+        const expiration = "2h";
+            const accessToken = jwt.sign({ username: username}, accessTokenSecret, {
+                    expiresIn :"2h"
+                });
+                res.cookie('token', accessToken, { expires: new Date(Date.now() + expiration),
+                  secure: false }).send({
+              code: 200,
+              token:accessToken,
+              success: "created successfully",
+            });
+            console.log(req.cookies)
       }
     }
   );
 };
 
 const loginUser = async (req, res) => {
-  // res.json({ loggedIn: false });
+  // console.log(req.body);
   const username = req.body.username;
   const password = req.body.password;
-  // console.log(req.body);
+  // console.log(username, password);
+  // console.log(typeof username);
   db.query(
     "SELECT password FROM users WHERE username=? ",
     username,
     async function (error, results) {
-      console.log(results);
+      // console.log(results);
       if (error) {
         res.send({
           code: 400,
@@ -54,12 +65,21 @@ const loginUser = async (req, res) => {
             results[0].password
           );
           if (comparison) {
-            const accessToken = jwt.sign({ username: username}, accessTokenSecret);
-            res.send({
+            // const start = Date.now();
+            // console.log(start);
+            const expiration = "2h";
+            const accessToken = jwt.sign({ username: username}, accessTokenSecret, {
+                    expiresIn :"2h"
+                });
+                // console.log(accessToken)
+                res.cookie('token', accessToken, { expires: new Date(Date.now() + expiration),
+                  secure: false, httpOnly: true}).send({
               code: 200,
-              accessToken,
+              token:accessToken,
               success: "login successful",
+              // cookie:(req.signedCookies)
             });
+            console.log(req.cookies.token);
           } else {
             res.send({
               code: 204,

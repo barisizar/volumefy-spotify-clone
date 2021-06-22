@@ -6,20 +6,28 @@ import Axios from "axios";
 import {
   Link
 } from "react-router-dom";
-
+import cookieClient from 'react-cookie'
 // LOGI PAGE
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
+  
   const logUser = (e) => {
     e.preventDefault();
-    Axios.post("http://localhost:3001/login", {
-      username: username,
-      password: password,
+    const data = JSON.stringify({
+      "username": username,
+      "password": password,
+  })
+  console.log(data);
+    Axios.post("http://localhost:3001/login", data,{
+      headers: {
+        'Content-Type': 'application/json', 
+    },
+    withCredentials: true,
     }).then((response) => {
-      console.log(response.data)
-      const status = response.data.code
+      // console.log(response.data)
+      const status = response.data
+      console.log(status)
     });
   };
   return (
