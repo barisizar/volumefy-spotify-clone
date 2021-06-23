@@ -112,10 +112,29 @@ const user = (req, res) => {
   );
 };
 
+const searchUser = (req, res) => {
+  const keyword = req.body.username;
+  console.log("mhp gay");
+  db.query(
+    "SELECT id,username FROM users WHERE username like ?",
+    "%" + keyword + "%",
+    (err, result) => {
+      if (err) {
+        res.json({ message: err });
+        console.log(err);
+      } else {
+        console.log(result);
+        res.json({ result });
+      }
+    }
+  );
+};
+
 module.exports = {
   home,
   createUser,
   getUsers,
   loginUser,
   user,
+  searchUser,
 };

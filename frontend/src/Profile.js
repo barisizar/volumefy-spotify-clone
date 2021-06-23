@@ -47,6 +47,11 @@ const Profile = () => {
     history.push("/Profile")
   }
 
+  // This method is to route to the search page.
+  const toSearch = () => {
+    history.push("/Search")
+  }
+
   return (
     <body class="bMain">
     <div className="Main" >
@@ -63,7 +68,7 @@ const Profile = () => {
           <br />
           <button className="homeButton" onClick={toHome}>Home</button><br/><br/>
           <button className="profileButton" onClick={toProfile}>Profile</button><br/><br/>
-          <button className="searchButton">Search</button><br/><br/>
+          <button className="searchButton" onClick={toSearch}>Search</button><br/><br/>
           <button className="libraryButton">Library</button>
         </div>
         {/* Profile info */}
