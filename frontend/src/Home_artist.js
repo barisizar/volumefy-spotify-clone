@@ -1,26 +1,15 @@
 // This is the page where the user is directed after logging in.
 import './styles/home.css';
 import volumefy from "./images/volumefy.png";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import * as React from "react";
-import ReactDOM from "react-dom";
+import Axios from "axios";
 const jwt = require('jsonwebtoken');
 
-const Main_user = () => {
+
+const Home = () => {
   
   let history = useHistory();
-
-  // On load, get the token from the local storage and get
-  // the usarname from it. Then, create a h2 element with
-  // that usarname.
-  React.useEffect(() => {
-    var response = localStorage.getItem("response");
-    console.log(response);
-    response = jwt.decode(response);
-    response = response.username;
-    let h_element = React.createElement("h1", null, "- Hello, ", response, "!");
-    ReactDOM.render(h_element, document.getElementById("upper"));
-  })
 
   // This method is to delete the access token from the local storage
   // and route back to the "/".
@@ -28,6 +17,21 @@ const Main_user = () => {
     localStorage.clear();
     history.push("/");
   };
+
+  // This method is to route to the home page.
+  const toHome = () => {
+    history.push("/Home_artist")
+  }
+
+  // This method is to route to the profile page.
+  const toProfile = () => {
+    history.push("/Profile_artist")
+  }
+
+  // This method is to route to the search page.
+  const toSearch = () => {
+    history.push("/Search_artist")
+  }
 
   return (
     <body class="bMain">
@@ -42,9 +46,9 @@ const Main_user = () => {
         </div>
         <div id = "left" className = "left">
           <br />
-          <button className="homeButton">Home</button><br/><br/>
-          <button className="profileButton">Profile</button><br/><br/>
-          <button className="searchButton">Search</button><br/><br/>
+          <button className="homeButton" onClick={toHome}>Home</button><br/><br/>
+          <button className="profileButton" onClick={toProfile}>Profile</button><br/><br/>
+          <button className="searchButton" onClick={toSearch}>Search</button><br/><br/>
           <button className="libraryButton">Library</button><br/><br/>
           <button className="mymusicButton">My Music</button>
         </div>
@@ -60,4 +64,4 @@ const Main_user = () => {
   );
 }
 
-export default Main_user;
+export default Home;

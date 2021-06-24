@@ -30,6 +30,7 @@ const Login = () => {
       username: username,
       password: password,
     }).then((response) => {
+      console.log(response);
       status = response.data.code;
       localStorage.setItem("response", response.data.accessToken);
       if(status === 200){

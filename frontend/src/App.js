@@ -6,6 +6,8 @@ import Login from "./Login"
 import Home from "./Home"
 import Search from "./Search"
 import Home_artist from "./Home_artist"
+import Profile_artist from './Profile_artist';
+import Search_artist from './Search_artist';
 import Profile from "./Profile"
 import Username from "./edits/Username"
 import Email from "./edits/Email"
@@ -44,6 +46,12 @@ export class App extends Component {
             </Route>
             <Route exact path="/Home_artist">
               <Home_artist></Home_artist>
+            </Route>
+            <Route exact path="/Profile_artist">
+              <Profile_artist></Profile_artist>
+            </Route>
+            <Route exact path="/Search_artist">
+              <Search_artist></Search_artist>
             </Route>
             <Route exact path="/Username">
               <Username></Username>

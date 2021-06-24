@@ -15,8 +15,6 @@ const Search = () => {
   const [username, setUsername] = useState("");
   const [result, setResult] = useState([]);
 
-  var data;
-
   // This function is to search the users.
   const searchUser = () => {
     Axios.post("http://localhost:3001/searchUser", {
@@ -24,34 +22,12 @@ const Search = () => {
     }).then((response) => {
       // console.log(response.data);
       if (response.data) {
-        // setResult(response.data);
-        // console.log(result);
-        console.log("response.data")
+        setResult(response.data);
+        console.log(result);
         console.log(response.data);
-        var data = response.data;
-        console.log(data);
       }
     });
   };
-
-  // On load, get the token from the local storage and get
-  // the usarname from it. Then, create a h2 element with
-  // that usarname.
-  React.useEffect(() => {
-    var response = localStorage.getItem("response");
-    // console.log(response);
-    response = jwt.decode(response);
-    // console.log("yarrak");
-    // console.log("yarrak");
-    // console.log("yarrak");
-    // console.log("yarrak");
-    // console.log("yarrak");
-    // console.log(response);
-    // console.log(response.id);
-    response = response.username;
-    let h_element = React.createElement("h1", null, "- Hello, ", response, "!");
-    ReactDOM.render(h_element, document.getElementById("upper"));
-  })
 
   // This method is to delete the access token from the local storage
   // and route back to the "/".
@@ -70,10 +46,10 @@ const Search = () => {
     history.push("/Profile")
   }
 
-    // This method is to route to the profile page.
-    const toSearch = () => {
-      history.push("/Search")
-    }
+  // This method is to route to the profile page.
+  const toSearch = () => {
+    history.push("/Search")
+  }
 
   return (
     <body class="bMain">
@@ -95,20 +71,17 @@ const Search = () => {
         </div>
         <div id = "middle" className = "middle">
           <h1>SEARCH</h1>
+          {/* Search results */}
           <input className="input" type="text" onChange={(event) => {setUsername(event.target.value);}}/>
           <button onClick={searchUser}>Search</button>
-          {data ? (
-            data.map((val, key) => {
+          {result.map((val, key) => {
               return (
-                <div className="employee">
+                <div className="users">
                   <h3>username: {val.username}</h3>
-                  <h3>ID: {val.id}</h3>
                 </div>
               );
             })
-          ) : (
-            <h1>userssssssssssssssss</h1>
-          )}
+          }
         </div>
         <div id = "right" className = "right">
           <h2>Friends</h2>

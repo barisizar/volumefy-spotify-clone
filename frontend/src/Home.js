@@ -1,25 +1,42 @@
 // This is the page where the user is directed after logging in.
 import './styles/home.css';
 import volumefy from "./images/volumefy.png";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import * as React from "react";
-import ReactDOM from "react-dom";
+import {useState} from "react";
+import Axios from "axios";
 const jwt = require('jsonwebtoken');
 
+
+
 const Home = () => {
-  
+
+  // We'll store all the users in the database inside this list.
+  const [userList, setUserList] = useState([]);  
+
   let history = useHistory();
 
-  // On load, get the token from the local storage and get
-  // the usarname from it. Then, create a h2 element with
-  // that usarname.
+  // On load, check if the user is an artist. If he/she is,
+  // then route to the "/Home_artist".
   React.useEffect(() => {
-    var response = localStorage.getItem("response");
-    console.log(response);
-    response = jwt.decode(response);
-    response = response.username;
-    let h_element = React.createElement("h1", null, "- Hello, ", response, "!");
-    ReactDOM.render(h_element, document.getElementById("upper"));
+    Axios.get("http://localhost:3001/users").then((response) => {
+      setUserList(response.data)
+     })
+
+    userList.map((val, key) => {
+      // Can't get the response from the Profile. We need to define it again.
+      var response = localStorage.getItem("response");
+      response = jwt.decode(response);
+      response = response.id;
+      // If the id of the user is equal to the response, show user's
+      // info in the div "middle".
+      console.log("yarrrrrrrrrrrrrak")
+      if(val.id == response){
+        console.log(val.id);
+        if(val.artist == 1){
+          history.push("/Home_artist");
+        }
+    }})
   })
 
   // This method is to delete the access token from the local storage

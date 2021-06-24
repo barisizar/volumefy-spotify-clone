@@ -1,9 +1,8 @@
 // This is the page where the user is directed after logging in.
 import './styles/profile.css';
 import volumefy from "./images/volumefy.png";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import * as React from "react";
-import ReactDOM from "react-dom";
 import Axios from "axios";
 import {useState} from "react";
 const jwt = require('jsonwebtoken');
@@ -14,19 +13,10 @@ const Profile = () => {
   
   let history = useHistory();
 
-  // On load, get the token from the local storage and get
-  // the usarname from it. Then, create a h2 element with
-  // that usarname.
+  // Send a get request to the database on load. 
   React.useEffect(() => {
-    var response = localStorage.getItem("response");
-    response = jwt.decode(response);
-    response = response.username;
-    let h_element = React.createElement("h1", null, "- Hello, ", response, "!");
-    ReactDOM.render(h_element, document.getElementById("upper"));
-
-    // Send a get request to the database. 
-    Axios.get("http://localhost:3001/users").then((response2) => {
-        setUserList(response2.data)
+    Axios.get("http://localhost:3001/users").then((response) => {
+        setUserList(response.data)
     })
   })
 
@@ -50,6 +40,26 @@ const Profile = () => {
   // This method is to route to the search page.
   const toSearch = () => {
     history.push("/Search")
+  }
+
+  const toGender = () => {
+    history.push("/Gender")
+  }
+
+  const toAge = () => {
+    history.push("/Age")
+  }
+
+  const toCountry = () => {
+    history.push("/Country")
+  }
+
+  const toPhone = () => {
+    history.push("/Phone")
+  }
+
+  const toArtist = () => {
+    history.push("/Artist");
   }
 
   return (
@@ -76,18 +86,18 @@ const Profile = () => {
           // Can't get the response from the Profile. We need to define it again.
           var response = localStorage.getItem("response");
           response = jwt.decode(response);
-          response = response.username;
-          // If the usarname of the user is equal to the response, show user's
+          response = response.id;
+          // If the id of the user is equal to the response, show user's
           // info in the div "middle".
-          if(val.username == response){
+          if(val.id == response){
           return <div className="middle_h"> 
-            <h3 className="userInfo">username: {val.username}</h3>             <button className="editButton">edit</button><br/>
-            <h3 className="userInfo">email: {val.email}</h3>                   <button className="editButton">edit</button><br/>
-            <h3 className="userInfo">gender: {val.gender}</h3>                 <button className="editButton">edit</button><br/>
-            <h3 className="userInfo">age: {val.age}</h3>                       <button className="editButton">edit</button><br/>
-            <h3 className="userInfo">country: {val.country}</h3>               <button className="editButton">edit</button><br/>
-            <h3 className="userInfo">phone number: {val.phone_number}</h3>     <button className="editButton">edit</button><br/>
-            <h3 className="userInfo">artist: {val.artist}</h3>                 <button className="editButton">edit</button><br/>
+            <h3 className="userInfo">username: {val.username}</h3>       <button className="editButton">edit</button><br/>
+            <h3 className="userInfo">email: {val.email}</h3>             <button className="editButton">edit</button><br/>
+            <h3 className="userInfo">gender: {val.gender}</h3>           <button className="editButton" onClick={toGender}>edit</button><br/>
+            <h3 className="userInfo">age: {val.age}</h3>                 <button className="editButton" onClick={toAge}>edit</button><br/>
+            <h3 className="userInfo">country: {val.country}</h3>         <button className="editButton" onClick={toCountry}>edit</button><br/>
+            <h3 className="userInfo">phone number: {val.phone}</h3>      <button className="editButton" onClick={toPhone}>edit</button><br/>
+            <h3 className="userInfo">artist: {val.artist}</h3>           <button className="editButton" onClick={toArtist}>edit</button><br/>
           </div>
         }})}
         {/* Friends */}
