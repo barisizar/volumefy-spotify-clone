@@ -13,11 +13,24 @@ const Profile = () => {
   
   let history = useHistory();
 
-  // Send a get request to the database on load. 
   React.useEffect(() => {
     Axios.get("http://localhost:3001/users").then((response) => {
-        setUserList(response.data)
-    })
+      setUserList(response.data)
+     })
+    
+    // Map around the database and find the user with the relevant id.
+    userList.map((val, key) => {
+      var response = localStorage.getItem("response");
+      response = jwt.decode(response);
+      response = response.id;
+      // If the id of the user is equal to the response, show user's
+      // info in the div "middle".
+      if(val.id == response){
+        console.log(val.id);
+        if(val.artist == 1){
+          history.push("/Profile_artist");
+        }
+    }})
   })
 
   // This method is to delete the access token from the local storage

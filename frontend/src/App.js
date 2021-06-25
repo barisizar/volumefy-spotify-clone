@@ -9,6 +9,7 @@ import Home_artist from "./Home_artist"
 import Profile_artist from './Profile_artist';
 import Search_artist from './Search_artist';
 import Profile from "./Profile"
+import MyMusic from './MyMusic';
 import Username from "./edits/Username"
 import Email from "./edits/Email"
 import Gender from "./edits/Gender"
@@ -79,6 +80,9 @@ export class App extends Component {
             </Route>
             <Route exact path="/Search">
               <Search></Search>
+            </Route>
+            <Route exact path="/MyMusic">
+              <MyMusic></MyMusic>
             </Route>
           </Switch>
         </div>

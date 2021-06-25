@@ -13,11 +13,24 @@ const Profile_artist = () => {
   
   let history = useHistory();
 
-  // Send a get request to the database on load. 
   React.useEffect(() => {
     Axios.get("http://localhost:3001/users").then((response) => {
-        setUserList(response.data)
-    })
+      setUserList(response.data)
+     })
+    
+    // Map around the database and find the user with the relevant id.
+    userList.map((val, key) => {
+      var response = localStorage.getItem("response");
+      response = jwt.decode(response);
+      response = response.id;
+      // If the id of the user is equal to the response, show user's
+      // info in the div "middle".
+      if(val.id == response){
+        console.log(val.id);
+        if(val.artist == 0){
+          history.push("/Profile");
+        }
+    }})
   })
 
   // This method is to delete the access token from the local storage
@@ -27,39 +40,33 @@ const Profile_artist = () => {
     history.push("/");
   };
 
-  // This method is to route to the home page.
+  // Following method are to route to the relevant links.
   const toHome = () => {
     history.push("/Home_artist")
   }
-
-  // This method is to route to the profile page.
   const toProfile = () => {
     history.push("/Profile_artist")
   }
-
-  // This method is to route to the search page.
   const toSearch = () => {
     history.push("/Search_artist")
   }
-
   const toGender = () => {
     history.push("/Gender")
   }
-
   const toAge = () => {
     history.push("/Age")
   }
-
   const toCountry = () => {
     history.push("/Country")
   }
-
   const toPhone = () => {
     history.push("/Phone")
   }
-
   const toArtist = () => {
     history.push("/Artist");
+  }
+  const toMyMusic = () => {
+    history.push("/MyMusic");
   }
 
   return (
@@ -80,7 +87,7 @@ const Profile_artist = () => {
           <button className="profileButton" onClick={toProfile}>Profile</button><br/><br/>
           <button className="searchButton" onClick={toSearch}>Search</button><br/><br/>
           <button className="libraryButton">Library</button><br/><br/>
-          <button className="mymusicButton">My Music</button>
+          <button className="mymusicButton" onClick={toMyMusic}>My Music</button>
         </div>
         {/* Profile info */}
         {userList.map((val, key) => {

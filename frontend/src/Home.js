@@ -30,7 +30,6 @@ const Home = () => {
       response = response.id;
       // If the id of the user is equal to the response, show user's
       // info in the div "middle".
-      console.log("yarrrrrrrrrrrrrak")
       if(val.id == response){
         console.log(val.id);
         if(val.artist == 1){

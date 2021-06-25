@@ -50,6 +50,11 @@ const Search_artist = () => {
   const toSearch = () => {
     history.push("/Search_artist")
   }
+
+  const toMyMusic = () => {
+    history.push("/MyMusic");
+  }
+
   return (
     <body class="bMain">
     <div className="Main" >
@@ -67,7 +72,7 @@ const Search_artist = () => {
           <button className="profileButton" onClick={toProfile}>Profile</button><br/><br/>
           <button className="searchButton"  onClick={toSearch}>Search</button><br/><br/>
           <button className="libraryButton">Library</button><br/><br/>
-          <button className="mymusicButton">My Music</button>
+          <button className="mymusicButton" onClick={toMyMusic}>My Music</button>
         </div>
         <div id = "middle" className = "middle">
           <h1>SEARCH</h1>

@@ -3,9 +3,6 @@ import './styles/home.css';
 import volumefy from "./images/volumefy.png";
 import { useHistory } from "react-router-dom";
 import * as React from "react";
-import Axios from "axios";
-const jwt = require('jsonwebtoken');
-
 
 const Home = () => {
   
@@ -33,6 +30,11 @@ const Home = () => {
     history.push("/Search_artist")
   }
 
+  // This method is to route to the my music page.
+  const toMyMusic = () => {
+    history.push("/MyMusic")
+  }
+
   return (
     <body class="bMain">
     <div className="Main" >
@@ -50,7 +52,7 @@ const Home = () => {
           <button className="profileButton" onClick={toProfile}>Profile</button><br/><br/>
           <button className="searchButton" onClick={toSearch}>Search</button><br/><br/>
           <button className="libraryButton">Library</button><br/><br/>
-          <button className="mymusicButton">My Music</button>
+          <button className="mymusicButton" onClick={toMyMusic}>My Music</button>
         </div>
         <div id = "middle" className = "middle">
           <h1>SONGS</h1>
