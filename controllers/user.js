@@ -80,14 +80,14 @@ const createAlbum = (req, res) => {
 // This method is to create the users.
 const createSong = (req, res) => {
   console.log(req.body);
-  const id_song = req.body.id_song;
-  const id_album = req.body.id_album;
   const song_name = req.body.song_name;
+  const album_name = req.body.album_name;
+  const id_artist = req.body.id_artist;
   const song_src = req.body.song_src
 
   db.query(
-    "INSERT INTO songs (id_song, id_album, song_name, song_src) VALUES (?,?,?,?)",
-    [id_song, id_album, song_name, song_src],
+    "INSERT INTO songs (song_name, album_name, id_artist, song_src) VALUES (?,?,?,?)",
+    [song_name, album_name, id_artist, song_src],
     (err, result) => {
       if (err) {
         console.log(err);
@@ -242,17 +242,12 @@ const getUsers = (req, res) => {
   });
 };
 
-// This method is to get the albums from the database.
+// This method is to get the users from the database.
 const getAlbums = (req, res) => {
-  var id_artist = req.params.id_artist;
-  // console.log(id_artist);
-  db.query("SELECT * FROM albums where id_artist = ?",
-  id_artist
-  , (err, result) => {
+  db.query("SELECT * FROM albums", (err, result) => {
     if (err) {
       console.log(err);
     } else {
-      console.log(result);
       res.send(result);
     }
   });
@@ -279,9 +274,25 @@ const user = (req, res) => {
 
 const searchUser = (req, res) => {
   const keyword = req.body.username;
-  console.log("mhp gay");
   db.query(
     "SELECT id,username FROM users WHERE username like ?",
+    "%" + keyword + "%",
+    (err, result) => {
+      if (err) {
+        res.json({ message: err });
+        console.log(err);
+      } else {
+        console.log(result);
+        res.json( result );
+      }
+    }
+  );
+};
+
+const searchTrack = (req, res) => {
+  const keyword = req.body.song_name;
+  db.query(
+    "SELECT song_name, song_src FROM songs WHERE song_name like ?",
     "%" + keyword + "%",
     (err, result) => {
       if (err) {
@@ -310,5 +321,6 @@ module.exports = {
   editArtist,
   createArtist,
   createAlbum,
-  createSong
+  createSong,
+  searchTrack
 };

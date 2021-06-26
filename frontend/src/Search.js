@@ -12,19 +12,32 @@ const Search = () => {
   
   let history = useHistory();
   
-  const [username, setUsername] = useState("");
+  const [song_name, setSong_name] = useState("");
   const [result, setResult] = useState([]);
 
-  // This function is to search the users.
-  const searchUser = () => {
-    Axios.post("http://localhost:3001/searchUser", {
-      username: username,
+  const [source, setSource] = useState("");
+
+  // // This function is to search the users.
+  // const searchUser = () => {
+  //   Axios.post("http://localhost:3001/searchUser", {
+  //     username: username,
+  //   }).then((response) => {
+  //     // console.log(response.data);
+  //     if (response.data) {
+  //       setResult(response.data);
+  //       console.log(result);
+  //       console.log(response.data);
+  //     }
+  //   });
+  // };
+
+  // This function is to search the tracks.
+  const searchTrack = () => {
+    Axios.post("http://localhost:3001/searchTrack", {
+      song_name: song_name,
     }).then((response) => {
-      // console.log(response.data);
       if (response.data) {
         setResult(response.data);
-        console.log(result);
-        console.log(response.data);
       }
     });
   };
@@ -51,6 +64,11 @@ const Search = () => {
     history.push("/Search")
   }
 
+  const changeSong = (param) => {
+    setSource(param)
+  }
+
+
   return (
     <body class="bMain">
     <div className="Main" >
@@ -72,12 +90,12 @@ const Search = () => {
         <div id = "middle" className = "middle">
           <h1>SEARCH</h1>
           {/* Search results */}
-          <input className="input" type="text" onChange={(event) => {setUsername(event.target.value);}}/>
-          <button onClick={searchUser}>Search</button>
+          <input className="input" type="text" onChange={(event) => {setSong_name(event.target.value);}}/>
+          <button onClick={searchTrack}>Search</button>
           {result.map((val, key) => {
               return (
                 <div className="users">
-                  <h3>username: {val.username}</h3>
+                  <button onClick={() => setSource(val.song_src)}>{val.song_name}</button>
                 </div>
               );
             })
@@ -88,12 +106,8 @@ const Search = () => {
         </div>
         <div className ="buttom">
         <AudioPlayer
-              // src="https://drive.google.com/file/d/1-6TgFFkkBkja4-ucvHadrTucep4_UfKC/view?usp=sharing"
-              src="https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3"
-              // src="../public/Used.mp3"
-              // src={music}
+              src={source}
               onPlay={e => console.log("onPlay")}
-              // other props here
         />
         </div>
         

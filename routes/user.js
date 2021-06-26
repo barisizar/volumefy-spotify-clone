@@ -20,16 +20,18 @@ const {
   editArtist,
   createArtist,
   createAlbum,
-  createSong
+  createSong,
+  searchTrack
 } = require("../controllers/user");
 
 router.get("/", home);
 router.post("/create", createUser);
 router.post("/login", loginUser);
 router.post("/searchUser/", searchUser);
+router.post("/searchTrack/", searchTrack);
 router.get("/user/:username", auth, user);
 router.get("/users", getUsers);
-router.get("/albums/:id_artist", getAlbums);
+router.get("/albums", getAlbums);
 router.put("/editGender", editGender);
 router.put("/editAge", editAge);
 router.put("/editCountry", editCountry);

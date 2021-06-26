@@ -17,13 +17,7 @@ const MyMusic = () => {
   let history = useHistory();
 
   React.useEffect(() => {
-    // Get the user id.
-    var response = localStorage.getItem("response");
-    response = jwt.decode(response);
-    response = response.id;
-
-    Axios.get(`http://localhost:3001/albums/${response}`).then((res) => {
-      console.log(res)
+    Axios.get("http://localhost:3001/albums").then((res) => {
       setAlbumList(res.data)
      })
   },[])
@@ -83,26 +77,21 @@ const MyMusic = () => {
         </div>
         <div id = "middle" className = "middle">
           <h1>My Music</h1>
-          <button onClick={toMyUpload}>MY UPLOADS</button><br /><br />
-          <button onClick={toCreateAlbumSingle}>CREATE ALBUM/SINGLE</button><br /><br />
 
           {albumList.map((val, key) => {
           // Can't get the response from the Profile. We need to define it again.
           var response = localStorage.getItem("response");
           response = jwt.decode(response);
           response = response.id;
-          console.log("response",response);
-          console.log("val.id_artist",response);
           // If the id of the user is equal to the response, show user's
           // info in the div "middle".
           if(val.id_artist == response){
-          return <div className="middle_h"> 
-            <h3 className="userInfo">album_name: {val.album_name}</h3>
-            <h3 className="userInfo">genre: {val.genre}</h3>
-            <h3 className="userInfo">year: {val.year}</h3>              
-            {/* <h3 className="userInfo">img_src: {val.img_src}</h3>        */}
+            console.log(val.album_name)
+          return <div className="middle_album"> 
+            <h3 className="userInfo">{val.album_name}</h3>             
           </div>
           }})}
+          <button onClick={toCreateAlbumSingle}>CREATE ALBUM/SINGLE</button><br /><br />
         </div>
         <div id = "right" className = "right">
           <h2>Friends</h2>

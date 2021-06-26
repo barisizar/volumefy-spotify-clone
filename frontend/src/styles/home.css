@@ -61,6 +61,11 @@ button{
   height:600px;
 }
 
+.middle_album{
+  font-family: 'Poiret One', cursive;
+  width:70%;
+}
+
 .left{
   float:left; 
   width:14.9%;

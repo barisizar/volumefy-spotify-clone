@@ -55,7 +55,9 @@ const CreateAlbumSingle = () => {
     history.push("/MyMusic")
   }
 
+  // This method is to add an album to the database.
   const addAlbum = (event) => {
+
     var id_album =  null;
     setId_album(id_album);
 
@@ -66,7 +68,6 @@ const CreateAlbumSingle = () => {
     // Add elements to the database.
     else{
       Axios.post("http://localhost:3001/createAlbum", {
-        id_album: id_album,
         id_artist: id_artist,
         album_name: album_name,
         genre: genre,
@@ -74,7 +75,8 @@ const CreateAlbumSingle = () => {
         img_src: img_src
       }).then((response) => {
         console.log(response);
-        localStorage.setItem("id_album", id_album);
+        localStorage.setItem("id_artist", id_artist);
+        localStorage.setItem("album_name", album_name);
         history.push("/CreateSong")
       }
       )}
