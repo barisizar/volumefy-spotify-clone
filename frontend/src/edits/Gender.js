@@ -55,19 +55,7 @@ const Gender = () => {
   }
 
   const editGender = (id) => {
-    Axios.put("http://localhost:3001/editGender", { gender: newGender, id: id }).then(
-      (response) => {
-        setUserList(
-          userList.map((val) => {
-            return val.id == id
-              ? {
-                  gender: newGender,
-                }
-              : val;
-          })
-        );
-      }
-    );
+    Axios.put("http://localhost:3001/editGender", { gender: newGender, id: id })
     history.push("/Profile")
   };
 

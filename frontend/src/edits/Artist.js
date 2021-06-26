@@ -12,18 +12,20 @@ const Artist = () => {
   // We'll store all the users in the database inside this list.
   const [userList, setUserList] = useState([]);
 
-  // useState for new gender.
-  const [newArtist, setNewArtist] = useState("");
+  const [id, setId] = useState("");
+  const [artist_name, setArtist_name] = useState("");
+  const [genre, setGenre] = useState("");
 
   let history = useHistory();
 
   // On load, get the token from the local storArtist and get
   // the id from it.
   React.useEffect(() => {
-    // var response = localStorArtist.getItem("response");
-    // response = jwt.decode(response);
-    // response = response.id;
+    var response = localStorage.getItem("response");
+    response = jwt.decode(response);
+    response = response.id;
     // console.log(response);
+    setId(response);
 
     // Send a get request to the database. 
     Axios.get("http://localhost:3001/users").then((response2) => {
@@ -53,23 +55,24 @@ const Artist = () => {
     history.push("/Search")
   }
 
-  const editArtist = (id) => {
-    Axios.put("http://localhost:3001/editArtist", { artist: newArtist, id: id }).then(
-      (response) => {
-        setUserList(
-          userList.map((val) => {
-            return val.id == id
-              ? {
-                  artist: newArtist,
-                }
-              : val;
-          })
-        );
-      }
-    );
-    history.push("/Profile")
-  };
+  const addArtist = (event) => {
+    Axios.put("http://localhost:3001/editArtist", { artist: 1, id: id })
 
+    if(!artist_name || !genre){
+      event.preventDefault();
+    }
+    // Add elements to the database.
+    else{
+      Axios.post("http://localhost:3001/createArtist", {
+        id: id,
+        artist_name: artist_name,
+        genre: genre,
+      }).then((response) => {
+        console.log(response);
+        history.push("/Home_artist");
+      }
+      )}
+  };
 
   return (
     <body class="bMain">
@@ -100,8 +103,9 @@ const Artist = () => {
           if(val.id == response){
           return <div className="middle"> 
               <h1>Artist</h1>
-              <input type="text" placeholder="Enter the Artist" onChange={(event) => {setNewArtist(event.target.value);}}/><br /><br />
-              <button onClick={() => {editArtist(val.id);}}>{" "}Update</button>
+              <input type="text" placeholder="Enter the artist name" onChange={(event) => {setArtist_name(event.target.value);}}/><br /><br />
+              <input type="text" placeholder="Enter the genre" onChange={(event) => {setGenre(event.target.value);}}/><br /><br />
+              <button onClick={() => {addArtist();}}>{" "}Create!</button>
           </div>
         }})}
 

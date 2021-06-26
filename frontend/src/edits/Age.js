@@ -20,11 +20,6 @@ const Age = () => {
   // On load, get the token from the local storage and get
   // the id from it.
   React.useEffect(() => {
-    // var response = localStorage.getItem("response");
-    // response = jwt.decode(response);
-    // response = response.id;
-    // console.log(response);
-
     // Send a get request to the database. 
     Axios.get("http://localhost:3001/users").then((response2) => {
         setUserList(response2.data)
@@ -54,19 +49,7 @@ const Age = () => {
   }
 
   const editAge = (id) => {
-    Axios.put("http://localhost:3001/editAge", { age: newAge, id: id }).then(
-      (response) => {
-        setUserList(
-          userList.map((val) => {
-            return val.id == id
-              ? {
-                  age: newAge,
-                }
-              : val;
-          })
-        );
-      }
-    );
+    Axios.put("http://localhost:3001/editAge", { age: newAge, id: id })
     history.push("/Profile")
   };
 

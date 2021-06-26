@@ -34,6 +34,70 @@ const createUser = async(req, res) => {
   );
 };
 
+// This method is to create the users.
+const createArtist = (req, res) => {
+  console.log(req.body);
+  const id = req.body.id;
+  const artist_name = req.body.artist_name;
+  const genre = req.body.genre;
+
+  db.query(
+    "INSERT INTO artists (id, artist_name, genre) VALUES (?,?,?)",
+    [id, artist_name, genre],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send("Values Inserted");
+      }
+    }
+  );
+};
+
+// This method is to create the users.
+const createAlbum = (req, res) => {
+  console.log(req.body);
+  const id_album = req.body.id_album;
+  const id_artist = req.body.id_artist;
+  const album_name = req.body.album_name;
+  const genre = req.body.genre;
+  const year = req.body.year;
+  const img_src = req.body.img_src;
+
+  db.query(
+    "INSERT INTO albums (id_album, id_artist, album_name, genre, year, img_src) VALUES (?,?,?,?,?,?)",
+    [id_album, id_artist, album_name, genre, year, img_src],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send("Values Inserted");
+      }
+    }
+  );
+};
+
+// This method is to create the users.
+const createSong = (req, res) => {
+  console.log(req.body);
+  const id_song = req.body.id_song;
+  const id_album = req.body.id_album;
+  const song_name = req.body.song_name;
+  const song_src = req.body.song_src
+
+  db.query(
+    "INSERT INTO songs (id_song, id_album, song_name, song_src) VALUES (?,?,?,?)",
+    [id_song, id_album, song_name, song_src],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send("Values Inserted");
+      }
+    }
+  );
+};
+
 // This method is to edit the gender.
 const editGender = async(req, res) => {
     const id = req.body.id;
@@ -178,6 +242,22 @@ const getUsers = (req, res) => {
   });
 };
 
+// This method is to get the albums from the database.
+const getAlbums = (req, res) => {
+  var id_artist = req.params.id_artist;
+  // console.log(id_artist);
+  db.query("SELECT * FROM albums where id_artist = ?",
+  id_artist
+  , (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(result);
+      res.send(result);
+    }
+  });
+};
+
 const user = (req, res) => {
   const currentUsername = req.params.username;
   db.query(
@@ -219,6 +299,7 @@ module.exports = {
   home,
   createUser,
   getUsers,
+  getAlbums,
   loginUser,
   user,
   searchUser,
@@ -226,5 +307,8 @@ module.exports = {
   editAge,
   editCountry,
   editPhone,
-  editArtist
+  editArtist,
+  createArtist,
+  createAlbum,
+  createSong
 };

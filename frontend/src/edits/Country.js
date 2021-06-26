@@ -55,19 +55,7 @@ const Country = () => {
   }
 
   const editCountry = (id) => {
-    Axios.put("http://localhost:3001/editCountry", { country: newCountry, id: id }).then(
-      (response) => {
-        setUserList(
-          userList.map((val) => {
-            return val.id == id
-              ? {
-                  country: newCountry,
-                }
-              : val;
-          })
-        );
-      }
-    );
+    Axios.put("http://localhost:3001/editCountry", { country: newCountry, id: id })
     history.push("/Profile")
   };
 

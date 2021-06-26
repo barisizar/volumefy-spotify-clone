@@ -1,10 +1,12 @@
 // This is the page where the user is directed after logging in.
 import './styles/profile.css';
+import './styles/MusicPlayer.css';
 import volumefy from "./images/volumefy.png";
 import { useHistory } from "react-router-dom";
 import * as React from "react";
 import Axios from "axios";
 import {useState} from "react";
+import AudioPlayer from "react-h5-audio-player";
 const jwt = require('jsonwebtoken');
 
 const Profile = () => {
@@ -17,6 +19,8 @@ const Profile = () => {
     Axios.get("http://localhost:3001/users").then((response) => {
       setUserList(response.data)
      })
+
+     console.log("userList",userList);
     
     // Map around the database and find the user with the relevant id.
     userList.map((val, key) => {
@@ -31,7 +35,7 @@ const Profile = () => {
           history.push("/Profile_artist");
         }
     }})
-  })
+  },[])
 
   // This method is to delete the access token from the local storage
   // and route back to the "/".
@@ -75,6 +79,7 @@ const Profile = () => {
     history.push("/Artist");
   }
 
+
   return (
     <body class="bMain">
     <div className="Main" >
@@ -110,12 +115,22 @@ const Profile = () => {
             <h3 className="userInfo">age: {val.age}</h3>                 <button className="editButton" onClick={toAge}>edit</button><br/>
             <h3 className="userInfo">country: {val.country}</h3>         <button className="editButton" onClick={toCountry}>edit</button><br/>
             <h3 className="userInfo">phone number: {val.phone}</h3>      <button className="editButton" onClick={toPhone}>edit</button><br/>
-            <h3 className="userInfo">artist: {val.artist}</h3>           <button className="editButton" onClick={toArtist}>edit</button><br/>
+            <h3 className="userInfo">Want to be an artist?</h3>          <button className="artistButton" onClick={toArtist}>BECOME ONE!</button><br/>
           </div>
         }})}
         {/* Friends */}
         <div id = "right" className = "right">
           <h2>Friends</h2>
+        </div>
+        <div className ="buttom">
+        <AudioPlayer
+              // src="https://drive.google.com/file/d/1-6TgFFkkBkja4-ucvHadrTucep4_UfKC/view?usp=sharing"
+              src="https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3"
+              // src="../public/Used.mp3"
+              // src={music}
+              onPlay={e => console.log("onPlay")}
+              // other props here
+        />
         </div>
         
     </div>

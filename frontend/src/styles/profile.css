@@ -79,6 +79,14 @@ button{
   border-left: 1px solid white;
 }
 
+.buttom{
+  position: fixed;
+  top: 85%;
+  left: 25%;
+  width:50%;
+  height:100px;
+}
+
 .divider{
   width: 1px;
   min-height: 400px;
@@ -178,4 +186,23 @@ button{
   vertical-align:middle;
 }
 
+.artistButton{
+  width: 150px;
+  height: 40px;
+  border: none;
+  font-family: 'Poiret One', cursive;
+  font-size: 125%;
+  font-weight: bolder;
+  color: #DD7206;
+  cursor: pointer;
+  float: right;
+  position: relative;
+  right: 5em;
+  top: 1em;
+  background-size: 20%;
+  background-repeat: no-repeat;
+  background-position: 80%;
+  vertical-align:middle;
+  background-color: Transparent; 
+}
 

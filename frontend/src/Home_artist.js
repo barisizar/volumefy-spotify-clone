@@ -1,8 +1,10 @@
 // This is the page where the user is directed after logging in.
 import './styles/home.css';
+import './styles/MusicPlayer.css';
 import volumefy from "./images/volumefy.png";
 import { useHistory } from "react-router-dom";
 import * as React from "react";
+import AudioPlayer from "react-h5-audio-player";
 
 const Home = () => {
   
@@ -59,6 +61,16 @@ const Home = () => {
         </div>
         <div id = "right" className = "right">
           <h2>Friends</h2>
+        </div>
+        <div className ="buttom">
+        <AudioPlayer
+              // src="https://drive.google.com/file/d/1-6TgFFkkBkja4-ucvHadrTucep4_UfKC/view?usp=sharing"
+              src="https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3"
+              // src="../public/Used.mp3"
+              // src={music}
+              onPlay={e => console.log("onPlay")}
+              // other props here
+        />
         </div>
         
     </div>

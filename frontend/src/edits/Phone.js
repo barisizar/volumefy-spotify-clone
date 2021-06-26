@@ -54,19 +54,7 @@ const Phone = () => {
   }
 
   const editPhone = (id) => {
-    Axios.put("http://localhost:3001/editPhone", { phone: newPhone, id: id }).then(
-      (response) => {
-        setUserList(
-          userList.map((val) => {
-            return val.id == id
-              ? {
-                  phone: newPhone,
-                }
-              : val;
-          })
-        );
-      }
-    );
+    Axios.put("http://localhost:3001/editPhone", { phone: newPhone, id: id })
     history.push("/Profile")
   };
 

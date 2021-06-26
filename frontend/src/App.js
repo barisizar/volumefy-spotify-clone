@@ -10,6 +10,9 @@ import Profile_artist from './Profile_artist';
 import Search_artist from './Search_artist';
 import Profile from "./Profile"
 import MyMusic from './MyMusic';
+import MyUpload from './MyUpload';
+import CreateAlbumSingle from './CreateAlbumSingle';
+import CreateSong from './CreateSong';
 import Username from "./edits/Username"
 import Email from "./edits/Email"
 import Gender from "./edits/Gender"
@@ -83,6 +86,15 @@ export class App extends Component {
             </Route>
             <Route exact path="/MyMusic">
               <MyMusic></MyMusic>
+            </Route>
+            <Route exact path="/MyUpload">
+              <MyUpload></MyUpload>
+            </Route>
+            <Route exact path="/CreateAlbumSingle">
+              <CreateAlbumSingle></CreateAlbumSingle>
+            </Route>
+            <Route exact path="/CreateSong">
+              <CreateSong></CreateSong>
             </Route>
           </Switch>
         </div>
