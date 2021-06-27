@@ -76,7 +76,8 @@ const MyMusic = () => {
           <button className="mymusicButton">My Music</button>
         </div>
         <div id = "middle" className = "middle">
-          <h1>My Music</h1>
+          <h1 className="myMusic">My Music</h1>
+          <button className="createAlbum" onClick={toCreateAlbumSingle}>CREATE ALBUM</button><br /><br />
 
           {albumList.map((val, key) => {
           // Can't get the response from the Profile. We need to define it again.
@@ -88,10 +89,11 @@ const MyMusic = () => {
           if(val.id_artist == response){
             console.log(val.album_name)
           return <div className="middle_album"> 
-            <h3 className="userInfo">{val.album_name}</h3>             
+            <img className="albumCover" src={val.img_src} alt="Italian Trulli"></img><br />
+            <button className="albumButton">{val.album_name}</button>             
           </div>
           }})}
-          <button onClick={toCreateAlbumSingle}>CREATE ALBUM/SINGLE</button><br /><br />
+          
         </div>
         <div id = "right" className = "right">
           <h2>Friends</h2>

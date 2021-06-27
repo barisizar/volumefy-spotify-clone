@@ -206,3 +206,6 @@ button{
   background-color: Transparent; 
 }
 
+.myMusic{
+  display: inline-block;
+}

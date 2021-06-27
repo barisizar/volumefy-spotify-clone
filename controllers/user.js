@@ -292,7 +292,7 @@ const searchUser = (req, res) => {
 const searchTrack = (req, res) => {
   const keyword = req.body.song_name;
   db.query(
-    "SELECT song_name, song_src FROM songs WHERE song_name like ?",
+    "SELECT id_artist, song_name, song_src, album_name FROM songs WHERE song_name like ?",
     "%" + keyword + "%",
     (err, result) => {
       if (err) {
