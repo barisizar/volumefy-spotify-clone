@@ -12,7 +12,7 @@ const jwt = require('jsonwebtoken');
 const CreateAlbumSingle = () => {
 
   const [id_album, setId_album] = useState("");
-  const [id_artist, setId_artist] = useState("");
+  const [artist_name, setArtist_name] = useState("");
   const [album_name, setAlbum_name] = useState("");
   const [genre, setGenre] = useState("");
   const [year, setYear] = useState("");
@@ -25,8 +25,17 @@ const CreateAlbumSingle = () => {
     response = jwt.decode(response);
     response = response.id;
     // console.log(response);
-    setId_artist(response);
-  })
+    
+    Axios.post("http://localhost:3001/searchArtist", {
+      id: response,
+    }).then((response) => {
+      if (response.data) {
+        var arr_name = response.data[0].artist_name;
+        setArtist_name(arr_name);
+      }
+    });
+
+  },[])
 
   // This method is to delete the access token from the local storage
   // and route back to the "/".
@@ -68,14 +77,14 @@ const CreateAlbumSingle = () => {
     // Add elements to the database.
     else{
       Axios.post("http://localhost:3001/createAlbum", {
-        id_artist: id_artist,
+        artist_name: artist_name,
         album_name: album_name,
         genre: genre,
         year: year,
         img_src: img_src
       }).then((response) => {
         console.log(response);
-        localStorage.setItem("id_artist", id_artist);
+        localStorage.setItem("artist_name", artist_name);
         localStorage.setItem("album_name", album_name);
         history.push("/CreateSong")
       }

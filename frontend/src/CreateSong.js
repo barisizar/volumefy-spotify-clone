@@ -13,6 +13,7 @@ const CreateSong = () => {
   const[id_song, setId_song] = useState("");
   const [song_name, setSong_name] = useState("");
   const [album_name, setAlbum_name] = useState("");
+  const [artist_name, setArtist_name] = useState("");
   const [id_artist, setId_artist] = useState("");
   const [song_src, setSong_src] = useState("");
 
@@ -20,7 +21,7 @@ const CreateSong = () => {
 
   React.useEffect(() => {
     var album_name = localStorage.getItem("album_name");
-    var id_artist = localStorage.getItem("id_artist");
+    var artist_name = localStorage.getItem("artist_name");
 
     // response = jwt.decode(response);
     // response = response.id;
@@ -28,6 +29,7 @@ const CreateSong = () => {
     // setId_artist(response);
     setAlbum_name(album_name);
     setId_artist(id_artist)
+    setArtist_name(artist_name)
   })
 
   // This method is to delete the access token from the local storage
@@ -59,9 +61,6 @@ const CreateSong = () => {
 
   const addSong = (event) => {
 
-    var id_song =  null;
-    setId_song(id_song);
-
     if(!song_name || !song_src){
         event.preventDefault();
     }
@@ -71,7 +70,7 @@ const CreateSong = () => {
       Axios.post("http://localhost:3001/createSong", {
         song_name: song_name,
         album_name: album_name,
-        id_artist: id_artist,
+        artist_name: artist_name,
         song_src: song_src
       }).then((response) => {
         console.log(response);

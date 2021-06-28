@@ -58,15 +58,15 @@ const createArtist = (req, res) => {
 const createAlbum = (req, res) => {
   console.log(req.body);
   const id_album = req.body.id_album;
-  const id_artist = req.body.id_artist;
+  const artist_name = req.body.artist_name;
   const album_name = req.body.album_name;
   const genre = req.body.genre;
   const year = req.body.year;
   const img_src = req.body.img_src;
 
   db.query(
-    "INSERT INTO albums (id_album, id_artist, album_name, genre, year, img_src) VALUES (?,?,?,?,?,?)",
-    [id_album, id_artist, album_name, genre, year, img_src],
+    "INSERT INTO albums (id_album, artist_name, album_name, genre, year, img_src) VALUES (?,?,?,?,?,?)",
+    [id_album, artist_name, album_name, genre, year, img_src],
     (err, result) => {
       if (err) {
         console.log(err);
@@ -82,12 +82,12 @@ const createSong = (req, res) => {
   console.log(req.body);
   const song_name = req.body.song_name;
   const album_name = req.body.album_name;
-  const id_artist = req.body.id_artist;
+  const artist_name = req.body.artist_name;
   const song_src = req.body.song_src
 
   db.query(
-    "INSERT INTO songs (song_name, album_name, id_artist, song_src) VALUES (?,?,?,?)",
-    [song_name, album_name, id_artist, song_src],
+    "INSERT INTO songs (song_name, album_name, artist_name, song_src) VALUES (?,?,?,?)",
+    [song_name, album_name, artist_name, song_src],
     (err, result) => {
       if (err) {
         console.log(err);
@@ -248,6 +248,18 @@ const getAlbums = (req, res) => {
     if (err) {
       console.log(err);
     } else {
+      console.log(result)
+      res.send(result);
+    }
+  });
+};
+
+// This method is to get the artists from the database.
+const getArtists = (req, res) => {
+  db.query("SELECT * FROM artists", (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
       res.send(result);
     }
   });
@@ -289,10 +301,26 @@ const searchUser = (req, res) => {
   );
 };
 
+const searchArtist = (req, res) => {
+  const id = req.body.id;
+  db.query(
+    "SELECT artist_name FROM artists WHERE id = id",
+    (err, result) => {
+      if (err) {
+        res.json({ message: err });
+        console.log(err);
+      } else {
+        console.log("result", result);
+        res.json( result );
+      }
+    }
+  );
+};
+
 const searchTrack = (req, res) => {
   const keyword = req.body.song_name;
   db.query(
-    "SELECT id_artist, song_name, song_src, album_name FROM songs WHERE song_name like ?",
+    "SELECT artist_name, song_name, song_src, album_name FROM songs WHERE song_name like ?",
     "%" + keyword + "%",
     (err, result) => {
       if (err) {
@@ -322,5 +350,7 @@ module.exports = {
   createArtist,
   createAlbum,
   createSong,
-  searchTrack
+  searchTrack,
+  searchArtist,
+  getArtists
 };

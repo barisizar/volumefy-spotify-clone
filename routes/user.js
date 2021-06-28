@@ -10,6 +10,7 @@ const {
   createUser,
   getUsers,
   getAlbums,
+  getArtists,
   loginUser,
   user,
   searchUser,
@@ -21,7 +22,8 @@ const {
   createArtist,
   createAlbum,
   createSong,
-  searchTrack
+  searchTrack,
+  searchArtist
 } = require("../controllers/user");
 
 router.get("/", home);
@@ -29,9 +31,11 @@ router.post("/create", createUser);
 router.post("/login", loginUser);
 router.post("/searchUser/", searchUser);
 router.post("/searchTrack/", searchTrack);
+router.post("/searchArtist/", searchArtist);
 router.get("/user/:username", auth, user);
 router.get("/users", getUsers);
 router.get("/albums", getAlbums);
+router.get("/artists", getArtists);
 router.put("/editGender", editGender);
 router.put("/editAge", editAge);
 router.put("/editCountry", editCountry);

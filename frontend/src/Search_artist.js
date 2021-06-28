@@ -14,6 +14,7 @@ const Search_artist = () => {
   
   const [song_name, setSong_name] = useState("");
   const [result, setResult] = useState([]);
+  const [artist_name, setArtist_name] = useState([]);
 
   const [source, setSource] = useState("");
 
@@ -104,7 +105,7 @@ const Search_artist = () => {
                 <div className="tracks">
                   <button className ="track" onClick={() => setSource(val.song_src)}>{val.song_name}</button>
                   <button className ="track" onClick={() => setSource(val.song_src)}>{val.album_name}</button>
-                  <button className ="track" onClick={() => setSource(val.song_src)}>{val.id_artist}</button>
+                  <button className ="track" onClick={() => setSource(val.song_src)}>{val.artist_name}</button>
                 </div>
               );
             })

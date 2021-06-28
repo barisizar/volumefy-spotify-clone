@@ -17,8 +17,10 @@ const MyMusic = () => {
   let history = useHistory();
 
   React.useEffect(() => {
+    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaat");
     Axios.get("http://localhost:3001/albums").then((res) => {
       setAlbumList(res.data)
+      console.log(albumList)
      })
   },[])
 
@@ -81,16 +83,15 @@ const MyMusic = () => {
 
           {albumList.map((val, key) => {
           // Can't get the response from the Profile. We need to define it again.
-          var response = localStorage.getItem("response");
-          response = jwt.decode(response);
-          response = response.id;
+          var response = localStorage.getItem("artist_name");
           // If the id of the user is equal to the response, show user's
           // info in the div "middle".
-          if(val.id_artist == response){
+          if(val.artist_name == response){
             console.log(val.album_name)
           return <div className="middle_album"> 
             <img className="albumCover" src={val.img_src} alt="Italian Trulli"></img><br />
-            <button className="albumButton">{val.album_name}</button>             
+            <button className="albumButton">{val.album_name}</button>   
+            <h4>{val.year}</h4>          
           </div>
           }})}
           

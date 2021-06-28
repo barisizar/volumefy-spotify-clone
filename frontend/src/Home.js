@@ -13,6 +13,7 @@ const Home = () => {
 
   // We'll store all the users in the database inside this list.
   const [userList, setUserList] = useState([]);  
+  const [artistList, setArtistList] = useState([]);  
 
   let history = useHistory();
 
@@ -23,16 +24,24 @@ const Home = () => {
       setUserList(response.data)
      })
 
+     Axios.get("http://localhost:3001/artists").then((response_artist) => {
+      setArtistList(response_artist.data)
+      console.log(response_artist.data);
+     })
+
     userList.map((val, key) => {
-      // Can't get the response from the Profile. We need to define it again.
       var response = localStorage.getItem("response");
       response = jwt.decode(response);
       response = response.id;
       // If the id of the user is equal to the response, show user's
       // info in the div "middle".
       if(val.id == response){
-        console.log(val.id);
+        // local storage'a artist id'yi at
         if(val.artist == 1){
+          artistList.map((val2, key) => {
+            if(val2.id == response){
+              localStorage.setItem("artist_name", val2.artist_name);
+          }})
           history.push("/Home_artist");
         }
     }})
