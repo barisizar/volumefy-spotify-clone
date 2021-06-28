@@ -188,10 +188,10 @@ const loginUser = async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   db.query(
-    "SELECT password, id FROM users WHERE username=? ",
+    "SELECT password, id, artist FROM users WHERE username=? ",
     username,
     async function (error, results) {
-      console.log(results);
+      console.log(results[0]);
       if (error) {
         res.send({
           code: 400,
@@ -206,7 +206,7 @@ const loginUser = async (req, res) => {
             results[0].password
           );
           if(comparison) {
-            const accessToken = jwt.sign({username: username, id: results[0].id}, accessTokenSecret);
+            const accessToken = jwt.sign({username: username, id: results[0].id, artist: results[0].artist }, accessTokenSecret);
             res.send({
               code: 200,
               accessToken,
@@ -237,6 +237,7 @@ const getUsers = (req, res) => {
     if (err) {
       console.log(err);
     } else {
+      console.log("resultssssssss",result)
       res.send(result);
     }
   });
@@ -248,7 +249,7 @@ const getAlbums = (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      console.log(result)
+      console.log("albumleri aldım yayyam", result)
       res.send(result);
     }
   });
@@ -265,10 +266,23 @@ const getArtists = (req, res) => {
   });
 };
 
+// This method is to get the artists from the database.
+const getArtistName = (req, res) => {
+  const id = req.body.id;
+  db.query("SELECT artist_name FROM artists where id = ?",id, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      // res.send(result,{ "code":200});
+      res.send(result);
+    }
+  });
+};
+
 const user = (req, res) => {
-  const currentUsername = req.params.username;
+  const id = req.params.id;
   db.query(
-    "SELECT * FROM users WHERE username = ?",
+    "SELECT * FROM users WHERE id = ?",
     currentUsername,
     (err, result) => {
       if(err){
@@ -352,5 +366,6 @@ module.exports = {
   createSong,
   searchTrack,
   searchArtist,
-  getArtists
+  getArtists,
+  getArtistName
 };

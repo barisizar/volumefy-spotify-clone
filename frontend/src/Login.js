@@ -4,13 +4,16 @@ import volumefy from "./images/volumefy.png";
 import { useState } from "react";
 import * as React from "react";
 import Axios from "axios";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+const jwt = require('jsonwebtoken');
+
 
 // LOGIN PAGE
 const Login = () => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [artist_name, setArtist_name] = useState("");
 
   let history = useHistory();
 
@@ -22,19 +25,51 @@ const Login = () => {
 
   // This method post a request to the /login, which will
   // activate the loginUser function inside the controller.
-  // That method will return a code and on success, it'll be 200.
-  // In that case, it'll be directed to the "/main".
+  // That method will return a token on success, which contains
+  // a status code (200 on success) and the user info. 
   const logUser = (e) => {
-    var status;
     Axios.post("http://localhost:3001/login", {
       username: username,
       password: password,
     }).then((response) => {
-      console.log(response);
-      status = response.data.code;
-      localStorage.setItem("response", response.data.accessToken);
-      if(status === 200){
-        history.push("/home");
+      // Code is the return status, id is the user id and artist indicates
+      // if the user is also an artist or not.
+      var code = response.data.code;
+      var response = jwt.decode(response.data.accessToken)
+      console.log("response",response);
+      var id = response.id;
+      var artist = response.artist;
+      // console.log("code",code)
+      // console.log("id",id);
+      // console.log("artist",artist);
+     
+      // If the code is 200, login.
+      if(code === 200){
+        // If the user is an artist go to "/home_artist"
+        if(artist === 1){
+          // Find the artist_name using the user id. ( AMK ARTIST_NAME_INI ALAMIYORUMMMMMMMMMM)
+          // Axios.post("http://localhost:3001/artist_name", {
+          //   id: response.id,
+          // }).then((response) => {
+          //   console.log("response (artist_name)" ,response)
+          //   if (response.data) {
+          //     console.log("response.data[0].artist_name (artist_name)",response.data[0].artist_name)
+          //     setArtist_name(response.data[0].artist_name);
+          //     console.log("artist_name",artist_name)
+          //     localStorage.setItem("artist_name", artist_name)
+          //   }
+          // });
+          
+          localStorage.setItem("response", response.id);
+          console.log("response",response)
+          history.push("/home_artist");
+        }
+        // If not, go to "/home"
+        else{
+          localStorage.setItem("response", response.id);
+          console.log("response",response)
+          history.push("/home");
+        }
       }
     });
   };

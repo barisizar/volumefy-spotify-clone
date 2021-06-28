@@ -5,7 +5,6 @@ import { useHistory } from "react-router-dom";
 import * as React from "react";
 import Axios from "axios";
 import {useState} from "react";
-
 const jwt = require('jsonwebtoken');
 
 const Artist = () => {
@@ -22,8 +21,6 @@ const Artist = () => {
   // the id from it.
   React.useEffect(() => {
     var response = localStorage.getItem("response");
-    response = jwt.decode(response);
-    response = response.id;
     // console.log(response);
     setId(response);
 
@@ -96,8 +93,6 @@ const Artist = () => {
         {userList.map((val, key) => {
           // Can't get the response from the Profile. We need to define it again.
           var response = localStorage.getItem("response");
-          response = jwt.decode(response);
-          response = response.id;
           // If the id of the user is equal to the response, show user's
           // info in the div "middle".
           if(val.id == response){

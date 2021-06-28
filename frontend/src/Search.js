@@ -88,14 +88,17 @@ const Search = () => {
           <button className="libraryButton">Library</button>
         </div>
         <div id = "middle" className = "middle">
-          <h1>SEARCH</h1>
+        <h1>SEARCH</h1>
           {/* Search results */}
           <input className="input" type="text" onChange={(event) => {setSong_name(event.target.value);}}/>
-          <button onClick={searchTrack}>Search</button>
+          <button className="searchButton2" onClick={searchTrack}></button><br />
+          <h4 className="songInfoLeft">Song</h4><h4 className="songInfoMiddle">Album</h4><h4 className="songInfoRight">Artist</h4>
           {result.map((val, key) => {
               return (
-                <div className="users">
-                  <button onClick={() => setSource(val.song_src)}>{val.song_name}</button>
+                <div className="tracks">
+                  <button className ="track" onClick={() => setSource(val.song_src)}>{val.song_name}</button>
+                  <button className ="track" onClick={() => setSource(val.song_src)}>{val.album_name}</button>
+                  <button className ="track" onClick={() => setSource(val.song_src)}>{val.artist_name}</button>
                 </div>
               );
             })

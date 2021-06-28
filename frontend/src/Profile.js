@@ -25,7 +25,7 @@ const Profile = () => {
     // Map around the database and find the user with the relevant id.
     userList.map((val, key) => {
       var response = localStorage.getItem("response");
-      response = jwt.decode(response);
+      // response = jwt.decode(response);
       response = response.id;
       // If the id of the user is equal to the response, show user's
       // info in the div "middle".
@@ -103,8 +103,9 @@ const Profile = () => {
         {userList.map((val, key) => {
           // Can't get the response from the Profile. We need to define it again.
           var response = localStorage.getItem("response");
-          response = jwt.decode(response);
-          response = response.id;
+          console.log("response",response);
+          // response = response.id;
+          // console.log("profile'dayım response.id:", response)
           // If the id of the user is equal to the response, show user's
           // info in the div "middle".
           if(val.id == response){

@@ -3,8 +3,7 @@ import volumefy from "./images/volumefy.png";
 import { useState } from "react";
 import * as React from "react";
 import Axios from "axios";
-import { Link, useHistory } from "react-router-dom";
-import AudioPlayer from "react-h5-audio-player";
+import { useHistory } from "react-router-dom";
 const jwt = require('jsonwebtoken');
 
 // HOME (INDEX) PAGE

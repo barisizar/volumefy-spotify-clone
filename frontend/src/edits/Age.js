@@ -76,8 +76,6 @@ const Age = () => {
         {userList.map((val, key) => {
           // Can't get the response from the Profile. We need to define it again.
           var response = localStorage.getItem("response");
-          response = jwt.decode(response);
-          response = response.id;
           // If the id of the user is equal to the response, show user's
           // info in the div "middle".
           if(val.id == response){

@@ -19,8 +19,10 @@ const MyMusic = () => {
   React.useEffect(() => {
     console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaat");
     Axios.get("http://localhost:3001/albums").then((res) => {
+      console.log("res",res)
+      console.log("res.data",res.data)
       setAlbumList(res.data)
-      console.log(albumList)
+      console.log("albumList",albumList)
      })
   },[])
 
@@ -84,6 +86,7 @@ const MyMusic = () => {
           {albumList.map((val, key) => {
           // Can't get the response from the Profile. We need to define it again.
           var response = localStorage.getItem("artist_name");
+          console.log("response",response);
           // If the id of the user is equal to the response, show user's
           // info in the div "middle".
           if(val.artist_name == response){
