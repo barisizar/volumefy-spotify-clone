@@ -35,38 +35,30 @@ const Login = () => {
       // Code is the return status, id is the user id and artist indicates
       // if the user is also an artist or not.
       var code = response.data.code;
-      var response = jwt.decode(response.data.accessToken)
-      console.log("response",response);
-      var id = response.id;
-      var artist = response.artist;
-      // console.log("code",code)
-      // console.log("id",id);
-      // console.log("artist",artist);
+      var response = response.data.accessToken
+      var response2 = jwt.decode(response)
+      var user_id = response2.user_id;
+      var artist = response2.artist;
+      console.log("code",code)
+      console.log("user_id",user_id); 
+      console.log("artist",artist);
      
       // If the code is 200, login.
       if(code === 200){
         // If the user is an artist go to "/home_artist"
         if(artist === 1){
-          // Find the artist_name using the user id. ( AMK ARTIST_NAME_INI ALAMIYORUMMMMMMMMMM)
-          // Axios.post("http://localhost:3001/artist_name", {
-          //   id: response.id,
-          // }).then((response) => {
-          //   console.log("response (artist_name)" ,response)
-          //   if (response.data) {
-          //     console.log("response.data[0].artist_name (artist_name)",response.data[0].artist_name)
-          //     setArtist_name(response.data[0].artist_name);
-          //     console.log("artist_name",artist_name)
-          //     localStorage.setItem("artist_name", artist_name)
-          //   }
-          // });
-          
-          localStorage.setItem("response", response.id);
+          localStorage.setItem("response", response);
+          localStorage.setItem("user_id", user_id);
+          localStorage.setItem("artist", artist)
           console.log("response",response)
+          console.log("yarrrrrrrrrrrrrrrrrrrrrrrrrrrrrak")
+
           history.push("/home_artist");
         }
         // If not, go to "/home"
         else{
-          localStorage.setItem("response", response.id);
+          localStorage.setItem("response", response);
+          localStorage.setItem("user_id", user_id);
           console.log("response",response)
           history.push("/home");
         }

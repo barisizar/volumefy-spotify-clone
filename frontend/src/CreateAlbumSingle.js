@@ -11,29 +11,17 @@ const jwt = require('jsonwebtoken');
 
 const CreateAlbumSingle = () => {
 
-  const [id_album, setId_album] = useState("");
-  const [artist_name, setArtist_name] = useState("");
+  const [album_id, setAlbum_id] = useState("");
+  const [artist_id  , setArtist_id] = useState("");
   const [album_name, setAlbum_name] = useState("");
-  const [genre, setGenre] = useState("");
   const [year, setYear] = useState("");
   const [img_src, setImg_src] = useState("");
     
   let history = useHistory();
 
   React.useEffect(() => {
-    var response = localStorage.getItem("response");
-    response = jwt.decode(response);
-    response = response.id;
-    // console.log(response);
-    
-    Axios.post("http://localhost:3001/searchArtist", {
-      id: response,
-    }).then((response) => {
-      if (response.data) {
-        var arr_name = response.data[0].artist_name;
-        setArtist_name(arr_name);
-      }
-    });
+    var user_id = localStorage.getItem("user_id");
+    setArtist_id(user_id)
 
   },[])
 
@@ -67,25 +55,23 @@ const CreateAlbumSingle = () => {
   // This method is to add an album to the database.
   const addAlbum = (event) => {
 
-    var id_album =  null;
-    setId_album(id_album);
+    var album_id =  null;
+    setAlbum_id(album_id);
 
-    if(!album_name || !genre || !year || !img_src){
+    if(!album_name || !year || !img_src){
         event.preventDefault();
     }
 
     // Add elements to the database.
     else{
       Axios.post("http://localhost:3001/createAlbum", {
-        artist_name: artist_name,
+        album_id: album_id,
+        artist_id: artist_id,           
         album_name: album_name,
-        genre: genre,
         year: year,
         img_src: img_src
       }).then((response) => {
-        console.log(response);
-        localStorage.setItem("artist_name", artist_name);
-        localStorage.setItem("album_name", album_name);
+        localStorage.setItem("album_id", album_id)
         history.push("/CreateSong")
       }
       )}
@@ -113,7 +99,6 @@ const CreateAlbumSingle = () => {
         <div id = "middle" className = "middle">
           <h1>CREATE ALBUM/SINGLE</h1>
           <input type="text" placeholder="Enter the album name" onChange={(event) => {setAlbum_name(event.target.value);}}/><br /><br />
-          <input type="text" placeholder="Enter the genre" onChange={(event) => {setGenre(event.target.value);}}/><br /><br />
           <input type="text" placeholder="Enter the year" onChange={(event) => {setYear(event.target.value);}}/><br /><br />
           <input type="text" placeholder="Enter the album cover's source" onChange={(event) => {setImg_src(event.target.value);}}/><br /><br />
           <button onClick={() => {addAlbum();}}>{" "}Create!</button>

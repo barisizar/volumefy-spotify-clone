@@ -15,15 +15,15 @@ const home = (req, res) => {
 // This method is to create the users.
 const createUser = async(req, res) => {
   console.log(req.body);
-  const id = req.body.id;
+  const user_id = req.body.user_id;
   const username = req.body.username;
   const email = req.body.email;
   const password = req.body.password;
   const encryptedPassword = await bcrypt.hash(password, saltRounds);
 
   db.query(
-    "INSERT INTO users (id, username, email, password) VALUES (?,?,?,?)",
-    [id, username, email, encryptedPassword],
+    "INSERT INTO users (user_id, username, email, password) VALUES (?,?,?,?)",
+    [user_id, username, email, encryptedPassword],
     (err, result) => {
       if (err) {
         console.log(err);
@@ -37,13 +37,12 @@ const createUser = async(req, res) => {
 // This method is to create the users.
 const createArtist = (req, res) => {
   console.log(req.body);
-  const id = req.body.id;
+  const artist_id = req.body.id;
   const artist_name = req.body.artist_name;
-  const genre = req.body.genre;
 
   db.query(
-    "INSERT INTO artists (id, artist_name, genre) VALUES (?,?,?)",
-    [id, artist_name, genre],
+    "INSERT INTO artists (artist_id, artist_name) VALUES (?,?)",
+    [artist_id, artist_name],
     (err, result) => {
       if (err) {
         console.log(err);
@@ -57,16 +56,15 @@ const createArtist = (req, res) => {
 // This method is to create the users.
 const createAlbum = (req, res) => {
   console.log(req.body);
-  const id_album = req.body.id_album;
-  const artist_name = req.body.artist_name;
+  const album_id = req.body.id_album;
+  const artist_id = req.body.artist_id;
   const album_name = req.body.album_name;
-  const genre = req.body.genre;
   const year = req.body.year;
   const img_src = req.body.img_src;
 
   db.query(
-    "INSERT INTO albums (id_album, artist_name, album_name, genre, year, img_src) VALUES (?,?,?,?,?,?)",
-    [id_album, artist_name, album_name, genre, year, img_src],
+    "INSERT INTO albums (album_id, artist_id, album_name, year, img_src) VALUES (?,?,?,?,?)",
+    [album_id, artist_id, album_name, year, img_src],
     (err, result) => {
       if (err) {
         console.log(err);
@@ -80,14 +78,15 @@ const createAlbum = (req, res) => {
 // This method is to create the users.
 const createSong = (req, res) => {
   console.log(req.body);
+  const song_id = req.body.song_id;
+  const album_id = req.body.album_id;
   const song_name = req.body.song_name;
-  const album_name = req.body.album_name;
-  const artist_name = req.body.artist_name;
+  const genre_id = req.body.genre_id;
   const song_src = req.body.song_src
 
   db.query(
-    "INSERT INTO songs (song_name, album_name, artist_name, song_src) VALUES (?,?,?,?)",
-    [song_name, album_name, artist_name, song_src],
+    "INSERT INTO songs (song_id, album_id, song_name, genre_id, song_src) VALUES (?,?,?,?,?)",
+    [song_id, album_id, song_name, genre_id, song_src],
     (err, result) => {
       if (err) {
         console.log(err);
@@ -100,11 +99,11 @@ const createSong = (req, res) => {
 
 // This method is to edit the gender.
 const editGender = async(req, res) => {
-    const id = req.body.id;
+    const user_id = req.body.user_id;
     const gender = req.body.gender;
     db.query(
-      "UPDATE users SET gender = ? WHERE id = ?",
-      [gender, id],
+      "UPDATE users SET gender = ? WHERE user_id = ?",
+      [gender, user_id],
       (err, result) => {
         if (err) {
           console.log(err);
@@ -117,11 +116,11 @@ const editGender = async(req, res) => {
 
 // This method is to edit the age.
 const editAge = async(req, res) => {
-  const id = req.body.id;
+  const user_id = req.body.user_id;
   const age = req.body.age;
   db.query(
-    "UPDATE users SET age = ? WHERE id = ?",
-    [age, id],
+    "UPDATE users SET age = ? WHERE user_id = ?",
+    [age, user_id],
     (err, result) => {
       if (err) {
         console.log(err);
@@ -134,11 +133,11 @@ const editAge = async(req, res) => {
 
 // This method is to edit the country.
 const editCountry = async(req, res) => {
-  const id = req.body.id;
+  const user_id = req.body.user_id;
   const country = req.body.country;
   db.query(
-    "UPDATE users SET country = ? WHERE id = ?",
-    [country, id],
+    "UPDATE users SET country = ? WHERE user_id = ?",
+    [country, user_id],
     (err, result) => {
       if (err) {
         console.log(err);
@@ -151,11 +150,11 @@ const editCountry = async(req, res) => {
 
 // This method is to edit the phone number.
 const editPhone = async(req, res) => {
-  const id = req.body.id;
+  const user_id = req.body.user_id;
   const phone = req.body.phone;
   db.query(
-    "UPDATE users SET phone = ? WHERE id = ?",
-    [phone, id],
+    "UPDATE users SET phone = ? WHERE user_id = ?",
+    [phone, user_id],
     (err, result) => {
       if (err) {
         console.log(err);
@@ -168,11 +167,11 @@ const editPhone = async(req, res) => {
 
 // This method is to edit the user's artist status.
 const editArtist = async(req, res) => {
-  const id = req.body.id;
+  const user_id = req.body.user_id;
   const artist = req.body.artist;
   db.query(
-    "UPDATE users SET artist = ? WHERE id = ?",
-    [artist, id],
+    "UPDATE users SET artist = ? WHERE user_id = ?",
+    [artist, user_id],
     (err, result) => {
       if (err) {
         console.log(err);
@@ -188,7 +187,7 @@ const loginUser = async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   db.query(
-    "SELECT password, id, artist FROM users WHERE username=? ",
+    "SELECT password, user_id, artist FROM users WHERE username=? ",
     username,
     async function (error, results) {
       console.log(results[0]);
@@ -206,7 +205,7 @@ const loginUser = async (req, res) => {
             results[0].password
           );
           if(comparison) {
-            const accessToken = jwt.sign({username: username, id: results[0].id, artist: results[0].artist }, accessTokenSecret);
+            const accessToken = jwt.sign({username: username, user_id: results[0].user_id, artist: results[0].artist }, accessTokenSecret);
             res.send({
               code: 200,
               accessToken,
@@ -237,7 +236,6 @@ const getUsers = (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      console.log("resultssssssss",result)
       res.send(result);
     }
   });
@@ -249,7 +247,6 @@ const getAlbums = (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      console.log("albumleri aldım yayyam", result)
       res.send(result);
     }
   });
@@ -268,8 +265,8 @@ const getArtists = (req, res) => {
 
 // This method is to get the artists from the database.
 const getArtistName = (req, res) => {
-  const id = req.body.id;
-  db.query("SELECT artist_name FROM artists where id = ?",id, (err, result) => {
+  const artist_id = req.body.artist_id;
+  db.query("SELECT artist_name FROM artists where artist_id = ?", artist_id, (err, result) => {
     if (err) {
       console.log(err);
     } else {
@@ -280,19 +277,18 @@ const getArtistName = (req, res) => {
 };
 
 const user = (req, res) => {
-  const id = req.params.id;
+  const user_id = req.body.user_id;
+  // console.log(user_id);
   db.query(
-    "SELECT * FROM users WHERE id = ?",
-    currentUsername,
+    "SELECT * FROM users WHERE user_id = ?",
+    user_id,
     (err, result) => {
       if(err){
         res.json({ message: err });
         console.log(err);
       } 
       else{
-        currentUser = result;
-        console.log(currentUser);
-        res.json({ user: currentUser[0] });
+        res.json(result);
       }
     }
   );
@@ -301,7 +297,7 @@ const user = (req, res) => {
 const searchUser = (req, res) => {
   const keyword = req.body.username;
   db.query(
-    "SELECT id,username FROM users WHERE username like ?",
+    "SELECT user_id,username FROM users WHERE username like ?",
     "%" + keyword + "%",
     (err, result) => {
       if (err) {
@@ -316,9 +312,10 @@ const searchUser = (req, res) => {
 };
 
 const searchArtist = (req, res) => {
-  const id = req.body.id;
+  const artist_id = req.body.id;
   db.query(
-    "SELECT artist_name FROM artists WHERE id = id",
+    "SELECT artist_name FROM artists WHERE artist_id = ?",
+    artist_id,
     (err, result) => {
       if (err) {
         res.json({ message: err });
@@ -334,7 +331,7 @@ const searchArtist = (req, res) => {
 const searchTrack = (req, res) => {
   const keyword = req.body.song_name;
   db.query(
-    "SELECT artist_name, song_name, song_src, album_name FROM songs WHERE song_name like ?",
+    "SELECT * FROM songs WHERE song_name like ?",
     "%" + keyword + "%",
     (err, result) => {
       if (err) {

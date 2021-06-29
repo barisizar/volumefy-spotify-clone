@@ -11,31 +11,23 @@ const jwt = require('jsonwebtoken');
 
 const Profile = () => {
   // We'll store all the users in the database inside this list.
-  const [userList, setUserList] = useState([]);
-  
+  const [user, setUser] = useState("");
   let history = useHistory();
 
   React.useEffect(() => {
-    Axios.get("http://localhost:3001/users").then((response) => {
-      setUserList(response.data)
-     })
-
-     console.log("userList",userList);
-    
-    // Map around the database and find the user with the relevant id.
-    userList.map((val, key) => {
-      var response = localStorage.getItem("response");
-      // response = jwt.decode(response);
-      response = response.id;
-      // If the id of the user is equal to the response, show user's
-      // info in the div "middle".
-      if(val.id == response){
-        console.log(val.id);
-        if(val.artist == 1){
-          history.push("/Profile_artist");
-        }
-    }})
-  },[])
+    var user_id = localStorage.getItem("user_id");
+      if(localStorage.getItem("artist")){
+        history.push("/profile_artist")
+      }
+      Axios.post("http://localhost:3001/user", {
+        user_id: user_id,
+      }).then((res) => {
+        // console.log("res",res);
+        // console.log("res.data",res.data);
+        setUser(res.data[0]);
+        // console.log("userrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",user.user_id);
+       })
+  })
 
   // This method is to delete the access token from the local storage
   // and route back to the "/".
@@ -99,26 +91,17 @@ const Profile = () => {
           <button className="searchButton" onClick={toSearch}>Search</button><br/><br/>
           <button className="libraryButton">Library</button>
         </div>
-        {/* Profile info */}
-        {userList.map((val, key) => {
-          // Can't get the response from the Profile. We need to define it again.
-          var response = localStorage.getItem("response");
-          console.log("response",response);
-          // response = response.id;
-          // console.log("profile'dayım response.id:", response)
-          // If the id of the user is equal to the response, show user's
-          // info in the div "middle".
-          if(val.id == response){
-          return <div className="middle_h"> 
-            <h3 className="userInfo">username: {val.username}</h3>       <button className="editButton">edit</button><br/>
-            <h3 className="userInfo">email: {val.email}</h3>             <button className="editButton">edit</button><br/>
-            <h3 className="userInfo">gender: {val.gender}</h3>           <button className="editButton" onClick={toGender}>edit</button><br/>
-            <h3 className="userInfo">age: {val.age}</h3>                 <button className="editButton" onClick={toAge}>edit</button><br/>
-            <h3 className="userInfo">country: {val.country}</h3>         <button className="editButton" onClick={toCountry}>edit</button><br/>
-            <h3 className="userInfo">phone number: {val.phone}</h3>      <button className="editButton" onClick={toPhone}>edit</button><br/>
-            <h3 className="userInfo">Want to be an artist?</h3>          <button className="artistButton" onClick={toArtist}>BECOME ONE!</button><br/>
-          </div>
-        }})}
+        
+        <div className="middle_h"> 
+          <h3 className="userInfo">user ID: {user.user_id}</h3>       <button className="editButton">edit</button><br/>
+          <h3 className="userInfo">username: {user.username}</h3>       <button className="editButton">edit</button><br/>
+          <h3 className="userInfo">email: {user.email}</h3>             <button className="editButton">edit</button><br/>
+          <h3 className="userInfo">gender: {user.gender}</h3>           <button className="editButton" onClick={toGender}>edit</button><br/>
+          <h3 className="userInfo">age: {user.age}</h3>                 <button className="editButton" onClick={toAge}>edit</button><br/>
+          <h3 className="userInfo">country: {user.country}</h3>         <button className="editButton" onClick={toCountry}>edit</button><br/>
+          <h3 className="userInfo">phone number: {user.phone}</h3>      <button className="editButton" onClick={toPhone}>edit</button><br/>
+          <h3 className="userInfo">Want to be an artist?</h3>          <button className="artistButton" onClick={toArtist}>BECOME ONE!</button><br/>
+        </div>
         {/* Friends */}
         <div id = "right" className = "right">
           <h2>Friends</h2>

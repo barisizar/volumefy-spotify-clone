@@ -9,36 +9,25 @@ import {useState} from "react";
 import AudioPlayer from "react-h5-audio-player";
 const jwt = require('jsonwebtoken');
 
-const Profile_artist = () => {
+const Profile = () => {
   // We'll store all the users in the database inside this list.
-  const [userList, setUserList] = useState([]);
-  
+  const [user, setUser] = useState("");
   let history = useHistory();
 
   React.useEffect(() => {
-    Axios.get("http://localhost:3001/users").then((response) => {
-      console.log("response (profile_artist)", response);
-      console.log("response.data (profile_artist)", response.data);
-      setUserList(response.data);
-      console.log("userList",userList)
-     })
-
-    console.log("userList",userList);
-    
-    // Map around the database and find the user with the relevant id.
-    userList.map((val, key) => {
-      var response = localStorage.getItem("response");
-      response = jwt.decode(response);
-      response = response.id;
-      // If the id of the user is equal to the response, show user's
-      // info in the div "middle".
-      if(val.id == response){
-        console.log(val.id);
-        if(val.artist == 0){
-          history.push("/Profile");
-        }
-    }})
-  },[])
+    var user_id = localStorage.getItem("user_id");
+      if(localStorage.getItem("artist")){
+        history.push("/profile_artist")
+      }
+      Axios.post("http://localhost:3001/user", {
+        user_id: user_id,
+      }).then((res) => {
+        // console.log("res",res);
+        // console.log("res.data",res.data);
+        setUser(res.data[0]);
+        // console.log("userrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",user.user_id);
+       })
+  })
 
   // This method is to delete the access token from the local storage
   // and route back to the "/".
@@ -47,35 +36,47 @@ const Profile_artist = () => {
     history.push("/");
   };
 
-  // Following method are to route to the relevant links.
+  // This method is to route to the home page.
   const toHome = () => {
     history.push("/Home_artist")
   }
+
+  // This method is to route to the profile page.
   const toProfile = () => {
     history.push("/Profile_artist")
   }
+
+  // This method is to route to the search page.
   const toSearch = () => {
     history.push("/Search_artist")
   }
-  const toGender = () => {
-    history.push("/Gender")
+
+  // This method is to route to the my music page.
+  const toMyMusic = () => {
+    history.push("/MyMusic")
   }
-  const toAge = () => {
-    history.push("/Age")
-  }
+
+
   const toCountry = () => {
     history.push("/Country")
   }
+
+  const toGender = () => {
+    history.push("/Gender")
+  }
+
+  const toAge = () => {
+    history.push("/Age")
+  }
+
   const toPhone = () => {
     history.push("/Phone")
   }
+
   const toArtist = () => {
     history.push("/Artist");
   }
-  const toMyMusic = () => {
-    history.push("/MyMusic");
-  }
-
+  
   return (
     <body class="bMain">
     <div className="Main" >
@@ -93,26 +94,23 @@ const Profile_artist = () => {
           <button className="homeButton" onClick={toHome}>Home</button><br/><br/>
           <button className="profileButton" onClick={toProfile}>Profile</button><br/><br/>
           <button className="searchButton" onClick={toSearch}>Search</button><br/><br/>
-          <button className="libraryButton">Library</button><br/><br/>
+          <button className="libraryButton">Library</button><br /><br />
           <button className="mymusicButton" onClick={toMyMusic}>My Music</button>
         </div>
-        {/* Profile info */}
-        {userList.map((val, key) => {
-          // Can't get the response from the Profile. We need to define it again.
-          var response = localStorage.getItem("response");
-          // If the id of the user is equal to the response, show user's
-          // info in the div "middle".
-          if(val.id == response){
-          return <div className="middle_h"> 
-            <h3 className="userInfo">username: {val.username}</h3>       <button className="editButton">edit</button><br/>
-            <h3 className="userInfo">email: {val.email}</h3>             <button className="editButton">edit</button><br/>
-            <h3 className="userInfo">gender: {val.gender}</h3>           <button className="editButton" onClick={toGender}>edit</button><br/>
-            <h3 className="userInfo">age: {val.age}</h3>                 <button className="editButton" onClick={toAge}>edit</button><br/>
-            <h3 className="userInfo">country: {val.country}</h3>         <button className="editButton" onClick={toCountry}>edit</button><br/>
-            <h3 className="userInfo">phone number: {val.phone}</h3>      <button className="editButton" onClick={toPhone}>edit</button><br/>
-          </div>
-        }})}
-
+        
+        <div className="middle_h"> 
+          <h3 className="userInfo">artist ID: {user.user_id}</h3>       <button className="editButton">edit</button><br/>
+          <h3 className="userInfo">username: {user.username}</h3>       <button className="editButton">edit</button><br/>
+          <h3 className="userInfo">email: {user.email}</h3>             <button className="editButton">edit</button><br/>
+          <h3 className="userInfo">gender: {user.gender}</h3>           <button className="editButton" onClick={toGender}>edit</button><br/>
+          <h3 className="userInfo">age: {user.age}</h3>                 <button className="editButton" onClick={toAge}>edit</button><br/>
+          <h3 className="userInfo">country: {user.country}</h3>         <button className="editButton" onClick={toCountry}>edit</button><br/>
+          <h3 className="userInfo">phone number: {user.phone}</h3>      <button className="editButton" onClick={toPhone}>edit</button><br/>
+        </div>
+        {/* Friends */}
+        <div id = "right" className = "right">
+          <h2>Friends</h2>
+        </div>
         <div className ="buttom">
         <AudioPlayer
               // src="https://drive.google.com/file/d/1-6TgFFkkBkja4-ucvHadrTucep4_UfKC/view?usp=sharing"
@@ -123,18 +121,10 @@ const Profile_artist = () => {
               // other props here
         />
         </div>
-        {/* Friends */}
-        <div id = "right" className = "right">
-          <h2>Friends</h2>
-          <h3>test 1</h3>
-          <h3>test 2</h3>
-          <h3>test 3</h3>
-          <h3>test 4</h3>
-        </div> 
         
     </div>
     </body>
   );
 }
 
-export default Profile_artist;
+export default Profile;

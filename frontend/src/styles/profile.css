@@ -62,6 +62,7 @@ button{
   text-align: left;
   position: relative;
   left: 6em;
+  overflow-y: scroll;
 }
 
 .left{

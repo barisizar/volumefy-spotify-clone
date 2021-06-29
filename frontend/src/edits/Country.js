@@ -5,31 +5,21 @@ import { useHistory } from "react-router-dom";
 import * as React from "react";
 import Axios from "axios";
 import {useState} from "react";
-
 const jwt = require('jsonwebtoken');
 
 const Country = () => {
-  // We'll store all the users in the database inside this list.
-  const [userList, setUserList] = useState([]);
 
   // useState for new Country.
   const [newCountry, setNewCountry] = useState("");
+  const [user, setUser] = useState("");
 
-  
   let history = useHistory();
 
   // On load, get the token from the local storage and get
   // the id from it.
   React.useEffect(() => {
-    // var response = localStorage.getItem("response");
-    // response = jwt.decode(response);
-    // response = response.id;
-    // console.log(response);
-
-    // Send a get request to the database. 
-    Axios.get("http://localhost:3001/users").then((response2) => {
-        setUserList(response2.data)
-    })
+    const user_id = localStorage.getItem("user_id");
+    setUser(user_id);
   })
 
   // This method is to delete the access token from the local storage
@@ -54,8 +44,8 @@ const Country = () => {
     history.push("/Search")
   }
 
-  const editCountry = (id) => {
-    Axios.put("http://localhost:3001/editCountry", { country: newCountry, id: id })
+  const editCountry = (user_id) => {
+    Axios.put("http://localhost:3001/editCountry", { country: newCountry, user_id: user_id })
     history.push("/Profile")
   };
 
@@ -79,18 +69,11 @@ const Country = () => {
           <button className="searchButton" onClick={toSearch}>Search</button><br/><br/>
           <button className="libraryButton">Library</button>
         </div>
-        {userList.map((val, key) => {
-          // Can't get the response from the Profile. We need to define it again.
-          var response = localStorage.getItem("response");
-          // If the id of the user is equal to the response, show user's
-          // info in the div "middle".
-          if(val.id == response){
-          return <div className="middle"> 
-              <h1>Country</h1>
-              <input type="text" placeholder="Enter the country" onChange={(event) => {setNewCountry(event.target.value);}}/><br /><br />
-              <button onClick={() => {editCountry(val.id);}}>{" "}Update</button>
-          </div>
-        }})}
+        <div className="middle"> 
+            <h1>Country</h1>
+            <input type="text" placeholder="Enter the Country" onChange={(event) => {setNewCountry(event.target.value);}}/><br /><br />
+            <button onClick={() => {editCountry(user);}}>{" "}Update</button>
+        </div>
 
         {/* Friends */}
         <div id = "right" className = "right">

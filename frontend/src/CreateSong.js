@@ -10,26 +10,19 @@ import Axios from "axios";
 
 const CreateSong = () => {
   
-  const[id_song, setId_song] = useState("");
+  const [song_id, setSong_id] = useState("");   
+  const [album_id, setAlbum_id] = useState("");                                    
   const [song_name, setSong_name] = useState("");
-  const [album_name, setAlbum_name] = useState("");
-  const [artist_name, setArtist_name] = useState("");
-  const [id_artist, setId_artist] = useState("");
+  const [genre_id, setGenre_id] = useState("");
   const [song_src, setSong_src] = useState("");
 
   let history = useHistory();
 
   React.useEffect(() => {
-    var album_name = localStorage.getItem("album_name");
-    var artist_name = localStorage.getItem("artist_name");
+    var album_id = localStorage.getItem("album_id");
 
-    // response = jwt.decode(response);
-    // response = response.id;
-    // console.log(response);
-    // setId_artist(response);
-    setAlbum_name(album_name);
-    setId_artist(id_artist)
-    setArtist_name(artist_name)
+    setAlbum_id(album_id);
+    setGenre_id(0)
   })
 
   // This method is to delete the access token from the local storage
@@ -68,10 +61,11 @@ const CreateSong = () => {
     // Add elements to the database.
     else{
       Axios.post("http://localhost:3001/createSong", {
-        song_name: song_name,
-        album_name: album_name,
-        artist_name: artist_name,
-        song_src: song_src
+        song_id = song_id,
+        album_id = album_id,
+        song_name = song_name,
+        genre_id = genre_id,
+        song_src = song_src
       }).then((response) => {
         console.log(response);
         history.push("/CreateSong")

@@ -5,42 +5,20 @@ import volumefy from "./images/volumefy.png";
 import { useHistory } from "react-router-dom";
 import * as React from "react";
 import {useState} from "react";
-import Axios from "axios";
 import AudioPlayer from "react-h5-audio-player";
-const jwt = require('jsonwebtoken');
 
 const Home = () => {
 
-  // We'll store all the users in the database inside this list.
-  const [userList, setUserList] = useState([]);  
-  const [artistList, setArtistList] = useState([]);  
-
   let history = useHistory();
 
-  // On load, check if the user is an artist. If he/she is,
-  // then route to the "/Home_artist".
-  // React.useEffect(() => {
-  //   var artist_name;
-  //   var response = localStorage.getItem("response");
-  //   response = jwt.decode(response);
-  //   var id = response.id;
-  //   var artist = response.artist;
-  //   console.log("id",id);
-  //   console.log("artist",artist);
-  //   Axios.post("http://localhost:3001/artist_name", {
-  //       id: id,
-  //     }).then((response) => {
-  //       artist_name=response.data[0].artist_name;
-  //       var code=response.data.code;
-  //       console.log(code)
-  //       console.log(artist_name);
-  //       if(code===200){
-  //         history.push("/home_artist");
-  //         localStorage.setItem("artist_name",artist_name)
-  //       }
-  //     });
-  //   },[]
-  // )
+  React.useEffect(() => {
+    const isArtist = localStorage.getItem("artist")
+    if(isArtist == 1){
+      console.log("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm")
+      history.push("/home_artist")
+    }
+    },[]
+  )
 
   // This method is to delete the access token from the local storage
   // and route back to the "/".

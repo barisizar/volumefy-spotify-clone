@@ -17,20 +17,6 @@ const Search = () => {
 
   const [source, setSource] = useState("");
 
-  // // This function is to search the users.
-  // const searchUser = () => {
-  //   Axios.post("http://localhost:3001/searchUser", {
-  //     username: username,
-  //   }).then((response) => {
-  //     // console.log(response.data);
-  //     if (response.data) {
-  //       setResult(response.data);
-  //       console.log(result);
-  //       console.log(response.data);
-  //     }
-  //   });
-  // };
-
   // This function is to search the tracks.
   const searchTrack = () => {
     Axios.post("http://localhost:3001/searchTrack", {
@@ -97,8 +83,8 @@ const Search = () => {
               return (
                 <div className="tracks">
                   <button className ="track" onClick={() => setSource(val.song_src)}>{val.song_name}</button>
-                  <button className ="track" onClick={() => setSource(val.song_src)}>{val.album_name}</button>
-                  <button className ="track" onClick={() => setSource(val.song_src)}>{val.artist_name}</button>
+                  {/* <button className ="track" onClick={() => setSource(val.song_src)}>{val.album_name}</button>
+                  <button className ="track" onClick={() => setSource(val.song_src)}>{val.artist_name}</button> */}
                 </div>
               );
             })

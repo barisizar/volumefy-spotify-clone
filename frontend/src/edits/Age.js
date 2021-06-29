@@ -1,55 +1,51 @@
-// This is the page where the user is directed after logging in.
+// This is the pAge where the user is directed after logging in.
 import '../styles/home.css';
 import volumefy from "../images/volumefy.png";
 import { useHistory } from "react-router-dom";
 import * as React from "react";
 import Axios from "axios";
 import {useState} from "react";
-
 const jwt = require('jsonwebtoken');
 
 const Age = () => {
-  // We'll store all the users in the database inside this list.
-  const [userList, setUserList] = useState([]);
 
-  // useState for new gender.
+  // useState for new Age.
   const [newAge, setNewAge] = useState("");
+  const [user, setUser] = useState("");
 
   let history = useHistory();
 
-  // On load, get the token from the local storage and get
+  // On load, get the token from the local storAge and get
   // the id from it.
   React.useEffect(() => {
-    // Send a get request to the database. 
-    Axios.get("http://localhost:3001/users").then((response2) => {
-        setUserList(response2.data)
-    })
+    const user_id = localStorage.getItem("user_id");
+    setUser(user_id);
   })
 
-  // This method is to delete the access token from the local storage
+  // This method is to delete the access token from the local storAge
   // and route back to the "/".
   const logOut = () => {
     localStorage.clear();
     history.push("/");
   };
 
-  // This method is to route to the home page.
+  // This method is to route to the home pAge.
   const toHome = () => {
     history.push("/Home")
   }
 
-  // This method is to route to the profile page.
+  // This method is to route to the profile pAge.
   const toProfile = () => {
     history.push("/Profile")
   }
 
-  // This method is to route to the search page.
+  // This method is to route to the search pAge.
   const toSearch = () => {
     history.push("/Search")
   }
 
-  const editAge = (id) => {
-    Axios.put("http://localhost:3001/editAge", { age: newAge, id: id })
+  const editAge = (user_id) => {
+    Axios.put("http://localhost:3001/editAge", { age: newAge, user_id: user_id })
     history.push("/Profile")
   };
 
@@ -73,18 +69,11 @@ const Age = () => {
           <button className="searchButton" onClick={toSearch}>Search</button><br/><br/>
           <button className="libraryButton">Library</button>
         </div>
-        {userList.map((val, key) => {
-          // Can't get the response from the Profile. We need to define it again.
-          var response = localStorage.getItem("response");
-          // If the id of the user is equal to the response, show user's
-          // info in the div "middle".
-          if(val.id == response){
-          return <div className="middle"> 
-              <h1>Age</h1>
-              <input type="text" placeholder="Enter the age" onChange={(event) => {setNewAge(event.target.value);}}/><br /><br />
-              <button onClick={() => {editAge(val.id);}}>{" "}Update</button>
-          </div>
-        }})}
+        <div className="middle"> 
+            <h1>Age</h1>
+            <input type="text" placeholder="Enter the Age" onChange={(event) => {setNewAge(event.target.value);}}/><br /><br />
+            <button onClick={() => {editAge(user);}}>{" "}Update</button>
+        </div>
 
         {/* Friends */}
         <div id = "right" className = "right">
