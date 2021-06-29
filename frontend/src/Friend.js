@@ -13,6 +13,7 @@ const Friend = () => {
   const [username, setUsername] = useState("");
   const [result, setResult] = useState([]);
   const [added, setAdded] = useState([]);
+  const [receieved, setReceived] = useState([]);
   const [sender_id, setSender_id] = useState("");
   const [receiver_id, setReceiver_id] = useState("");
 
@@ -27,11 +28,19 @@ const Friend = () => {
     const sender = localStorage.getItem("user_id");
     setSender_id(sender);
     
-    // Axios.get(`http://localhost:3001/requestSent/${sender_id}`).then((res) => {
-    //   console.log("ayhdsjdsaPFIOPJHAspfoıjADSKsdfgıtjdıhığoıfjı");
-    //   setAdded(res.data[0].receiver_id)
-    //  })
-    //  console.log("asdasdasdadas",added)
+    Axios.get(`http://localhost:3001/requestSent/${sender_id}`).then((res) => {
+      setAdded(res.data)
+     })
+
+    Axios.get(`http://localhost:3001/requestGet/${receiver_id}`).then((res) => {
+      setAdded(res.data)
+     })
+
+     Axios.get(`http://localhost:3001/requestGet/${sender_id}`).then((res) => {
+      setReceived(res.data)
+      console.log("receieved",receieved)
+     })
+     console.log("asdasdasdadas",added)
     },[result])
 
 
