@@ -297,7 +297,7 @@ const user = (req, res) => {
 const searchUser = (req, res) => {
   const keyword = req.body.username;
   db.query(
-    "SELECT user_id,username FROM users WHERE username like ?",
+    "SELECT user_id, username FROM users WHERE username like ?",
     "%" + keyword + "%",
     (err, result) => {
       if (err) {

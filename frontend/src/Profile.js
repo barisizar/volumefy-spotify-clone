@@ -71,6 +71,10 @@ const Profile = () => {
     history.push("/Artist");
   }
 
+  const toFriend = () => {
+    history.push("/Friend")
+  }
+
 
   return (
     <body class="bMain">
@@ -104,7 +108,7 @@ const Profile = () => {
         </div>
         {/* Friends */}
         <div id = "right" className = "right">
-          <h2>Friends</h2>
+        <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
         </div>
         <div className ="buttom">
         <AudioPlayer

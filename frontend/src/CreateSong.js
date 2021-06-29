@@ -61,11 +61,11 @@ const CreateSong = () => {
     // Add elements to the database.
     else{
       Axios.post("http://localhost:3001/createSong", {
-        song_id = song_id,
-        album_id = album_id,
-        song_name = song_name,
-        genre_id = genre_id,
-        song_src = song_src
+        song_id : song_id,
+        album_id : album_id,
+        song_name : song_name,
+        genre_id : genre_id,
+        song_src : song_src
       }).then((response) => {
         console.log(response);
         history.push("/CreateSong")

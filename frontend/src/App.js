@@ -11,6 +11,8 @@ import Search_artist from './Search_artist';
 import Profile from "./Profile"
 import MyMusic from './MyMusic';
 import MyUpload from './MyUpload';
+import Friend from "./Friend";
+import Friend_artist from './Friend_artist';
 import CreateAlbumSingle from './CreateAlbumSingle';
 import CreateSong from './CreateSong';
 import Username from "./edits/Username"
@@ -95,6 +97,12 @@ export class App extends Component {
             </Route>
             <Route exact path="/CreateSong">
               <CreateSong></CreateSong>
+            </Route>
+            <Route exact path="/Friend">
+              <Friend></Friend>
+            </Route>
+            <Route exact path="/Friend_artist">
+              <Friend_artist></Friend_artist>
             </Route>
           </Switch>
         </div>

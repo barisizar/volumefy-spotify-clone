@@ -50,6 +50,10 @@ const Search = () => {
     history.push("/Search")
   }
 
+  const toFriend = () => {
+    history.push("/Friend")
+  }
+
   const changeSong = (param) => {
     setSource(param)
   }
@@ -91,7 +95,7 @@ const Search = () => {
           }
         </div>
         <div id = "right" className = "right">
-          <h2>Friends</h2>
+        <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
         </div>
         <div className ="buttom">
         <AudioPlayer

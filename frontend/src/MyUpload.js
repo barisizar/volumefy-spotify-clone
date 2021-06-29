@@ -37,6 +37,10 @@ const MyUpload = () => {
     history.push("/MyMusic")
   }
 
+  const toFriend = () => {
+    history.push("/Friend_artist")
+  }
+
   return (
     <body class="bMain">
     <div className="Main" >
@@ -60,7 +64,7 @@ const MyUpload = () => {
           <h1>MY UPLOAD</h1>
         </div>
         <div id = "right" className = "right">
-          <h2>Friends</h2>
+          <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
         </div>
         <div className ="buttom">
         <AudioPlayer

@@ -60,7 +60,7 @@ button{
   width:70%;
   height:600px;
   text-align: left;
-  position: relative;
+  /* position: relative; */
   left: 6em;
   overflow-y: scroll;
 }
@@ -165,6 +165,7 @@ button{
 
 .userInfo{
   display: inline-block;
+  margin-left: 2%;
 }
 
 .editButton{

@@ -42,6 +42,10 @@ const Home = () => {
     history.push("/Search")
   }
 
+  const toFriend = () => {
+    history.push("/Friend")
+  }
+
   return (
     <body class="bMain">
     <div className="Main" >
@@ -64,7 +68,7 @@ const Home = () => {
           <h1>SONGS</h1>
         </div>
         <div id = "right" className = "right">
-          <h2>Friends</h2>
+        <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
         </div>
         <div className ="buttom">
         <AudioPlayer

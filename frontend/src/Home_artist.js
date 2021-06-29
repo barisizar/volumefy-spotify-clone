@@ -17,24 +17,21 @@ const Home = () => {
     history.push("/");
   };
 
-  // This method is to route to the home page.
+  // Following methods are to route to the relevant pages.
   const toHome = () => {
     history.push("/Home_artist")
   }
-
-  // This method is to route to the profile page.
   const toProfile = () => {
     history.push("/Profile_artist")
   }
-
-  // This method is to route to the search page.
   const toSearch = () => {
     history.push("/Search_artist")
   }
-
-  // This method is to route to the my music page.
   const toMyMusic = () => {
     history.push("/MyMusic")
+  }
+  const toFriend = () => {
+    history.push("/Friend_artist")
   }
 
   return (
@@ -60,7 +57,7 @@ const Home = () => {
           <h1>SONGS</h1>
         </div>
         <div id = "right" className = "right">
-          <h2>Friends</h2>
+          <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
         </div>
         <div className ="buttom">
         <AudioPlayer

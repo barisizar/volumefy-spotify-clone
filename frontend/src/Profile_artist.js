@@ -36,46 +36,38 @@ const Profile = () => {
     history.push("/");
   };
 
-  // This method is to route to the home page.
+  // Following methods are to route to the relevant page.
   const toHome = () => {
     history.push("/Home_artist")
   }
-
-  // This method is to route to the profile page.
   const toProfile = () => {
     history.push("/Profile_artist")
   }
-
-  // This method is to route to the search page.
   const toSearch = () => {
     history.push("/Search_artist")
   }
-
-  // This method is to route to the my music page.
   const toMyMusic = () => {
     history.push("/MyMusic")
   }
-
-
   const toCountry = () => {
     history.push("/Country")
   }
-
   const toGender = () => {
     history.push("/Gender")
   }
-
   const toAge = () => {
     history.push("/Age")
   }
-
   const toPhone = () => {
-    history.push("/Phone")
+    history.push("/Phone") 
   }
-
+  const toFriend = () => {
+    history.push("/Friend_artist")
+  }
   const toArtist = () => {
     history.push("/Artist");
   }
+
   
   return (
     <body class="bMain">
@@ -97,7 +89,7 @@ const Profile = () => {
           <button className="libraryButton">Library</button><br /><br />
           <button className="mymusicButton" onClick={toMyMusic}>My Music</button>
         </div>
-        
+
         <div className="middle_h"> 
           <h3 className="userInfo">artist ID: {user.user_id}</h3>       <button className="editButton">edit</button><br/>
           <h3 className="userInfo">username: {user.username}</h3>       <button className="editButton">edit</button><br/>
@@ -107,16 +99,14 @@ const Profile = () => {
           <h3 className="userInfo">country: {user.country}</h3>         <button className="editButton" onClick={toCountry}>edit</button><br/>
           <h3 className="userInfo">phone number: {user.phone}</h3>      <button className="editButton" onClick={toPhone}>edit</button><br/>
         </div>
+
         {/* Friends */}
         <div id = "right" className = "right">
-          <h2>Friends</h2>
+          <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
         </div>
         <div className ="buttom">
         <AudioPlayer
-              // src="https://drive.google.com/file/d/1-6TgFFkkBkja4-ucvHadrTucep4_UfKC/view?usp=sharing"
               src="https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3"
-              // src="../public/Used.mp3"
-              // src={music}
               onPlay={e => console.log("onPlay")}
               // other props here
         />
