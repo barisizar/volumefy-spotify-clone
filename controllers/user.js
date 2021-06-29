@@ -243,7 +243,9 @@ const getUsers = (req, res) => {
 
 // This method is to get the users from the database.
 const getAlbums = (req, res) => {
-  db.query("SELECT * FROM albums", (err, result) => {
+  const artist_id = req.params.artist_id;
+  console.log(artist_id)
+  db.query("SELECT * FROM albums where artist_id = ?",artist_id, (err, result) => {
     if (err) {
       console.log(err);
     } else {
@@ -331,7 +333,7 @@ const searchArtist = (req, res) => {
 const searchTrack = (req, res) => {
   const keyword = req.body.song_name;
   db.query(
-    "SELECT * FROM songs WHERE song_name like ?",
+    "SELECT s.song_name, al.album_name, ar.artist_name FROM vol.songs s left join vol.albums al on s.album_id = al.album_id left join vol.artists ar on al.artist_id = ar.artist_id where s.song_name like ?",
     "%" + keyword + "%",
     (err, result) => {
       if (err) {
@@ -364,5 +366,5 @@ module.exports = {
   searchTrack,
   searchArtist,
   getArtists,
-  getArtistName
+  getArtistName,
 };

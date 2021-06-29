@@ -6,7 +6,6 @@ import { useState } from "react";
 import * as React from "react";
 import Axios from "axios";
 import AudioPlayer from "react-h5-audio-player";
-const jwt = require("jsonwebtoken");
 
 const Search = () => {
   
@@ -35,25 +34,19 @@ const Search = () => {
     history.push("/");
   };
 
-  // This method is to route to the home page.
+  // Following methods are to route to the releavant pages.
   const toHome = () => {
     history.push("/Home")
   }
-
-  // This method is to route to the profile page.
   const toProfile = () => {
     history.push("/Profile")
   }
-
-  // This method is to route to the profile page.
   const toSearch = () => {
     history.push("/Search")
   }
-
   const toFriend = () => {
     history.push("/Friend")
   }
-
   const changeSong = (param) => {
     setSource(param)
   }
@@ -87,8 +80,8 @@ const Search = () => {
               return (
                 <div className="tracks">
                   <button className ="track" onClick={() => setSource(val.song_src)}>{val.song_name}</button>
-                  {/* <button className ="track" onClick={() => setSource(val.song_src)}>{val.album_name}</button>
-                  <button className ="track" onClick={() => setSource(val.song_src)}>{val.artist_name}</button> */}
+                  <button className ="track" onClick={() => setSource(val.song_src)}>{val.album_name}</button>
+                  <button className ="track" onClick={() => setSource(val.song_src)}>{val.artist_name}</button>
                 </div>
               );
             })

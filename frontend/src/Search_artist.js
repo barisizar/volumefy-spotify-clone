@@ -6,7 +6,6 @@ import { useState } from "react";
 import * as React from "react";
 import Axios from "axios";
 import AudioPlayer from "react-h5-audio-player";
-const jwt = require("jsonwebtoken");
 
 const Search_artist = () => {
   
@@ -14,23 +13,8 @@ const Search_artist = () => {
   
   const [song_name, setSong_name] = useState("");
   const [result, setResult] = useState([]);
-  const [artist_name, setArtist_name] = useState([]);
 
   const [source, setSource] = useState("");
-
-  // // This function is to search the users.
-  // const searchUser = () => {
-  //   Axios.post("http://localhost:3001/searchUser", {
-  //     username: username,
-  //   }).then((response) => {
-  //     // console.log(response.data);
-  //     if (response.data) {
-  //       setResult(response.data);
-  //       console.log(result);
-  //       console.log(response.data);
-  //     }
-  //   });
-  // };
 
   // This function is to search the tracks.
   const searchTrack = () => {
@@ -50,30 +34,24 @@ const Search_artist = () => {
     history.push("/");
   };
 
-  // This method is to route to the home page.
+  // Following methods are to route to the relevant page.
   const toHome = () => {
     history.push("/Home_artist")
   }
-
-  // This method is to route to the profile page.
   const toProfile = () => {
     history.push("/Profile_artist")
   }
-
-  // This method is to route to the profile page.
   const toSearch = () => {
     history.push("/Search_artist")
   }
-
-  // This method is to route to the my music page.
   const toMyMusic = () => {
     history.push("/MyMusic")
   }
-
   const toFriend = () => {
     history.push("/Friend_artist")
   }
 
+  // This method is to change to song.
   const changeSong = (param) => {
     setSource(param)
   }

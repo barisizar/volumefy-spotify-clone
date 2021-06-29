@@ -13,16 +13,13 @@ const jwt = require('jsonwebtoken');
 const MyMusic = () => {
   
   const [albumList, setAlbumList] = useState([]);
-
   let history = useHistory();
 
   React.useEffect(() => {
-    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaat");
-    Axios.get("http://localhost:3001/albums").then((res) => {
-      console.log("res",res)
-      console.log("res.data",res.data)
+    var artist_id = localStorage.getItem("user_id");
+  
+    Axios.get(`http://localhost:3001/albums/${artist_id}`).then((res) => {
       setAlbumList(res.data)
-      console.log("albumList",albumList)
      })
   },[])
 
@@ -33,33 +30,25 @@ const MyMusic = () => {
     history.push("/");
   };
 
-  // This method is to route to the home page.
+  // Following methods are to route to the relevant page.
   const toHome = () => {
     history.push("/Home_artist")
   }
-
-  // This method is to route to the profile page.
   const toProfile = () => {
     history.push("/Profile_artist")
   }
-
-  // This method is to route to the search page.
   const toSearch = () => {
     history.push("/Search_artist")
   }
-
   const toCreateAlbumSingle = (id) => {
     history.push("/CreateAlbumSingle")
   }
-
   const toCreateSong = () => {
     history.push("/CreateSong")
   }
-
   const toMyUpload = () => {
     history.push("/MyUpload")
   }
-
   const toFriend = () => {
     history.push("/Friend_artist")
   }
@@ -88,19 +77,13 @@ const MyMusic = () => {
           <button className="createAlbum" onClick={toCreateAlbumSingle}>CREATE ALBUM</button><br /><br />
 
           {albumList.map((val, key) => {
-          // Can't get the response from the Profile. We need to define it again.
-          var response = localStorage.getItem("artist_name");
-          console.log("response",response);
-          // If the id of the user is equal to the response, show user's
-          // info in the div "middle".
-          if(val.artist_name == response){
-            console.log(val.album_name)
+          
           return <div className="middle_album"> 
             <img className="albumCover" src={val.img_src} alt="Italian Trulli"></img><br />
             <button className="albumButton">{val.album_name}</button>   
             <h4>{val.year}</h4>          
           </div>
-          }})}
+          })}
           
         </div>
         <div id = "right" className = "right">
