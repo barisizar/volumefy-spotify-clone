@@ -16,6 +16,15 @@ const Search = () => {
 
   const [source, setSource] = useState("");
 
+  React.useEffect(() => {
+    const isArtist = localStorage.getItem("artist")
+    if(isArtist == 1){
+      history.push("/search_artist")
+    }
+    },[]
+  )
+
+
   // This function is to search the tracks.
   const searchTrack = () => {
     Axios.post("http://localhost:3001/searchTrack", {
@@ -34,7 +43,7 @@ const Search = () => {
     history.push("/");
   };
 
-  // Following methods are to route to the releavant pages.
+  // Following methods are to route to the relevant page.
   const toHome = () => {
     history.push("/Home")
   }
@@ -47,6 +56,8 @@ const Search = () => {
   const toFriend = () => {
     history.push("/Friend")
   }
+
+  // This method is to change to song.
   const changeSong = (param) => {
     setSource(param)
   }
@@ -68,10 +79,10 @@ const Search = () => {
           <button className="homeButton" onClick={toHome}>Home</button><br/><br/>
           <button className="profileButton" onClick={toProfile}>Profile</button><br/><br/>
           <button className="searchButton"  onClick={toSearch}>Search</button><br/><br/>
-          <button className="libraryButton">Library</button>
+          <button className="libraryButton">Library</button><br/><br/>
         </div>
         <div id = "middle" className = "middle">
-        <h1>SEARCH</h1>
+          <h1>SEARCH</h1>
           {/* Search results */}
           <input className="input" type="text" onChange={(event) => {setSong_name(event.target.value);}}/>
           <button className="searchButton2" onClick={searchTrack}></button><br />
@@ -88,7 +99,7 @@ const Search = () => {
           }
         </div>
         <div id = "right" className = "right">
-        <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
+          <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
         </div>
         <div className ="buttom">
         <AudioPlayer

@@ -27,21 +27,16 @@ const Home = () => {
     history.push("/");
   };
 
-  // This method is to route to the home page.
+  // Following methods are to route to the following pages.
   const toHome = () => {
     history.push("/Home")
   }
-
-  // This method is to route to the profile page.
   const toProfile = () => {
     history.push("/Profile")
   }
-
-  // This method is to route to the search page.
   const toSearch = () => {
     history.push("/Search")
   }
-
   const toFriend = () => {
     history.push("/Friend")
   }

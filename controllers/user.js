@@ -97,6 +97,46 @@ const createSong = (req, res) => {
   );
 };
 
+// This method is to create a friend.
+const friends = (req, res) => {
+  console.log(req.body);
+  const sender_id = req.body.sender_id;
+  const receiver_id = req.body.receiver_id;
+
+  db.query(
+    "INSERT INTO friends (sender_id, receiver_id) VALUES (?,?)",
+    [sender_id, receiver_id],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send("Values Inserted");
+      }
+    }
+  );
+};
+
+// This method is to create a friend request.
+const friendRequest = (req, res) => {
+  console.log(req.body);
+  const sender_id = req.body.sender_id;
+  const receiver_id = req.body.receiver_id;
+  const approval = null;
+
+  db.query(
+    "INSERT INTO friend_request (sender_id, receiver_id, approval) VALUES (?,?,?)",
+    [sender_id, receiver_id, approval],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send("Values Inserted");
+      }
+    }
+  );
+};
+
+
 // This method is to edit the gender.
 const editGender = async(req, res) => {
     const user_id = req.body.user_id;
@@ -241,6 +281,19 @@ const getUsers = (req, res) => {
   });
 };
 
+const getRequestSent = (req, res) => {
+  const sender_id= req.params.sender_id;
+  db.query("SELECT receiver_id FROM friend_request where sender_id = ?",sender_id, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      results=(result[0].receiver_id);
+      // console.log(results)
+      res.send(result);
+    }
+  });
+};
+
 // This method is to get the users from the database.
 const getAlbums = (req, res) => {
   const artist_id = req.params.artist_id;
@@ -298,9 +351,11 @@ const user = (req, res) => {
 
 const searchUser = (req, res) => {
   const keyword = req.body.username;
+  const sender_id = req.body.sender_id;
   db.query(
-    "SELECT user_id, username FROM users WHERE username like ?",
+    "SELECT user_id, username FROM users WHERE username like ? and user_id <> ?",[
     "%" + keyword + "%",
+    sender_id],
     (err, result) => {
       if (err) {
         res.json({ message: err });
@@ -367,4 +422,7 @@ module.exports = {
   searchArtist,
   getArtists,
   getArtistName,
+  friends,
+  friendRequest,
+  getRequestSent
 };

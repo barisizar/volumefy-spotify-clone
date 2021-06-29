@@ -25,6 +25,9 @@ const {
   searchTrack,
   searchArtist,
   getArtistName,
+  friends,
+  friendRequest,
+  getRequestSent
 } = require("../controllers/user");
 
 router.get("/", home);
@@ -34,8 +37,11 @@ router.post("/searchUser", searchUser);
 router.post("/searchTrack", searchTrack);
 router.post("/searchArtist", searchArtist);
 router.post("/user", user);
+router.post("/friends", friends);
+router.post("/friendRequest", friendRequest);
 router.get("/users", getUsers);
 router.get("/albums/:artist_id", getAlbums);
+router.get("/requestSent/:sender_id", getRequestSent);
 router.get("/artists", getArtists);
 router.post("/artist_name", getArtistName);
 router.put("/editGender", editGender);

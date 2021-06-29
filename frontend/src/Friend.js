@@ -12,28 +12,52 @@ const Friend = () => {
 
   const [username, setUsername] = useState("");
   const [result, setResult] = useState([]);
+  const [added, setAdded] = useState([]);
+  const [sender_id, setSender_id] = useState("");
+  const [receiver_id, setReceiver_id] = useState("");
+
 
   let history = useHistory();
 
   React.useEffect(() => {
     const isArtist = localStorage.getItem("artist")
     if(isArtist == 1){
-      console.log("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm")
       history.push("/Friend_artist")
     }
-    },[]
-  )
+    const sender = localStorage.getItem("user_id");
+    setSender_id(sender);
+    
+    // Axios.get(`http://localhost:3001/requestSent/${sender_id}`).then((res) => {
+    //   console.log("ayhdsjdsaPFIOPJHAspfoıjADSKsdfgıtjdıhığoıfjı");
+    //   setAdded(res.data[0].receiver_id)
+    //  })
+    //  console.log("asdasdasdadas",added)
+    },[result])
 
-// This function is to search the users.
-const searchUser = () => {
-    Axios.post("http://localhost:3001/searchUser", {
-        username: username,
-    }).then((response) => {
-        if (response.data) {
-        setResult(response.data);
-        }
-    });
-    };
+
+  // This method is to add users to the database.
+  const friendRequest = (receiver_id) => {
+    if(receiver_id){
+      Axios.post("http://localhost:3001/friendRequest", {
+        sender_id: sender_id,
+        receiver_id: receiver_id,
+        approval: null,
+      })
+    }
+  };
+
+
+  // This function is to search the users.
+  const searchUser = () => {
+      Axios.post("http://localhost:3001/searchUser", {
+          sender_id: sender_id,
+          username: username,
+      }).then((response) => {
+          if (response.data) {
+          setResult(response.data);
+          }
+      });
+  };
 
   // This method is to delete the access token from the local storage
   // and route back to the "/".
@@ -55,6 +79,7 @@ const searchUser = () => {
   const toFriend = () => {
     history.push("/Friend")
   }
+
 
   return (
     <body class="bMain">
@@ -81,16 +106,15 @@ const searchUser = () => {
               <button className="searchButton2" onClick={searchUser}></button><br />
               <h4 className="userInfoLeft">Username</h4><h4 className="userInfoRight">User ID</h4>
               {result.map((val, key) => {
-              return (
-                <div className="users">
-                  <button className="username">{val.username}</button>
-                  <button className="user_id">{val.user_id}</button>
-                  <button className="addUser">+</button><br />
-                  {/* <button className ="track" onClick={() => setSource(val.song_src)}>{val.song_name}</button>
-                  <button className ="track" onClick={() => setSource(val.song_src)}>{val.album_name}</button>
-                  <button className ="track" onClick={() => setSource(val.song_src)}>{val.artist_name}</button> */}
-                </div>
-              );
+                // if(!added.includes(val.user_id)){
+                  return (
+                    <div className="users">
+                      <button className="username">{val.username}</button>
+                      <button className="user_id">{val.user_id}</button>
+                      <button className="addUser" onClick={()=>friendRequest(val.user_id)}>+</button><br />                       
+                    </div>
+                  );
+                // }
             })
           }
           </div>
@@ -111,6 +135,6 @@ const searchUser = () => {
     </div>
     </body>
   );
-}
+  }
 
-export default Friend;
+  export default Friend;
