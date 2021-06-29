@@ -281,33 +281,35 @@ const getUsers = (req, res) => {
   });
 };
 
-const getRequestSent = (req, res) => {
-  const sender_id= req.params.sender_id;
-  db.query("SELECT receiver_id FROM friend_request where sender_id = ?",sender_id, (err, result) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send(result);
-    }
-  });
-};
-const getRequestReceived = (req, res) => {
-  console.log(req.params)
-  const receiver_id = req.params.receiver_id;
-  db.query("SELECT f.sender_id, u.username FROM vol.friend_request f LEFT JOIN vol.users u on f.sender_id = u.user_id where f.receiver_id = ? ",receiver_id, (err, result) => {
-    // "SELECT s.song_name, al.album_name, ar.artist_name 
-    // FROM vol.songs s left join vol.albums al 
-    // on s.album_id = al.album_id left join vol.artists ar on al.artist_id = ar.artist_id where s.song_name like ?",
 
-    if (err) {
-      console.log(err);
-    } else {
-      // results=(result[0].receiver_id);
-      // console.log(results)
-      res.send(result);
-    }
-  });
-};
+
+// const getRequestSent = (req, res) => {
+//   const sender_id= req.params.sender_id;
+//   db.query("SELECT receiver_id FROM friend_request where sender_id = ?",sender_id, (err, result) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       res.send(result);
+//     }
+//   });
+// };
+// const getRequestReceived = (req, res) => {
+//   console.log(req.params)
+//   const receiver_id = req.params.receiver_id;
+//   db.query("SELECT f.sender_id, u.username FROM vol.friend_request f LEFT JOIN vol.users u on f.sender_id = u.user_id where f.receiver_id = ? ",receiver_id, (err, result) => {
+//     // "SELECT s.song_name, al.album_name, ar.artist_name 
+//     // FROM vol.songs s left join vol.albums al 
+//     // on s.album_id = al.album_id left join vol.artists ar on al.artist_id = ar.artist_id where s.song_name like ?",
+
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       // results=(result[0].receiver_id);
+//       // console.log(results)
+//       res.send(result);
+//     }
+//   });
+// };
 
 // This method is to get the users from the database.
 const getAlbums = (req, res) => {
@@ -403,8 +405,7 @@ const searchArtist = (req, res) => {
 const searchTrack = (req, res) => {
   const keyword = req.body.song_name;
   db.query(
-    "SELECT s.song_name, al.album_name, ar.artist_name FROM vol.songs s left join vol.albums al on s.album_id = al.album_id left join vol.artists ar on al.artist_id = ar.artist_id where s.song_name like ?",
-    "%" + keyword + "%",
+    "SELECT s.song_name, al.album_name, ar.artist_name FROM vol.songs s left join vol.albums al on s.album_id = al.album_id left join vol.artists ar on al.artist_id = ar.artist_id where s.song_name like ?","%" + keyword + "%",
     (err, result) => {
       if (err) {
         res.json({ message: err });
@@ -415,6 +416,20 @@ const searchTrack = (req, res) => {
       }
     }
   );
+};
+
+// This method is to get the users from the database.
+const getFriendRequests = (req, res) => {
+  const receiver_id = req.body.receiver_id;
+  db.query("SELECT fr.sender_id, u.username FROM vol.friend_request fr left join vol.users u on fr.sender_id = u.user_id where fr.receiver_id = ?",receiver_id, 
+  (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(result);
+      res.send(result);
+    }
+  });
 };
 
 module.exports = {
@@ -439,6 +454,7 @@ module.exports = {
   getArtistName,
   friends,
   friendRequest,
-  getRequestSent,
-  getRequestReceived
+  getFriendRequests
+  // getRequestSent,
+  // getRequestReceived
 };

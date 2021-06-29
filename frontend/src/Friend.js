@@ -17,6 +17,9 @@ const Friend = () => {
   const [sender_id, setSender_id] = useState("");
   const [receiver_id, setReceiver_id] = useState("");
 
+  const [request, setRequest] = useState([]);
+
+  const [user_id, setUser_id] = useState("");
 
   let history = useHistory();
 
@@ -25,23 +28,38 @@ const Friend = () => {
     if(isArtist == 1){
       history.push("/Friend_artist")
     }
-    const sender = localStorage.getItem("user_id");
-    setSender_id(sender);
+    const user_id = localStorage.getItem("user_id");
+    setUser_id(user_id);
+    // console.log("bu benim user_id'm. Aynı zamanda receiver_id'm:", user_id)
+
+    //       OGUZ
+    Axios.post("http://localhost:3001/getFriendRequests", {
+      receiver_id: user_id,
+    }).then((response) => {
+      if (response.data) {
+        console.log("response",response)
+        console.log("response.data",response.data)
+        setRequest(response.data);
+        console.log("request", request)
+      }
+    });
+
+    // console.log("result", result)
     
-    Axios.get(`http://localhost:3001/requestSent/${sender_id}`).then((res) => {
-      setAdded(res.data)
-     })
+    // Axios.get(`http://localhost:3001/requestSent/${sender_id}`).then((res) => {
+    //   setAdded(res.data)
+    //  })
 
-    Axios.get(`http://localhost:3001/requestGet/${receiver_id}`).then((res) => {
-      setAdded(res.data)
-     })
+    // Axios.get(`http://localhost:3001/requestGet/${receiver_id}`).then((res) => {
+    //   setAdded(res.data)
+    //  })
 
-     Axios.get(`http://localhost:3001/requestGet/${sender_id}`).then((res) => {
-      setReceived(res.data)
-      console.log("receieved",receieved)
-     })
-     console.log("asdasdasdadas",added)
-    },[result])
+    //  Axios.get(`http://localhost:3001/requestGet/${sender_id}`).then((res) => {
+    //   setReceived(res.data)
+    //   console.log("receieved",receieved)
+    //  })
+    //  console.log("asdasdasdadas",added)
+    },[])
 
 
   // This method is to add users to the database.
@@ -54,6 +72,20 @@ const Friend = () => {
       })
     }
   };
+
+    // This function is to get the friend requests, if there's any.
+    const getFriendRequests = () => {
+      Axios.post("http://localhost:3001/getFriendRequests", {
+        receiver_id: user_id,
+      }).then((response) => {
+        if (response.data) {
+          console.log("response",response)
+          console.log("response.data",response.data)
+          setRequest(response.data);
+          console.log("request", request)
+        }
+      });
+    };
 
 
   // This function is to search the users.
@@ -129,6 +161,17 @@ const Friend = () => {
           </div>
           <div className="middleRight">
               <h2>Friend Requests</h2>
+              <button className="searchButton2" onClick={getFriendRequests}></button><br />
+              {request.map((val, key) => {
+              return (
+                <div className="tracks">
+                  <h4>The user {val.username} sent you an frindship request.</h4>
+                  <button>Accept</button>
+                  <button>Decline</button>
+                </div>
+              );
+            })
+          }
           </div>
         </div>
         <div id = "right" className = "right">

@@ -29,12 +29,14 @@ const Friend = () => {
     //   setAdded(res.data)
     //  })
 
-     Axios.get(`http://localhost:3001/requestGet/27}`).then((res) => {
-      setReceived(res.data)
+     Axios.get(`http://localhost:3001/requestGet/${sender_id}}`).then((res) => {
+      var data= res.data
+      setReceived(data)
+      console.log("dddddddddddddddd",data)
       console.log("receieved",receieved)
      })
-    //  console.log("asdasdasdadas",added)
-    },[]  )
+     console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+    },[result])
 
 
   // This method is to add users to the database.
