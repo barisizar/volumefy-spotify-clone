@@ -405,11 +405,13 @@ const getFriendRequests = (req, res) => {
 const acceptRequest = (req, res) => {
   const receiver_id = req.body.receiver_id;
   const sender_id = req.body.sender_id;
-  db.query("DELETE from vol.request WHERE receiver_id = ? and sender_id = ?", receiver_id, sender_id,
+  console.log("ooooooooo",receiver_id,sender_id)
+  db.query("DELETE from vol.friend_request WHERE receiver_id = ? and sender_id = ?",[ receiver_id, sender_id],
   (err, result) => {
     if (err) {
       console.log(err);
     } else {
+      console.log("sildim siktim sildim siktim")
       db.query("INSERT INTO friends (sender_id, receiver_id) VALUES (?,?)",
           [sender_id, receiver_id],
           (err, result) => {
@@ -422,7 +424,21 @@ const acceptRequest = (req, res) => {
         );
     }
   });
- 
+};
+
+const declineRequest = (req, res) => {
+  const receiver_id = req.body.receiver_id;
+  const sender_id = req.body.sender_id;
+  console.log("ooooooooo",receiver_id,sender_id)
+  db.query("DELETE from vol.friend_request WHERE receiver_id = ? and sender_id = ?",[ receiver_id, sender_id],
+  (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("sildim siktim sildim siktim")
+      res.send("Values Inserted");
+    }
+  });
 };
 
 
@@ -449,5 +465,6 @@ module.exports = {
   friends,
   friendRequest,
   getFriendRequests,
-  acceptRequest
+  acceptRequest,
+  declineRequest
 };

@@ -22,12 +22,6 @@ const Friend_artist = () => {
   React.useEffect(() => {
     const sender = localStorage.getItem("user_id");
     setSender_id(sender);
-    
-    // If the user is an artist, direct to the artist page.
-    const isArtist = localStorage.getItem("artist")
-    if(isArtist == 1){
-      history.push("/Friend_artist")
-    }
 
     // Get the user_id from the local storage.
     const user_id = localStorage.getItem("user_id");
@@ -56,15 +50,38 @@ const Friend_artist = () => {
 
   // This function is to search the users.
   const searchUser = () => {
-      Axios.post("http://localhost:3001/searchUser", {
-          sender_id: sender_id,
-          username: username,
-      }).then((response) => {
-          if (response.data) {
-          setResult(response.data);
-          }
-      });
+    Axios.post("http://localhost:3001/searchUser", {
+        sender_id: sender_id,
+        username: username,
+    }).then((response) => {
+        if (response.data) {
+        setResult(response.data);
+        }
+    });
   };
+
+  // This function is to search the users.
+  const acceptRequest = (sender_id) => {
+    console.log("sender_id bunu silllllllllllllllllllll",sender_id)
+    Axios.post("http://localhost:3001/accept", {
+        sender_id: sender_id,
+        receiver_id: user_id,
+    }).then((response) => {
+      console.log("ajashasdhadshdasjadsjads",response)
+    });
+  };
+
+  // This function is to search the users.
+  const declineRequest = (sender_id) => {
+    console.log("sender_id bunu silllllllllllllllllllll",sender_id)
+    Axios.post("http://localhost:3001/decline", {
+        sender_id: sender_id,
+        receiver_id: user_id,
+    }).then((response) => {
+      console.log("ajashasdhadshdasjadsjads",response)
+    });
+  };
+
 
   // This method is to delete the access token from the local storage
   // and route back to the "/".
@@ -107,7 +124,7 @@ const Friend_artist = () => {
           <button className="homeButton" onClick={toHome}>Home</button><br/><br/>
           <button className="profileButton" onClick={toProfile}>Profile</button><br/><br/>
           <button className="searchButton" onClick={toSearch}>Search</button><br/><br/>
-          <button className="libraryButton">Library</button><br /><br />
+          <button className="libraryButton">Library</button>
           <button className="mymusicButton" onClick={toMyMusic}>My Music</button>
         </div>
         <div id = "middle" className = "middle">
@@ -135,8 +152,8 @@ const Friend_artist = () => {
               return (
                 <div className="tracks">
                   <h4>The user {val.username} sent you a friendship request.</h4>
-                  <button className="requestButton" >Accept</button>
-                  <button className="requestButton">Decline</button>
+                  <button className="requestButton" onClick={()=>acceptRequest(val.sender_id)}>Accept</button>
+                  <button className="requestButton" onClick={()=>declineRequest(val.sender_id)}>Decline</button>
                 </div>
               );
             })

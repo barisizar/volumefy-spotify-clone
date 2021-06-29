@@ -56,15 +56,38 @@ const Friend = () => {
 
   // This function is to search the users.
   const searchUser = () => {
-      Axios.post("http://localhost:3001/searchUser", {
-          sender_id: sender_id,
-          username: username,
-      }).then((response) => {
-          if (response.data) {
-          setResult(response.data);
-          }
-      });
+    Axios.post("http://localhost:3001/searchUser", {
+        sender_id: sender_id,
+        username: username,
+    }).then((response) => {
+        if (response.data) {
+        setResult(response.data);
+        }
+    });
   };
+
+  // This function is to search the users.
+  const acceptRequest = (sender_id) => {
+    console.log("sender_id bunu silllllllllllllllllllll",sender_id)
+    Axios.post("http://localhost:3001/accept", {
+        sender_id: sender_id,
+        receiver_id: user_id,
+    }).then((response) => {
+      console.log("ajashasdhadshdasjadsjads",response)
+    });
+  };
+
+  // This function is to search the users.
+  const declineRequest = (sender_id) => {
+    console.log("sender_id bunu silllllllllllllllllllll",sender_id)
+    Axios.post("http://localhost:3001/decline", {
+        sender_id: sender_id,
+        receiver_id: user_id,
+    }).then((response) => {
+      console.log("ajashasdhadshdasjadsjads",response)
+    });
+  };
+
 
   // This method is to delete the access token from the local storage
   // and route back to the "/".
@@ -131,8 +154,8 @@ const Friend = () => {
               return (
                 <div className="tracks">
                   <h4>The user {val.username} sent you a friendship request.</h4>
-                  <button className="requestButton" >Accept</button>
-                  <button className="requestButton">Decline</button>
+                  <button className="requestButton" onClick={()=>acceptRequest(val.sender_id)}>Accept</button>
+                  <button className="requestButton" onClick={()=>declineRequest(val.sender_id)}>Decline</button>
                 </div>
               );
             })
@@ -141,6 +164,7 @@ const Friend = () => {
         </div>
         <div id = "right" className = "right">
         <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
+        
         </div>
         <div className ="buttom">
         <AudioPlayer
