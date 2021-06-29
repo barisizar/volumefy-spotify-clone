@@ -165,7 +165,7 @@ const Friend = () => {
               {request.map((val, key) => {
               return (
                 <div className="tracks">
-                  <h4>The user {val.username} sent you an frindship request.</h4>
+                  <h4>The user {val.username} sent you a frindship request.</h4>
                   <button>Accept</button>
                   <button>Decline</button>
                 </div>
