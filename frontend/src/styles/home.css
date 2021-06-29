@@ -324,3 +324,8 @@ button{
     margin-left: 2%;
     font-size: 125%;
   }
+
+  .requestButton{
+    margin-left: 3%;
+    height: 30px;
+  }

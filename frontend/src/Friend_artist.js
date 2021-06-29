@@ -8,36 +8,40 @@ import {useState} from "react";
 import AudioPlayer from "react-h5-audio-player";
 import Axios from "axios";
 
-const Friend = () => {
+const Friend_artist = () => {
 
+  // Use states.
   const [username, setUsername] = useState("");
   const [result, setResult] = useState([]);
-  const [added, setAdded] = useState([]);
-  const [receieved, setReceived] = useState([]);
   const [sender_id, setSender_id] = useState("");
-  const [receiver_id, setReceiver_id] = useState("");
-
+  const [request, setRequest] = useState([]);
+  const [user_id, setUser_id] = useState("");
 
   let history = useHistory();
 
   React.useEffect(() => {
     const sender = localStorage.getItem("user_id");
     setSender_id(sender);
-    setReceiver_id(sender)
     
-    // Axios.get(`http://localhost:3001/requestSent/${sender_id}`).then((res) => {
-    //   setAdded(res.data)
-    //  })
+    // If the user is an artist, direct to the artist page.
+    const isArtist = localStorage.getItem("artist")
+    if(isArtist == 1){
+      history.push("/Friend_artist")
+    }
 
-     Axios.get(`http://localhost:3001/requestGet/${sender_id}}`).then((res) => {
-      var data= res.data
-      setReceived(data)
-      console.log("dddddddddddddddd",data)
-      console.log("receieved",receieved)
-     })
-     console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-    },[result])
+    // Get the user_id from the local storage.
+    const user_id = localStorage.getItem("user_id");
+    setUser_id(user_id);
 
+    // Take the friendship requests.
+    Axios.post("http://localhost:3001/getFriendRequests", {
+      receiver_id: user_id,
+    }).then((response) => {
+      if (response.data) {
+        setRequest(response.data);
+      }
+    });
+    },[])
 
   // This method is to add users to the database.
   const friendRequest = (receiver_id) => {
@@ -49,7 +53,6 @@ const Friend = () => {
       })
     }
   };
-
 
   // This function is to search the users.
   const searchUser = () => {
@@ -72,16 +75,16 @@ const Friend = () => {
 
   // Following methods are to route to the relevant pages.
   const toHome = () => {
-    history.push("/Home_artist")
+    history.push("/Home")
   }
   const toProfile = () => {
-    history.push("/Profile_artist")
+    history.push("/Profile")
   }
   const toSearch = () => {
-    history.push("/Search_artist")
+    history.push("/Search")
   }
   const toFriend = () => {
-    history.push("/Friend_artist")
+    history.push("/Friend")
   }
   const toMyMusic = () => {
     history.push("/MyMusic")
@@ -128,6 +131,16 @@ const Friend = () => {
           </div>
           <div className="middleRight">
               <h2>Friend Requests</h2>
+              {request.map((val, key) => {
+              return (
+                <div className="tracks">
+                  <h4>The user {val.username} sent you a friendship request.</h4>
+                  <button className="requestButton" >Accept</button>
+                  <button className="requestButton">Decline</button>
+                </div>
+              );
+            })
+          }
           </div>
         </div>
         <div id = "right" className = "right">
@@ -145,4 +158,4 @@ const Friend = () => {
   );
   }
 
-  export default Friend;
+  export default Friend_artist;
