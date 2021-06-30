@@ -17,6 +17,8 @@ const Friend_artist = () => {
   const [request, setRequest] = useState([]);
   const [user_id, setUser_id] = useState("");
 
+  const [friend_ids, setFriend_ids] = useState([]);
+
   let history = useHistory();
 
   React.useEffect(() => {
@@ -35,6 +37,18 @@ const Friend_artist = () => {
         setRequest(response.data);
       }
     });
+
+    // Take the friend ids.
+    Axios.post("http://localhost:3001/getFriends", {
+      receiver_id: user_id,
+    }).then((response) => {
+      if (response.data) {
+        console.log("response.data",response.data)
+        setFriend_ids(response.data);
+        // console.log("friend_ids:", friend_ids)
+      }
+    });
+
     },[])
 
   // This method is to add users to the database.
@@ -81,7 +95,6 @@ const Friend_artist = () => {
       console.log("ajashasdhadshdasjadsjads",response)
     });
   };
-
 
   // This method is to delete the access token from the local storage
   // and route back to the "/".
@@ -155,13 +168,21 @@ const Friend_artist = () => {
                   <button className="requestButton" onClick={()=>acceptRequest(val.sender_id)}>Accept</button>
                   <button className="requestButton" onClick={()=>declineRequest(val.sender_id)}>Decline</button>
                 </div>
-              );
-            })
-          }
+                    );
+                })
+              }
           </div>
         </div>
         <div id = "right" className = "right">
         <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
+            {friend_ids.map((val, key) => {
+                  return (
+                    <div className="friends">
+                      <h4>{val.friend}</h4>
+                    </div>
+                  );
+              })
+            }
         </div>
         <div className ="buttom">
         <AudioPlayer

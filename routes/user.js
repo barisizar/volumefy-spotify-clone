@@ -29,7 +29,8 @@ const {
   friendRequest,
   getFriendRequests,
   acceptRequest,
-  declineRequest
+  declineRequest,
+  getFriends
 } = require("../controllers/user");
 
 router.get("/", home);
@@ -40,6 +41,7 @@ router.post("/login", loginUser);
 router.post("/searchUser", searchUser);
 router.post("/searchTrack", searchTrack);
 router.post("/getFriendRequests", getFriendRequests);
+router.post("/getFriends", getFriends);
 router.post("/searchArtist", searchArtist);
 router.post("/user", user);
 router.post("/friends", friends);

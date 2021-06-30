@@ -402,6 +402,22 @@ const getFriendRequests = (req, res) => {
   });
 };
 
+// This method is to get the friends from the database.
+const getFriends = (req, res) => {
+  const user_id = req.body.receiver_id;
+  console.log(req.body)
+  console.log("user_id",user_id)
+  db.query("SELECT IF(sender_id=?, receiver_id, sender_id) AS friend FROM friends WHERE sender_id=? OR receiver_id=?",[user_id, user_id, user_id],
+  (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("friends dizisi:" );
+      res.send(result);
+    }
+  });
+};
+
 const acceptRequest = (req, res) => {
   const receiver_id = req.body.receiver_id;
   const sender_id = req.body.sender_id;
@@ -466,5 +482,6 @@ module.exports = {
   friendRequest,
   getFriendRequests,
   acceptRequest,
-  declineRequest
+  declineRequest,
+  getFriends
 };
