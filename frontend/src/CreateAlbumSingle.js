@@ -64,6 +64,7 @@ const CreateAlbumSingle = () => {
 
     // Add elements to the database.
     else{
+      
       Axios.post("http://localhost:3001/createAlbum", {
         album_id: album_id,
         artist_id: artist_id,           
@@ -71,7 +72,7 @@ const CreateAlbumSingle = () => {
         year: year,
         img_src: img_src
       }).then((response) => {
-        localStorage.setItem("album_id", album_id)
+        localStorage.setItem("album_id", response.data.album_id)
         history.push("/CreateSong")
       }
       )}

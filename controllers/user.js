@@ -69,7 +69,8 @@ const createAlbum = (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        res.send("Values Inserted");
+        const album_id = result.insertId;
+        res.send({album_id});
       }
     }
   );
@@ -77,6 +78,7 @@ const createAlbum = (req, res) => {
 
 // This method is to create the users.
 const createSong = (req, res) => {
+  console.log("=====================================")
   console.log(req.body);
   const song_id = req.body.song_id;
   const album_id = req.body.album_id;
@@ -85,7 +87,7 @@ const createSong = (req, res) => {
   const song_src = req.body.song_src
 
   db.query(
-    "INSERT INTO songs (song_id, album_id, song_name, genre_id, song_src) VALUES (?,?,?,?,?)",
+    "INSERT INTO vol.songs (song_id, album_id, song_name, genre_id, song_src) VALUES (?,?,?,?,?)",
     [song_id, album_id, song_name, genre_id, song_src],
     (err, result) => {
       if (err) {
@@ -474,6 +476,17 @@ const getGenres = (req, res) => {
   });
 };
 
+const getAlbumInfo = (req, res) => {
+  const album_id = req.body.album_id;
+  db.query("SELECT * FROM albums WHERE album_id = ?",album_id, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  });
+};
+
 
 
 module.exports = {
@@ -503,5 +516,6 @@ module.exports = {
   declineRequest,
   getFriends,
   getUsersWithId,
-  getGenres
+  getGenres,
+  getAlbumInfo
 };

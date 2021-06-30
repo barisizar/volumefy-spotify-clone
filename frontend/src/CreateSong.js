@@ -22,7 +22,6 @@ const CreateSong = () => {
     var album_id = localStorage.getItem("album_id");
 
     setAlbum_id(album_id);
-    setGenre_id(0)
   })
 
   // This method is to delete the access token from the local storage
@@ -53,15 +52,12 @@ const CreateSong = () => {
   }
 
   const addSong = (event) => {
-
-    if(!song_name || !song_src){
-        event.preventDefault();
-    }
   
     // Add elements to the database.
-    else{
+ 
+      console.log("ıcerdeyım")
       Axios.post("http://localhost:3001/createSong", {
-        song_id : song_id,
+        song_id : null,
         album_id : album_id,
         song_name : song_name,
         genre_id : genre_id,
@@ -70,7 +66,7 @@ const CreateSong = () => {
         console.log(response);
         history.push("/CreateSong")
       }
-      )}
+      )
   };
 
   return (
@@ -96,6 +92,17 @@ const CreateSong = () => {
           <h1>CREATE SONG</h1>
           <input type="text" placeholder="Enter the song name" onChange={(event) => {setSong_name(event.target.value);}}/><br /><br />
           <input type="text" placeholder="Enter the music source" onChange={(event) => {setSong_src(event.target.value);}}/><br /><br />
+          <select className="genreSelectTag" placeholder="Enter the genre" onChange={(event) => {setGenre_id(event.target.value);}}>
+            <option value="1">Classical</option>                                                              
+            <option value="2">EDM</option>
+            <option value="3">Flamenco</option>
+            <option value="4">Heavy Metal</option>
+            <option value="5">Jazz </option>
+            <option value="6">Pop</option>
+            <option value="7">Post Punk</option>
+            <option value="8">Rock</option>
+            <option value="9">Vaporwave</option>
+        </select><br /><br />
           <button onClick={() => {addSong();}}>{" "}Create</button><br /><br />
           <button onClick={toMyMusic}>DONE</button>
         </div>

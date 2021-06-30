@@ -85,6 +85,7 @@ button{
   height: 250px;
   float:left; 
   border:2px solid black;
+  cursor: pointer;
 }
 
 .left{
@@ -374,4 +375,13 @@ button{
     background-position: 50%;
     vertical-align:middle;
     text-align: left;
+  }
+
+  .genreSelectTag{
+    height: 30px;
+    width: 210px;
+    font-family: 'Poiret One';
+    color: black;
+    font-weight: bolder;
+    font-size: large;
   }

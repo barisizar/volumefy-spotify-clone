@@ -32,7 +32,8 @@ const {
   declineRequest,
   getFriends,
   getUsersWithId,
-  getGenres
+  getGenres,
+  getAlbumInfo
 } = require("../controllers/user");
 
 router.get("/", home);
@@ -54,6 +55,7 @@ router.get("/users", getUsers);
 router.get("/albums/:artist_id", getAlbums);
 router.get("/artists", getArtists);
 router.post("/artist_name", getArtistName);
+router.post("/getAlbumInfo", getAlbumInfo);
 router.put("/editGender", editGender);
 router.put("/editAge", editAge);
 router.put("/editCountry", editCountry);

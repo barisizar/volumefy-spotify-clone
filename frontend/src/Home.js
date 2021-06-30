@@ -115,7 +115,8 @@ const Home = () => {
         <div className ="buttom">
         <AudioPlayer
               // src="https://drive.google.com/file/d/1-6TgFFkkBkja4-ucvHadrTucep4_UfKC/view?usp=sharing"
-              src="https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3"
+              // src="https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3"
+              src="https://drive.google.com/drive/folders/1d9xWZlTNSKEx9mv8zLWhUXTDpnHZUq0A?usp=sharing/mp3"
               // src="../public/Used.mp3"
               // src={music}
               onPlay={e => console.log("onPlay")}

@@ -13,6 +13,8 @@ const MyUpload = () => {
   
   const [user_id, setUser_id] = useState("");
   const [friend_ids, setFriend_ids] = useState([]);
+  const [albums, setAlbums] = useState([]);
+  const [album_id, setAlbum_id] = useState("");
 
   let history = useHistory();
 
@@ -23,6 +25,21 @@ const MyUpload = () => {
     // Get the user_id from the local storage.
     const user_id = localStorage.getItem("user_id");
     setUser_id(user_id);
+
+    const album_id = localStorage.getItem("album_id");
+    setAlbum_id(album_id);
+
+    
+
+    Axios.post("http://localhost:3001/getAlbumInfo", {
+      album_id: album_id,
+    }).then((response) => {
+      if (response.data) {
+        console.log("response.data",response.data)
+        setAlbums(response.data);
+        // console.log("friend_ids:", friend_ids)
+      }
+    });
 
     // Take the friend ids.
     Axios.post("http://localhost:3001/getFriends", {
@@ -86,7 +103,14 @@ const MyUpload = () => {
           <button className="mymusicButton" onClick={toMyMusic}>My Music</button>
         </div>
         <div id = "middle" className = "middle">
-          <h1>MY UPLOAD</h1>
+        {albums.map((val, key) => {
+                  return (
+                    <div className="friends">
+                      <h1>{val.album_name}</h1>
+                    </div>
+                  );
+              })
+            }
         </div>
         <div id = "right" className = "right">
           <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>

@@ -13,7 +13,7 @@ const jwt = require('jsonwebtoken');
 const MyMusic = () => {
   
   const [albumList, setAlbumList] = useState([]);
-
+  const [album_id, setAlbum_id] = useState("");
   const [user_id, setUser_id] = useState("");
   const [friend_ids, setFriend_ids] = useState([]);
 
@@ -25,6 +25,7 @@ const MyMusic = () => {
     var artist_id = localStorage.getItem("user_id");
   
     Axios.get(`http://localhost:3001/albums/${artist_id}`).then((res) => {
+      console.log(res.data)
       setAlbumList(res.data)
      })
 
@@ -67,7 +68,8 @@ const MyMusic = () => {
   const toCreateSong = () => {
     history.push("/CreateSong")
   }
-  const toMyUpload = () => {
+  const toMyUpload = (album_id) => {
+    localStorage.setItem("album_id",album_id);
     history.push("/MyUpload")
   }
   const toFriend = () => {
@@ -104,9 +106,10 @@ const MyMusic = () => {
           <button className="createAlbum" onClick={toCreateAlbumSingle}>CREATE ALBUM</button><br /><br />
 
           {albumList.map((val, key) => {
+            // }
           
-          return <div className="middle_album"> 
-            <img className="albumCover" src={val.img_src} alt="Italian Trulli"></img><br />
+          return <div className="middle_album" onClick = {()=>toMyUpload(val.album_id)}> 
+            <img className="albumCover" src={val.img_src} alt="Italian Trulli" ></img><br />
             <button className="albumButton">{val.album_name}</button>   
             <h4>{val.year}</h4>          
           </div>
