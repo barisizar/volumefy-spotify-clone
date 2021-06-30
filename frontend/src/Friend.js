@@ -22,14 +22,14 @@ const Friend = () => {
   let history = useHistory();
 
   React.useEffect(() => {
-    const sender = localStorage.getItem("user_id");
-    setSender_id(sender);
 
-    // If the user is an artist, direct to the artist page.
     const isArtist = localStorage.getItem("artist")
     if(isArtist == 1){
       history.push("/Friend_artist")
     }
+
+    const sender = localStorage.getItem("user_id");
+    setSender_id(sender);
 
     // Get the user_id from the local storage.
     const user_id = localStorage.getItem("user_id");
@@ -50,11 +50,10 @@ const Friend = () => {
     }).then((response) => {
       if (response.data) {
         console.log("response.data",response.data)
-        // setFriend_ids(response.data);
+        setFriend_ids(response.data);
         // console.log("friend_ids:", friend_ids)
       }
     });
-
 
     },[])
 
@@ -123,7 +122,11 @@ const Friend = () => {
   const toFriend = () => {
     history.push("/Friend")
   }
-
+  const toFriendInfo = (friend_id) => {
+    console.log("friend_id", friend_id)
+    localStorage.setItem("friend_id", friend_id);
+    history.push("/friend_info");
+  }
 
   return (
     <body class="bMain">
@@ -141,7 +144,7 @@ const Friend = () => {
           <button className="homeButton" onClick={toHome}>Home</button><br/><br/>
           <button className="profileButton" onClick={toProfile}>Profile</button><br/><br/>
           <button className="searchButton" onClick={toSearch}>Search</button><br/><br/>
-          <button className="libraryButton">Library</button>
+          <button className="libraryButton">Library</button><br /><br />
         </div>
         <div id = "middle" className = "middle">
           <div className="middleLeft">
@@ -171,14 +174,21 @@ const Friend = () => {
                   <button className="requestButton" onClick={()=>acceptRequest(val.sender_id)}>Accept</button>
                   <button className="requestButton" onClick={()=>declineRequest(val.sender_id)}>Decline</button>
                 </div>
-              );
-            })
-          }
+                    );
+                })
+              }
           </div>
         </div>
         <div id = "right" className = "right">
-          <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
-          
+        <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
+            {friend_ids.map((val, key) => {
+                  return (
+                    <div className="friends">
+                      <button className="toUserButtons" onClick={()=>toFriendInfo(val.friend)}>{val.friend}</button>
+                    </div>
+                  );
+              })
+            }
         </div>
         <div className ="buttom">
         <AudioPlayer

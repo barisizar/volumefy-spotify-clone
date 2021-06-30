@@ -13,6 +13,8 @@ import MyMusic from './MyMusic';
 import MyUpload from './MyUpload';
 import Friend from "./Friend";
 import Friend_artist from './Friend_artist';
+import Friend_info from './Friend_info';
+import Friend_info_artist from './Friend_info_artist';
 import CreateAlbumSingle from './CreateAlbumSingle';
 import CreateSong from './CreateSong';
 import Username from "./edits/Username"
@@ -103,6 +105,12 @@ export class App extends Component {
             </Route>
             <Route exact path="/Friend_artist">
               <Friend_artist></Friend_artist>
+            </Route>
+            <Route exact path="/Friend_info">
+              <Friend_info></Friend_info>
+            </Route>
+            <Route exact path="/Friend_info_artist">
+              <Friend_info_artist></Friend_info_artist>
             </Route>
           </Switch>
         </div>

@@ -1,23 +1,32 @@
 // This is the page where the user is directed after logging in.
-import './styles/home.css';
+import './styles/profile.css';
 import './styles/MusicPlayer.css';
 import volumefy from "./images/volumefy.png";
 import { useHistory } from "react-router-dom";
 import * as React from "react";
+import Axios from "axios";
 import {useState} from "react";
 import AudioPlayer from "react-h5-audio-player";
 
-const Home = () => {
-
+const Friend_info = () => {
+  // We'll store all the users in the database inside this list.
+  const [user, setUser] = useState("");
   let history = useHistory();
 
   React.useEffect(() => {
-    const isArtist = localStorage.getItem("artist")
-    if(isArtist == 1){
-      history.push("/home_artist")
-    }
-    },[]
-  )
+    var user_id = localStorage.getItem("friend_id");
+      if(localStorage.getItem("artist")){
+        history.push("/Friend_info_artist")
+      }
+      Axios.post("http://localhost:3001/user", {
+        user_id: user_id,
+      }).then((res) => {
+        // console.log("res",res);
+        // console.log("res.data",res.data);
+        setUser(res.data[0]);
+        // console.log("userrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",user.user_id);
+       })
+  })
 
   // This method is to delete the access token from the local storage
   // and route back to the "/".
@@ -26,19 +35,45 @@ const Home = () => {
     history.push("/");
   };
 
-  // Following methods are to route to the following pages.
+  // This method is to route to the home page.
   const toHome = () => {
     history.push("/Home")
   }
+
+  // This method is to route to the profile page.
   const toProfile = () => {
     history.push("/Profile")
   }
+
+  // This method is to route to the search page.
   const toSearch = () => {
     history.push("/Search")
   }
+
+  const toGender = () => {
+    history.push("/Gender")
+  }
+
+  const toAge = () => {
+    history.push("/Age")
+  }
+
+  const toCountry = () => {
+    history.push("/Country")
+  }
+
+  const toPhone = () => {
+    history.push("/Phone")
+  }
+
+  const toArtist = () => {
+    history.push("/Artist");
+  }
+
   const toFriend = () => {
     history.push("/Friend")
   }
+
 
   return (
     <body class="bMain">
@@ -51,6 +86,7 @@ const Home = () => {
             <button className="logout" onClick={logOut}>SIGN Out</button>
             <hr/>
         </div>
+        {/* Navigation buttons */}
         <div id = "left" className = "left">
           <br />
           <button className="homeButton" onClick={toHome}>Home</button><br/><br/>
@@ -58,9 +94,14 @@ const Home = () => {
           <button className="searchButton" onClick={toSearch}>Search</button><br/><br/>
           <button className="libraryButton">Library</button>
         </div>
-        <div id = "middle" className = "middle">
-          <h1>SONGS</h1>
+        
+        <div className="middle_h"> 
+          <h3 className="userInfo">user ID: {user.user_id}</h3> <br /><br />     
+          <h3 className="userInfo">username: {user.username}</h3><br /><br />
+          <h3 className="userInfo">Liked songs: </h3>
+
         </div>
+        {/* Friends */}
         <div id = "right" className = "right">
         <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
         </div>
@@ -74,9 +115,10 @@ const Home = () => {
               // other props here
         />
         </div>
+        
     </div>
     </body>
   );
 }
 
-export default Home;
+export default Friend_info;

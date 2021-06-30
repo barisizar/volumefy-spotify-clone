@@ -329,3 +329,8 @@ button{
     margin-left: 3%;
     height: 30px;
   }
+
+  .toUserButtons{
+    background-color: Transparent; 
+    border: none;
+  }

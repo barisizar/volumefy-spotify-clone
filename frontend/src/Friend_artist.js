@@ -22,6 +22,9 @@ const Friend_artist = () => {
   let history = useHistory();
 
   React.useEffect(() => {
+
+    const isArtist = localStorage.getItem("artist")
+
     const sender = localStorage.getItem("user_id");
     setSender_id(sender);
 
@@ -120,6 +123,11 @@ const Friend_artist = () => {
     history.push("/MyMusic")
   }
 
+  const toFriendInfo = (friend_id) => {
+    console.log("friend_id", friend_id)
+    localStorage.setItem("friend_id", friend_id);
+    history.push("/friend_info_artist");
+  }
 
   return (
     <body class="bMain">
@@ -137,7 +145,7 @@ const Friend_artist = () => {
           <button className="homeButton" onClick={toHome}>Home</button><br/><br/>
           <button className="profileButton" onClick={toProfile}>Profile</button><br/><br/>
           <button className="searchButton" onClick={toSearch}>Search</button><br/><br/>
-          <button className="libraryButton">Library</button>
+          <button className="libraryButton">Library</button><br /><br />
           <button className="mymusicButton" onClick={toMyMusic}>My Music</button>
         </div>
         <div id = "middle" className = "middle">
@@ -178,7 +186,7 @@ const Friend_artist = () => {
             {friend_ids.map((val, key) => {
                   return (
                     <div className="friends">
-                      <h4>{val.friend}</h4>
+                      <button className="toUserButtons" onClick={()=>toFriendInfo(val.friend)}>{val.friend}</button>
                     </div>
                   );
               })
