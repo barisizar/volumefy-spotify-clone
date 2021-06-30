@@ -529,6 +529,25 @@ const likeSong = (req, res) => {
   );
 };
 
+const getLikedSongs =(req, res) => {
+  const user_id = req.body.user_id;
+  db.query(
+    "SELECT s.song_name, s.song_src, a.album_name, ar.artist_name FROM vol.liked_songs l left join vol.songs s on l.song_id = s.song_id left join vol.albums a on s.album_id = a.album_id left join vol.artists ar on a.artist_id = ar.artist_id where l.user_id = ?",
+    [user_id],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result);
+      }
+    }
+  );
+};
+
+
+
+
+
 module.exports = {
   home,
   createUser,
@@ -560,5 +579,6 @@ module.exports = {
   getAlbumInfo,
   getSongs,
   getSongsByGenre,
-  likeSong
+  likeSong,
+  getLikedSongs
 };

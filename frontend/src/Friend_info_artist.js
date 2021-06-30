@@ -11,6 +11,7 @@ import AudioPlayer from "react-h5-audio-player";
 const Friend_info_artist = () => {
   // We'll store all the users in the database inside this list.
   const [user, setUser] = useState("");
+  const [info, setInfo] = useState([]);
   let history = useHistory();
 
   React.useEffect(() => {
@@ -24,7 +25,18 @@ const Friend_info_artist = () => {
         setUser(res.data[0]);
         // console.log("userrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",user.user_id);
        })
-  })
+
+       Axios.post("http://localhost:3001/getLikedSongs", {
+        user_id: user_id,
+      }).then((response) => {
+        // console.log("res",res);
+        // console.log("res.data",res.data);
+        setInfo(response.data);
+        console.log(response)
+        console.log(info)
+        // console.log("userrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",user.user_id);
+       })
+  },[])
 
   // This method is to delete the access token from the local storage
   // and route back to the "/".
@@ -98,6 +110,17 @@ const Friend_info_artist = () => {
           <h3 className="userInfo">user ID: {user.user_id}</h3> <br /><br />     
           <h3 className="userInfo">username: {user.username}</h3><br /><br />
           <h3 className="userInfo">Liked songs: </h3>
+
+          {info.map((val, key) => {
+              return (
+                <div className="tracks">
+                  <button className ="track">{val.song_name}</button>
+                  <button className ="track">{val.album_name}</button>
+                  <button className ="track">{val.artist_name}</button>
+                </div>
+              );
+            })
+          }
 
         </div>
         {/* Friends */}

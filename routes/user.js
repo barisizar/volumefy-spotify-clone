@@ -36,7 +36,8 @@ const {
   getAlbumInfo,
   getSongs,
   getSongsByGenre,
-  likeSong
+  likeSong,
+  getLikedSongs
 } = require("../controllers/user");
 
 router.get("/", home);
@@ -70,4 +71,5 @@ router.post("/createArtist", createArtist);
 router.post("/createAlbum", createAlbum);
 router.post("/createSong", createSong);
 router.post("/likeSong", likeSong);
+router.post("/getLikedSongs", getLikedSongs);
 module.exports = router;
