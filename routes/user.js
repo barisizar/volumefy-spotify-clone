@@ -33,7 +33,8 @@ const {
   getFriends,
   getUsersWithId,
   getGenres,
-  getAlbumInfo
+  getAlbumInfo,
+  getSongs
 } = require("../controllers/user");
 
 router.get("/", home);
@@ -48,6 +49,7 @@ router.post("/getFriends", getFriends);
 router.post("/getGenres", getGenres);
 router.post("/searchArtist", searchArtist);
 router.post("/getUsersWithId", getUsersWithId);
+router.post("/getSongs", getSongs);
 router.post("/user", user);
 router.post("/friends", friends);
 router.post("/friendRequest", friendRequest);

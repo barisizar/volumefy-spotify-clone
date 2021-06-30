@@ -15,6 +15,8 @@ const MyUpload = () => {
   const [friend_ids, setFriend_ids] = useState([]);
   const [albums, setAlbums] = useState([]);
   const [album_id, setAlbum_id] = useState("");
+  const [songs, setSongs] = useState([]);
+  var [index, setIndex] = useState(0);
 
   let history = useHistory();
 
@@ -48,7 +50,16 @@ const MyUpload = () => {
       if (response.data) {
         console.log("response.data",response.data)
         setFriend_ids(response.data);
-        // console.log("friend_ids:", friend_ids)
+      }
+    });
+
+    // Take the songs from the relevant album.
+    Axios.post("http://localhost:3001/getSongs", {
+      album_id: album_id,
+    }).then((response) => {
+      if (response.data) {
+        console.log("response.data",response.data)
+        setSongs(response.data);
       }
     });
 
@@ -82,6 +93,9 @@ const MyUpload = () => {
     localStorage.setItem("friend_id", friend_id);
     history.push("/friend_info_artist");
   }
+  const toCreateSong = () => {
+    history.push("/createSong");
+  }
 
   return (
     <body class="bMain">
@@ -103,14 +117,26 @@ const MyUpload = () => {
           <button className="mymusicButton" onClick={toMyMusic}>My Music</button>
         </div>
         <div id = "middle" className = "middle">
+        {/* /Album Info */}
         {albums.map((val, key) => {
-                  return (
-                    <div className="friends">
-                      <h1>{val.album_name}</h1>
-                    </div>
-                  );
-              })
-            }
+          return <div className = "albumInfo2"> 
+            <img className ="albumCover2" src={val.img_src} alt="Italian Trulli" ></img><br />
+            <h1 className ="albumInfoPt2">{val.album_name}</h1>
+            <button className = "addSong2" onClick={toCreateSong}>Add Song</button>    
+            <br />
+            <h2 className = "albumInfoPt2Year">{val.year}</h2>          
+          </div>
+          })}
+        {/* The songs of the album */}
+        {songs.map((val, key) => {
+          index = index + 1;
+          return (
+            <div className="songs2">
+              <button className="song2">{index}) {val.song_name}</button><br />
+            </div>
+              );
+          })
+        }
         </div>
         <div id = "right" className = "right">
           <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
@@ -122,6 +148,7 @@ const MyUpload = () => {
                   );
               })
             }
+            
         </div>
         <div className ="buttom">
         <AudioPlayer

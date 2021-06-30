@@ -487,6 +487,17 @@ const getAlbumInfo = (req, res) => {
   });
 };
 
+const getSongs = (req, res) => {
+  const album_id = req.body.album_id;
+  db.query("SELECT * FROM songs WHERE album_id = ?",album_id, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  });
+};
+
 
 
 module.exports = {
@@ -517,5 +528,6 @@ module.exports = {
   getFriends,
   getUsersWithId,
   getGenres,
-  getAlbumInfo
+  getAlbumInfo,
+  getSongs
 };

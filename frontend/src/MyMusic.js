@@ -106,8 +106,6 @@ const MyMusic = () => {
           <button className="createAlbum" onClick={toCreateAlbumSingle}>CREATE ALBUM</button><br /><br />
 
           {albumList.map((val, key) => {
-            // }
-          
           return <div className="middle_album" onClick = {()=>toMyUpload(val.album_id)}> 
             <img className="albumCover" src={val.img_src} alt="Italian Trulli" ></img><br />
             <button className="albumButton">{val.album_name}</button>   
