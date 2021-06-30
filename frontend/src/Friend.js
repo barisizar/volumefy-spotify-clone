@@ -16,7 +16,6 @@ const Friend = () => {
   const [sender_id, setSender_id] = useState("");
   const [request, setRequest] = useState([]);
   const [user_id, setUser_id] = useState("");
-
   const [friend_ids, setFriend_ids] = useState([]);
 
   let history = useHistory();
@@ -54,7 +53,7 @@ const Friend = () => {
         // console.log("friend_ids:", friend_ids)
       }
     });
-
+    
     },[])
 
   // This method is to add users to the database.
@@ -162,8 +161,8 @@ const Friend = () => {
                     </div>
                   );
                 // }
-            })
-          }
+               })
+              }
           </div>
           <div className="middleRight">
               <h2>Friend Requests</h2>
@@ -181,14 +180,14 @@ const Friend = () => {
         </div>
         <div id = "right" className = "right">
         <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
-            {friend_ids.map((val, key) => {
-                  return (
-                    <div className="friends">
-                      <button className="toUserButtons" onClick={()=>toFriendInfo(val.friend)}>{val.friend}</button>
-                    </div>
-                  );
-              })
-            }
+        {friend_ids.map((val, key) => {
+              return (
+                <div className="friends">
+                  <button className="toUserButtons" onClick={()=>toFriendInfo(val.friend)}>{val.friend}</button>
+                </div>
+              );
+          })
+        }
         </div>
         <div className ="buttom">
         <AudioPlayer

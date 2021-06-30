@@ -412,7 +412,6 @@ const getFriends = (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      console.log("friends dizisi:" );
       res.send(result);
     }
   });
@@ -421,13 +420,11 @@ const getFriends = (req, res) => {
 const acceptRequest = (req, res) => {
   const receiver_id = req.body.receiver_id;
   const sender_id = req.body.sender_id;
-  console.log("ooooooooo",receiver_id,sender_id)
   db.query("DELETE from vol.friend_request WHERE receiver_id = ? and sender_id = ?",[ receiver_id, sender_id],
   (err, result) => {
     if (err) {
       console.log(err);
     } else {
-      console.log("sildim siktim sildim siktim")
       db.query("INSERT INTO friends (sender_id, receiver_id) VALUES (?,?)",
           [sender_id, receiver_id],
           (err, result) => {
@@ -453,6 +450,30 @@ const declineRequest = (req, res) => {
     }
   });
 };
+
+// This method is to get the users from the database.
+const getUsersWithId = (req, res) => {
+  const user_id = req.body.user_id;
+  db.query("SELECT username FROM users WHERE user_id = ?",user_id, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  });
+};
+
+// This method is to get the genres from the database.
+const getGenres = (req, res) => {
+  db.query("SELECT * FROM genres", (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  });
+};
+
 
 
 module.exports = {
@@ -480,5 +501,7 @@ module.exports = {
   getFriendRequests,
   acceptRequest,
   declineRequest,
-  getFriends
+  getFriends,
+  getUsersWithId,
+  getGenres
 };

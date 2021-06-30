@@ -6,8 +6,13 @@ import { useHistory } from "react-router-dom";
 import * as React from "react";
 import {useState} from "react";
 import AudioPlayer from "react-h5-audio-player";
+import Axios from "axios";
 
 const Home = () => {
+
+  const [user_id, setUser_id] = useState("");
+  const [friend_ids, setFriend_ids] = useState([]);
+  const [genres, setGenres] = useState([]);
 
   let history = useHistory();
 
@@ -16,6 +21,28 @@ const Home = () => {
     if(isArtist == 1){
       history.push("/home_artist")
     }
+
+    // Get the user_id from the local storage.
+    const user_id = localStorage.getItem("user_id");
+    setUser_id(user_id);
+
+    // Take the friend ids.
+    Axios.post("http://localhost:3001/getFriends", {
+      receiver_id: user_id,
+    }).then((response) => {
+      if (response.data) {
+        setFriend_ids(response.data);
+      }
+    });
+
+    // Take the genres.
+    Axios.post("http://localhost:3001/getGenres", {
+    }).then((response) => {
+      if (response.data) {
+        console.log("response.data (genre)",response.data)
+        setGenres(response.data)
+      }
+    });
     },[]
   )
 
@@ -39,6 +66,11 @@ const Home = () => {
   const toFriend = () => {
     history.push("/Friend")
   }
+  const toFriendInfo = (friend_id) => {
+    console.log("friend_id", friend_id)
+    localStorage.setItem("friend_id", friend_id);
+    history.push("/friend_info");
+  }
 
   return (
     <body class="bMain">
@@ -59,10 +91,26 @@ const Home = () => {
           <button className="libraryButton">Library</button>
         </div>
         <div id = "middle" className = "middle">
-          <h1>SONGS</h1>
+          {genres.map((val, key) => {
+              return (
+                <div className="genreDiv">
+                  <img className="albumCover" src={val.img_src} alt="Italian Trulli"></img><br />
+                  <button className="genreButtons">{val.genre_name}</button>
+                </div>
+              );
+            })
+          }
         </div>
         <div id = "right" className = "right">
         <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
+        {friend_ids.map((val, key) => {
+              return (
+                <div className="friends">
+                  <button className="toUserButtons" onClick={()=>toFriendInfo(val.friend)}>{val.friend}</button>
+                </div>
+              );
+          })
+        }
         </div>
         <div className ="buttom">
         <AudioPlayer

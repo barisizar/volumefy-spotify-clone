@@ -12,6 +12,8 @@ const jwt = require('jsonwebtoken');
 const Profile = () => {
   // We'll store all the users in the database inside this list.
   const [user, setUser] = useState("");
+  const [user_id, setUser_id] = useState("");
+  const [friend_ids, setFriend_ids] = useState([]);
   let history = useHistory();
 
   React.useEffect(() => {
@@ -22,11 +24,18 @@ const Profile = () => {
       Axios.post("http://localhost:3001/user", {
         user_id: user_id,
       }).then((res) => {
-        // console.log("res",res);
-        // console.log("res.data",res.data);
         setUser(res.data[0]);
-        // console.log("userrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",user.user_id);
        })
+
+    // Take the friend ids.
+    Axios.post("http://localhost:3001/getFriends", {
+      receiver_id: user_id,
+    }).then((response) => {
+      if (response.data) {
+        setFriend_ids(response.data);
+        // console.log("friend_ids:", friend_ids)
+      }
+    });
   })
 
   // This method is to delete the access token from the local storage
@@ -74,6 +83,11 @@ const Profile = () => {
   const toFriend = () => {
     history.push("/Friend")
   }
+  const toFriendInfo = (friend_id) => {
+    console.log("friend_id", friend_id)
+    localStorage.setItem("friend_id", friend_id);
+    history.push("/friend_info");
+  }
 
 
   return (
@@ -109,6 +123,14 @@ const Profile = () => {
         {/* Friends */}
         <div id = "right" className = "right">
         <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
+        {friend_ids.map((val, key) => {
+              return (
+                <div className="friends">
+                  <button className="toUserButtons" onClick={()=>toFriendInfo(val.friend)}>{val.friend}</button>
+                </div>
+              );
+          })
+        }
         </div>
         <div className ="buttom">
         <AudioPlayer

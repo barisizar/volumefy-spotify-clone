@@ -5,10 +5,37 @@ import volumefy from "./images/volumefy.png";
 import { useHistory } from "react-router-dom";
 import * as React from "react";
 import AudioPlayer from "react-h5-audio-player";
+import {useState} from "react";
+import Axios from "axios";
+
 
 const MyUpload = () => {
   
+  const [user_id, setUser_id] = useState("");
+  const [friend_ids, setFriend_ids] = useState([]);
+
   let history = useHistory();
+
+  React.useEffect(() => {
+
+    const isArtist = localStorage.getItem("artist")
+
+    // Get the user_id from the local storage.
+    const user_id = localStorage.getItem("user_id");
+    setUser_id(user_id);
+
+    // Take the friend ids.
+    Axios.post("http://localhost:3001/getFriends", {
+      receiver_id: user_id,
+    }).then((response) => {
+      if (response.data) {
+        console.log("response.data",response.data)
+        setFriend_ids(response.data);
+        // console.log("friend_ids:", friend_ids)
+      }
+    });
+
+    },[])
 
   // This method is to delete the access token from the local storage
   // and route back to the "/".
@@ -17,28 +44,26 @@ const MyUpload = () => {
     history.push("/");
   };
 
-  // This method is to route to the home page.
+  // Following methods are to route to the relevant pages.
   const toHome = () => {
     history.push("/Home_artist")
   }
-
-  // This method is to route to the profile page.
   const toProfile = () => {
     history.push("/Profile_artist")
   }
-
-  // This method is to route to the search page.
   const toSearch = () => {
     history.push("/Search_artist")
   }
-
-  // This method is to route to the my music page.
   const toMyMusic = () => {
     history.push("/MyMusic")
   }
-
   const toFriend = () => {
     history.push("/Friend_artist")
+  }
+  const toFriendInfo = (friend_id) => {
+    console.log("friend_id", friend_id)
+    localStorage.setItem("friend_id", friend_id);
+    history.push("/friend_info_artist");
   }
 
   return (
@@ -65,6 +90,14 @@ const MyUpload = () => {
         </div>
         <div id = "right" className = "right">
           <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
+          {friend_ids.map((val, key) => {
+                  return (
+                    <div className="friends">
+                      <button className="toUserButtons" onClick={()=>toFriendInfo(val.friend)}>{val.friend}</button>
+                    </div>
+                  );
+              })
+            }
         </div>
         <div className ="buttom">
         <AudioPlayer

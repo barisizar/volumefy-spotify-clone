@@ -13,7 +13,13 @@ const jwt = require('jsonwebtoken');
 const MyMusic = () => {
   
   const [albumList, setAlbumList] = useState([]);
+
+  const [user_id, setUser_id] = useState("");
+  const [friend_ids, setFriend_ids] = useState([]);
+
   let history = useHistory();
+
+
 
   React.useEffect(() => {
     var artist_id = localStorage.getItem("user_id");
@@ -21,6 +27,21 @@ const MyMusic = () => {
     Axios.get(`http://localhost:3001/albums/${artist_id}`).then((res) => {
       setAlbumList(res.data)
      })
+
+    // Get the user_id from the local storage.
+    const user_id = localStorage.getItem("user_id");
+    setUser_id(user_id);
+
+    // Take the friend ids.
+    Axios.post("http://localhost:3001/getFriends", {
+      receiver_id: user_id,
+    }).then((response) => {
+      if (response.data) {
+        console.log("response.data",response.data)
+        setFriend_ids(response.data);
+        // console.log("friend_ids:", friend_ids)
+      }
+    });
   },[])
 
   // This method is to delete the access token from the local storage
@@ -52,6 +73,12 @@ const MyMusic = () => {
   const toFriend = () => {
     history.push("/Friend_artist")
   }
+  const toFriendInfo = (friend_id) => {
+    console.log("friend_id", friend_id)
+    localStorage.setItem("friend_id", friend_id);
+    history.push("/friend_info_artist");
+  }
+
 
   return (
     <body class="bMain">
@@ -88,6 +115,14 @@ const MyMusic = () => {
         </div>
         <div id = "right" className = "right">
           <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
+          {friend_ids.map((val, key) => {
+                  return (
+                    <div className="friends">
+                      <button className="toUserButtons" onClick={()=>toFriendInfo(val.friend)}>{val.friend}</button>
+                    </div>
+                  );
+              })
+            }
         </div>
         <div className ="buttom">
         <AudioPlayer

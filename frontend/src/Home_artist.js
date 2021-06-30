@@ -5,10 +5,45 @@ import volumefy from "./images/volumefy.png";
 import { useHistory } from "react-router-dom";
 import * as React from "react";
 import AudioPlayer from "react-h5-audio-player";
+import {useState} from "react";
+import Axios from "axios";
 
 const Home = () => {
-  
+
+  const [user_id, setUser_id] = useState("");
+  const [friend_ids, setFriend_ids] = useState([]);
+  const [genres, setGenres] = useState([]);
+
   let history = useHistory();
+
+  React.useEffect(() => {
+
+
+    // Get the user_id from the local storage.
+    const user_id = localStorage.getItem("user_id");
+    setUser_id(user_id);
+
+    // Take the friend ids.
+    Axios.post("http://localhost:3001/getFriends", {
+      receiver_id: user_id,
+    }).then((response) => {
+      if (response.data) {
+        console.log("response.data",response.data)
+        setFriend_ids(response.data);
+        // console.log("friend_ids:", friend_ids)
+      }
+    });
+
+    // Take the genres.
+    Axios.post("http://localhost:3001/getGenres", {
+    }).then((response) => {
+      if (response.data) {
+        console.log("response.data (genre)",response.data)
+        setGenres(response.data)
+      }
+    });
+
+    },[])
 
   // This method is to delete the access token from the local storage
   // and route back to the "/".
@@ -33,6 +68,11 @@ const Home = () => {
   const toFriend = () => {
     history.push("/Friend_artist")
   }
+  const toFriendInfo = (friend_id) => {
+    console.log("friend_id", friend_id)
+    localStorage.setItem("friend_id", friend_id);
+    history.push("/friend_info_artist");
+  }
 
   return (
     <body class="bMain">
@@ -54,10 +94,26 @@ const Home = () => {
           <button className="mymusicButton" onClick={toMyMusic}>My Music</button>
         </div>
         <div id = "middle" className = "middle">
-          <h1>SONGS</h1>
+          {genres.map((val, key) => {
+              return (
+                <div className="genreDiv">
+                  <img className="albumCover" src={val.img_src} alt="Italian Trulli"></img><br />
+                  <button className="genreButtons">{val.genre_name}</button>
+                </div>
+              );
+            })
+          }
         </div>
         <div id = "right" className = "right">
           <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
+          {friend_ids.map((val, key) => {
+                  return (
+                    <div className="friends">
+                      <button className="toUserButtons" onClick={()=>toFriendInfo(val.friend)}>{val.friend}</button>
+                    </div>
+                  );
+              })
+            }
         </div>
         <div className ="buttom">
         <AudioPlayer

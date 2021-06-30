@@ -226,6 +226,7 @@ button{
     width: 30%;
     text-align: left;
     margin-left: 2%;
+    font-size:100%;
   }
 
   .createAlbum{
@@ -333,4 +334,44 @@ button{
   .toUserButtons{
     background-color: Transparent; 
     border: none;
+  }
+
+  .genreDiv{
+    margin-left: 9%;
+    margin-bottom: 5%;
+    font-family: 'Poiret One', cursive;
+    font-size: larger;
+    width:200px;
+    height: 200px;
+    float:left; 
+  }
+
+  .genreCover{
+    height: 5em;
+    width: 5em;
+    margin-top: 3%;
+  }
+
+  .genreButtons{
+    font-family: 'Poiret One', cursive;
+    font-size: larger;
+    float:middle; 
+    background-color: transparent;
+    border: none;
+    width: 200px;
+  }
+
+  .likeButton{
+    width: 20px;
+    height: 20px;
+    background-color: Transparent; 
+    border: none;
+    color: #DD7206;
+    cursor: pointer;
+    background: url("../images/heart.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    vertical-align:middle;
+    text-align: left;
   }

@@ -14,6 +14,9 @@ const Search = () => {
   const [song_name, setSong_name] = useState("");
   const [result, setResult] = useState([]);
 
+  const [user_id, setUser_id] = useState("");
+  const [friend_ids, setFriend_ids] = useState([]);
+
   const [source, setSource] = useState("");
 
   React.useEffect(() => {
@@ -21,6 +24,21 @@ const Search = () => {
     if(isArtist == 1){
       history.push("/search_artist")
     }
+
+    // Get the user_id from the local storage.
+    const user_id = localStorage.getItem("user_id");
+    setUser_id(user_id);
+
+    // Take the friend ids.
+    Axios.post("http://localhost:3001/getFriends", {
+      receiver_id: user_id,
+    }).then((response) => {
+      if (response.data) {
+        console.log("response.data",response.data)
+        setFriend_ids(response.data);
+        // console.log("friend_ids:", friend_ids)
+      }
+    });
     },[]
   )
 
@@ -35,6 +53,12 @@ const Search = () => {
       }
     });
   };
+
+  const toFriendInfo = (friend_id) => {
+    console.log("friend_id", friend_id)
+    localStorage.setItem("friend_id", friend_id);
+    history.push("/friend_info");
+  }
 
   // This method is to delete the access token from the local storage
   // and route back to the "/".
@@ -90,6 +114,7 @@ const Search = () => {
           {result.map((val, key) => {
               return (
                 <div className="tracks">
+                  <button className="likeButton"></button>
                   <button className ="track" onClick={() => setSource(val.song_src)}>{val.song_name}</button>
                   <button className ="track" onClick={() => setSource(val.song_src)}>{val.album_name}</button>
                   <button className ="track" onClick={() => setSource(val.song_src)}>{val.artist_name}</button>
@@ -100,6 +125,14 @@ const Search = () => {
         </div>
         <div id = "right" className = "right">
           <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
+          {friend_ids.map((val, key) => {
+              return (
+                <div className="friends">
+                  <button className="toUserButtons" onClick={()=>toFriendInfo(val.friend)}>{val.friend}</button>
+                </div>
+              );
+          })
+        }
         </div>
         <div className ="buttom">
         <AudioPlayer

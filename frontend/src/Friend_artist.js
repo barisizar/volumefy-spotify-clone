@@ -15,8 +15,8 @@ const Friend_artist = () => {
   const [result, setResult] = useState([]);
   const [sender_id, setSender_id] = useState("");
   const [request, setRequest] = useState([]);
-  const [user_id, setUser_id] = useState("");
 
+  const [user_id, setUser_id] = useState("");
   const [friend_ids, setFriend_ids] = useState([]);
 
   let history = useHistory();
@@ -122,7 +122,6 @@ const Friend_artist = () => {
   const toMyMusic = () => {
     history.push("/MyMusic")
   }
-
   const toFriendInfo = (friend_id) => {
     console.log("friend_id", friend_id)
     localStorage.setItem("friend_id", friend_id);
