@@ -18,7 +18,6 @@ const Home = () => {
 
   React.useEffect(() => {
 
-
     // Get the user_id from the local storage.
     const user_id = localStorage.getItem("user_id");
     setUser_id(user_id);
@@ -73,6 +72,11 @@ const Home = () => {
     localStorage.setItem("friend_id", friend_id);
     history.push("/friend_info_artist");
   }
+  const toGenre = (genre_id) => {
+    console.log(genre_id);
+    localStorage.setItem("genre_id", genre_id)
+    history.push("/Genre_artist");
+  }
 
   return (
     <body class="bMain">
@@ -96,7 +100,7 @@ const Home = () => {
         <div id = "middle" className = "middle">
           {genres.map((val, key) => {
               return (
-                <div className="genreDiv">
+                <div className="genreDiv" onClick={()=>toGenre(val.genre_id)}>
                   <img className="albumCover" src={val.img_src} alt="Italian Trulli"></img><br />
                   <button className="genreButtons">{val.genre_name}</button>
                 </div>

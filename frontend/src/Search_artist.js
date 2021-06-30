@@ -48,6 +48,7 @@ const Search_artist = () => {
     }).then((response) => {
       if (response.data) {
         setResult(response.data);
+        console.log(result)
       }
     });
   };
@@ -86,6 +87,13 @@ const Search_artist = () => {
     setSource(param)
   }
 
+  const likeSong = (song_id) => {
+    Axios.post("http://localhost:3001/likeSong", {
+      user_id: user_id,
+      song_id: song_id
+  })
+}
+
 
   return (
     <body class="bMain">
@@ -115,7 +123,7 @@ const Search_artist = () => {
           {result.map((val, key) => {
               return (
                 <div className="tracks">
-                  <button className="likeButton"></button>
+                  <button className="likeButton" onClick={() => likeSong(val.song_id)} ></button>
                   <button className ="track" onClick={() => setSource(val.song_src)}>{val.song_name}</button>
                   <button className ="track" onClick={() => setSource(val.song_src)}>{val.album_name}</button>
                   <button className ="track" onClick={() => setSource(val.song_src)}>{val.artist_name}</button>

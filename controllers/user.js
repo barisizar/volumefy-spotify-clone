@@ -377,7 +377,7 @@ const searchArtist = (req, res) => {
 const searchTrack = (req, res) => {
   const keyword = req.body.song_name;
   db.query(
-    "SELECT s.song_name, al.album_name, ar.artist_name FROM vol.songs s left join vol.albums al on s.album_id = al.album_id left join vol.artists ar on al.artist_id = ar.artist_id where s.song_name like ?","%" + keyword + "%",
+    "SELECT s.song_name, al.album_name, ar.artist_name, s.song_src, s.song_id FROM vol.songs s left join vol.albums al on s.album_id = al.album_id left join vol.artists ar on al.artist_id = ar.artist_id where s.song_name like ?","%" + keyword + "%",
     (err, result) => {
       if (err) {
         res.json({ message: err });
@@ -498,7 +498,36 @@ const getSongs = (req, res) => {
   });
 };
 
+// This method is to get songs by genre.
+const getSongsByGenre = (req, res) => {
+  const genre_id = req.body.genre_id;
+  db.query("SELECT s.song_name, s.song_src from vol.genres g left join vol.songs s on g.genre_id = s.genre_id where g.genre_id = ?",genre_id, 
+  (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(result);
+      res.send(result);
+    }
+  });
+};
+// This method is to create a friend request.
+const likeSong = (req, res) => {
+  const user_id = req.body.user_id;
+  const song_id = req.body.song_id;
 
+  db.query(
+    "INSERT INTO liked_songs (user_id, song_id) VALUES (?,?)",
+    [user_id, song_id],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send("Values Inserted");
+      }
+    }
+  );
+};
 
 module.exports = {
   home,
@@ -529,5 +558,7 @@ module.exports = {
   getUsersWithId,
   getGenres,
   getAlbumInfo,
-  getSongs
+  getSongs,
+  getSongsByGenre,
+  likeSong
 };

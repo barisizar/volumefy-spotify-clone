@@ -12,6 +12,10 @@ import Profile from "./Profile"
 import MyMusic from './MyMusic';
 import MyUpload from './MyUpload';
 import Friend from "./Friend";
+import Library from './Library';
+import Library_artist from './Library_artist';
+import Genre from './Genre';
+import Genre_artist from './Genre_artist';
 import Friend_artist from './Friend_artist';
 import Friend_info from './Friend_info';
 import Friend_info_artist from './Friend_info_artist';
@@ -111,6 +115,18 @@ export class App extends Component {
             </Route>
             <Route exact path="/Friend_info_artist">
               <Friend_info_artist></Friend_info_artist>
+            </Route>
+            <Route exact path="/Library">
+              <Library></Library>
+            </Route>
+            <Route exact path="/Library_artist">
+              <Library_artist></Library_artist>
+            </Route>
+            <Route exact path="/Genre">
+              <Genre></Genre>
+            </Route>
+            <Route exact path="/Genre_artist">
+              <Genre_artist></Genre_artist>
             </Route>
           </Switch>
         </div>

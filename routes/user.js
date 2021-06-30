@@ -34,7 +34,9 @@ const {
   getUsersWithId,
   getGenres,
   getAlbumInfo,
-  getSongs
+  getSongs,
+  getSongsByGenre,
+  likeSong
 } = require("../controllers/user");
 
 router.get("/", home);
@@ -50,6 +52,7 @@ router.post("/getGenres", getGenres);
 router.post("/searchArtist", searchArtist);
 router.post("/getUsersWithId", getUsersWithId);
 router.post("/getSongs", getSongs);
+router.post("/getSongsByGenre", getSongsByGenre);
 router.post("/user", user);
 router.post("/friends", friends);
 router.post("/friendRequest", friendRequest);
@@ -66,4 +69,5 @@ router.put("/editArtist", editArtist);
 router.post("/createArtist", createArtist);
 router.post("/createAlbum", createAlbum);
 router.post("/createSong", createSong);
+router.post("/likeSong", likeSong);
 module.exports = router;

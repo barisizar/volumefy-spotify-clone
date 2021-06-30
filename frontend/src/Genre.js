@@ -8,23 +8,31 @@ import {useState} from "react";
 import AudioPlayer from "react-h5-audio-player";
 import Axios from "axios";
 
-const Home = () => {
+const Genre = () => {
 
   const [user_id, setUser_id] = useState("");
+  const [genre_id, setGenre_id] = useState("");
   const [friend_ids, setFriend_ids] = useState([]);
   const [genres, setGenres] = useState([]);
+  const [songs, setSongs] = useState([]);
+
+  const [source, setSource] = useState("");
 
   let history = useHistory();
 
   React.useEffect(() => {
     const isArtist = localStorage.getItem("artist")
     if(isArtist == 1){
-      history.push("/home_artist")
+      history.push("/Genre_artist")
     }
 
     // Get the user_id from the local storage.
     const user_id = localStorage.getItem("user_id");
     setUser_id(user_id);
+
+    const genre_id = localStorage.getItem("genre_id");
+    setGenre_id(genre_id);
+
 
     // Take the friend ids.
     Axios.post("http://localhost:3001/getFriends", {
@@ -35,14 +43,14 @@ const Home = () => {
       }
     });
 
-    // Take the genres.
-    Axios.post("http://localhost:3001/getGenres", {
+    Axios.post("http://localhost:3001/getSongsByGenre", {
+      genre_id: genre_id,
     }).then((response) => {
       if (response.data) {
-        console.log("response.data (genre)",response.data)
-        setGenres(response.data)
+        setSongs(response.data);
       }
     });
+
     },[]
   )
 
@@ -71,11 +79,6 @@ const Home = () => {
     localStorage.setItem("friend_id", friend_id);
     history.push("/friend_info");
   }
-  const toGenre = (genre_id) => {
-    console.log(genre_id);
-    localStorage.setItem("genre_id", genre_id)
-    history.push("/Genre");
-  }
 
   return (
     <body class="bMain">
@@ -96,22 +99,22 @@ const Home = () => {
           <button className="libraryButton">Library</button>
         </div>
         <div id = "middle" className = "middle">
-          {genres.map((val, key) => {
+        {songs.map((val, key) => {
               return (
-                <div className="genreDiv" onClick={()=>toGenre(val.genre_id)}> 
-                  <img className="albumCover" src={val.img_src} alt="Italian Trulli"></img><br />
-                  <button className="genreButtons">{val.genre_name}</button>
+                <div className="songs3">
+                  {/* onClick={()=>toFriendInfo(val.song_src)} */}
+                  <button className="toUserButtons" >{val.song_name}</button>
                 </div>
               );
-            })
-          }
+          })
+        }
         </div>
         <div id = "right" className = "right">
         <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
         {friend_ids.map((val, key) => {
               return (
                 <div className="friends">
-                  <button className="toUserButtons" onClick={()=>toFriendInfo(val.friend)}>{val.friend}</button>
+                  <button className="toUserButtons" onClick={() => setSource(val.song_src)}>{val.friend}</button>
                 </div>
               );
           })
@@ -133,4 +136,4 @@ const Home = () => {
   );
 }
 
-export default Home;
+export default Genre;

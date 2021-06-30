@@ -8,7 +8,7 @@ import {useState} from "react";
 import AudioPlayer from "react-h5-audio-player";
 import Axios from "axios";
 
-const Home = () => {
+const Library = () => {
 
   const [user_id, setUser_id] = useState("");
   const [friend_ids, setFriend_ids] = useState([]);
@@ -19,7 +19,7 @@ const Home = () => {
   React.useEffect(() => {
     const isArtist = localStorage.getItem("artist")
     if(isArtist == 1){
-      history.push("/home_artist")
+      history.push("/Library_artist")
     }
 
     // Get the user_id from the local storage.
@@ -35,14 +35,6 @@ const Home = () => {
       }
     });
 
-    // Take the genres.
-    Axios.post("http://localhost:3001/getGenres", {
-    }).then((response) => {
-      if (response.data) {
-        console.log("response.data (genre)",response.data)
-        setGenres(response.data)
-      }
-    });
     },[]
   )
 
@@ -71,11 +63,6 @@ const Home = () => {
     localStorage.setItem("friend_id", friend_id);
     history.push("/friend_info");
   }
-  const toGenre = (genre_id) => {
-    console.log(genre_id);
-    localStorage.setItem("genre_id", genre_id)
-    history.push("/Genre");
-  }
 
   return (
     <body class="bMain">
@@ -96,15 +83,6 @@ const Home = () => {
           <button className="libraryButton">Library</button>
         </div>
         <div id = "middle" className = "middle">
-          {genres.map((val, key) => {
-              return (
-                <div className="genreDiv" onClick={()=>toGenre(val.genre_id)}> 
-                  <img className="albumCover" src={val.img_src} alt="Italian Trulli"></img><br />
-                  <button className="genreButtons">{val.genre_name}</button>
-                </div>
-              );
-            })
-          }
         </div>
         <div id = "right" className = "right">
         <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
@@ -133,4 +111,4 @@ const Home = () => {
   );
 }
 
-export default Home;
+export default Library;
