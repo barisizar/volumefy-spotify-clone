@@ -31,24 +31,21 @@ const CreateSong = () => {
     history.push("/");
   };
 
-  // This method is to route to the home page.
+  // Following are to route to the relevant page.
   const toHome = () => {
     history.push("/Home_artist")
   }
-
-  // This method is to route to the profile page.
   const toProfile = () => {
     history.push("/Profile_artist")
   }
-
-  // This method is to route to the search page.
   const toSearch = () => {
     history.push("/Search_artist")
   }
-
-  // This method is to route to the my music page.
   const toMyMusic = () => {
     history.push("/MyMusic")
+  }
+  const toLibrary = () => {
+    history.push("/Library_artist")
   }
 
   const addSong = (event) => {
@@ -85,7 +82,7 @@ const CreateSong = () => {
           <button className="homeButton" onClick={toHome}>Home</button><br/><br/>
           <button className="profileButton" onClick={toProfile}>Profile</button><br/><br/>
           <button className="searchButton" onClick={toSearch}>Search</button><br/><br/>
-          <button className="libraryButton">Library</button><br/><br/>
+          <button className="libraryButton" onClick={toLibrary}>Library</button><br/><br/>
           <button className="mymusicButton" onClick={toMyMusic}>My Music</button>
         </div>
         <div id = "middle" className = "middle">

@@ -74,6 +74,9 @@ const Genre = () => {
   const toFriend = () => {
     history.push("/Friend")
   }
+  const toLibrary = () => {
+    history.push("/Library")
+  }
   const toFriendInfo = (friend_id) => {
     console.log("friend_id", friend_id)
     localStorage.setItem("friend_id", friend_id);
@@ -96,14 +99,17 @@ const Genre = () => {
           <button className="homeButton" onClick={toHome}>Home</button><br/><br/>
           <button className="profileButton" onClick={toProfile}>Profile</button><br/><br/>
           <button className="searchButton" onClick={toSearch}>Search</button><br/><br/>
-          <button className="libraryButton">Library</button>
+          <button className="libraryButton" onClick={toLibrary}>Library</button><br/><br/>
         </div>
         <div id = "middle" className = "middle">
+        <h4 className="songInfoLeft">Song</h4><h4 className="songInfoMiddle">Album</h4><h4 className="songInfoRight">Artist</h4>
         {songs.map((val, key) => {
               return (
                 <div className="songs3">
                   {/* onClick={()=>toFriendInfo(val.song_src)} */}
-                  <button className="toUserButtons" >{val.song_name}</button>
+                  <button className ="track" onClick={() => setSource(val.song_src)}>{val.song_name}</button>
+                  <button className ="track" onClick={() => setSource(val.song_src)}>{val.album_name}</button>
+                  <button className ="track" onClick={() => setSource(val.song_src)}>{val.artist_name}</button>
                 </div>
               );
           })
@@ -114,7 +120,7 @@ const Genre = () => {
         {friend_ids.map((val, key) => {
               return (
                 <div className="friends">
-                  <button className="toUserButtons" onClick={() => setSource(val.song_src)}>{val.friend}</button>
+                  <button className="toUserButtons" onClick={()=>toFriendInfo(val.friend)}>{val.friend}</button>
                 </div>
               );
           })
@@ -122,13 +128,8 @@ const Genre = () => {
         </div>
         <div className ="buttom">
         <AudioPlayer
-              // src="https://drive.google.com/file/d/1-6TgFFkkBkja4-ucvHadrTucep4_UfKC/view?usp=sharing"
-              // src="https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3"
-              src="https://drive.google.com/drive/folders/1d9xWZlTNSKEx9mv8zLWhUXTDpnHZUq0A?usp=sharing/mp3"
-              // src="../public/Used.mp3"
-              // src={music}
+              src={source}
               onPlay={e => console.log("onPlay")}
-              // other props here
         />
         </div>
     </div>

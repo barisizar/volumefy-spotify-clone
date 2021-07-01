@@ -93,6 +93,9 @@ const MyUpload = () => {
     localStorage.setItem("friend_id", friend_id);
     history.push("/friend_info_artist");
   }
+  const toLibrary = () => {
+    history.push("/Library_artist")
+  }
   const toCreateSong = () => {
     history.push("/createSong");
   }
@@ -113,7 +116,7 @@ const MyUpload = () => {
           <button className="homeButton" onClick={toHome}>Home</button><br/><br/>
           <button className="profileButton" onClick={toProfile}>Profile</button><br/><br/>
           <button className="searchButton" onClick={toSearch}>Search</button><br/><br/>
-          <button className="libraryButton">Library</button><br/><br/>
+          <button className="libraryButton" onClick={toLibrary}>Library</button><br/><br/>
           <button className="mymusicButton" onClick={toMyMusic}>My Music</button>
         </div>
         <div id = "middle" className = "middle">

@@ -22,7 +22,7 @@ const Search = () => {
   React.useEffect(() => {
     const isArtist = localStorage.getItem("artist")
     if(isArtist == 1){
-      history.push("/search_artist")
+      history.push("/Search_artist")
     }
 
     // Get the user_id from the local storage.
@@ -39,8 +39,8 @@ const Search = () => {
         // console.log("friend_ids:", friend_ids)
       }
     });
-    },[]
-  )
+
+    },[])
 
 
   // This function is to search the tracks.
@@ -50,15 +50,10 @@ const Search = () => {
     }).then((response) => {
       if (response.data) {
         setResult(response.data);
+        console.log(result)
       }
     });
   };
-
-  const toFriendInfo = (friend_id) => {
-    console.log("friend_id", friend_id)
-    localStorage.setItem("friend_id", friend_id);
-    history.push("/friend_info");
-  }
 
   // This method is to delete the access token from the local storage
   // and route back to the "/".
@@ -80,12 +75,21 @@ const Search = () => {
   const toFriend = () => {
     history.push("/Friend")
   }
-
-  // This method is to change to song.
-  const changeSong = (param) => {
-    setSource(param)
+  const toLibrary = () => {
+    history.push("/Library")
+  }
+  const toFriendInfo = (friend_id) => {
+    console.log("friend_id", friend_id)
+    localStorage.setItem("friend_id", friend_id);
+    history.push("/friend_info_artist");
   }
 
+  const likeSong = (song_id) => {
+    Axios.post("http://localhost:3001/likeSong", {
+      user_id: user_id,
+      song_id: song_id
+  })
+}
 
   return (
     <body class="bMain">
@@ -103,7 +107,7 @@ const Search = () => {
           <button className="homeButton" onClick={toHome}>Home</button><br/><br/>
           <button className="profileButton" onClick={toProfile}>Profile</button><br/><br/>
           <button className="searchButton"  onClick={toSearch}>Search</button><br/><br/>
-          <button className="libraryButton">Library</button><br/><br/>
+          <button className="libraryButton" onClick={toLibrary}>Library</button><br/><br/>
         </div>
         <div id = "middle" className = "middle">
           <h1>SEARCH</h1>
@@ -114,7 +118,7 @@ const Search = () => {
           {result.map((val, key) => {
               return (
                 <div className="tracks">
-                  <button className="likeButton"></button>
+                  <button className="likeButton" onClick={() => likeSong(val.song_id)} ></button>
                   <button className ="track" onClick={() => setSource(val.song_src)}>{val.song_name}</button>
                   <button className ="track" onClick={() => setSource(val.song_src)}>{val.album_name}</button>
                   <button className ="track" onClick={() => setSource(val.song_src)}>{val.artist_name}</button>
@@ -126,13 +130,13 @@ const Search = () => {
         <div id = "right" className = "right">
           <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
           {friend_ids.map((val, key) => {
-              return (
-                <div className="friends">
-                  <button className="toUserButtons" onClick={()=>toFriendInfo(val.friend)}>{val.friend}</button>
-                </div>
-              );
-          })
-        }
+                  return (
+                    <div className="friends">
+                      <button className="toUserButtons" onClick={()=>toFriendInfo(val.friend)}>{val.friend}</button>
+                    </div>
+                  );
+              })
+            }
         </div>
         <div className ="buttom">
         <AudioPlayer

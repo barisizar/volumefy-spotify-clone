@@ -10,32 +10,41 @@ import AudioPlayer from "react-h5-audio-player";
 
 const Friend_info_artist = () => {
   // We'll store all the users in the database inside this list.
+  const [result, setResult] = useState([]);
+
+  const [source, setSource] = useState("");
   const [user, setUser] = useState("");
-  const [info, setInfo] = useState([]);
+  const [friend_ids, setFriend_ids] = useState([]);
   let history = useHistory();
 
   React.useEffect(() => {
-    var user_id = localStorage.getItem("friend_id");
-     
+    var friend_id = localStorage.getItem("friend_id");
+    var user_id = localStorage.getItem("user_id");
+
       Axios.post("http://localhost:3001/user", {
-        user_id: user_id,
+        user_id: friend_id,
       }).then((res) => {
-        // console.log("res",res);
-        // console.log("res.data",res.data);
         setUser(res.data[0]);
-        // console.log("userrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",user.user_id);
        })
 
-       Axios.post("http://localhost:3001/getLikedSongs", {
-        user_id: user_id,
-      }).then((response) => {
-        // console.log("res",res);
-        // console.log("res.data",res.data);
-        setInfo(response.data);
-        console.log(response)
-        console.log(info)
-        // console.log("userrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",user.user_id);
-       })
+    // Take the friend ids.
+    Axios.post("http://localhost:3001/getFriends", {
+      receiver_id: user_id,
+    }).then((response) => {
+      if (response.data) {
+        console.log("response.data",response.data)
+        setFriend_ids(response.data);
+      }
+    });
+
+    Axios.post("http://localhost:3001/getLikedSongs", {
+      user_id: friend_id,
+    }).then((response) => {
+      if (response.data) {
+        console.log("response.data",response.data)
+        setResult(response.data);
+      }
+    });
   },[])
 
   // This method is to delete the access token from the local storage
@@ -45,45 +54,30 @@ const Friend_info_artist = () => {
     history.push("/");
   };
 
-  // This method is to route to the home page.
+  // fOLLOWİNG ARE TO ROUTE TO THE RELEVANT PAGE.
   const toHome = () => {
     history.push("/Home")
   }
-
-  // This method is to route to the profile page.
   const toProfile = () => {
     history.push("/Profile")
   }
-
-  // This method is to route to the search page.
   const toSearch = () => {
     history.push("/Search")
   }
-
-  const toGender = () => {
-    history.push("/Gender")
+  const toLibrary = () => {
+    history.push("/Library")
   }
-
-  const toAge = () => {
-    history.push("/Age")
-  }
-
-  const toCountry = () => {
-    history.push("/Country")
-  }
-
-  const toPhone = () => {
-    history.push("/Phone")
-  }
-
-  const toArtist = () => {
-    history.push("/Artist");
-  }
-
   const toFriend = () => {
     history.push("/Friend")
   }
-
+  const toMyMusic = () => {
+    history.push("/MyMusic")
+  }
+  const toFriendInfo = (friend_id) => {
+    console.log("friend_id", friend_id)
+    localStorage.setItem("friend_id", friend_id);
+    history.push("/friend_info");
+  }
 
   return (
     <body class="bMain">
@@ -102,39 +96,42 @@ const Friend_info_artist = () => {
           <button className="homeButton" onClick={toHome}>Home</button><br/><br/>
           <button className="profileButton" onClick={toProfile}>Profile</button><br/><br/>
           <button className="searchButton" onClick={toSearch}>Search</button><br/><br/>
-          <button className="libraryButton">Library</button>
-          
+          <button className="libraryButton" onClick={toLibrary}>Library</button><br/><br/>
+          <button className="mymusicButton" onClick={toMyMusic}>My Music</button>
         </div>
         
         <div className="middle_h"> 
           <h3 className="userInfo">user ID: {user.user_id}</h3> <br /><br />     
           <h3 className="userInfo">username: {user.username}</h3><br /><br />
           <h3 className="userInfo">Liked songs: </h3>
-
-          {info.map((val, key) => {
+          {result.map((val, key) => {
               return (
                 <div className="tracks">
-                  <button className ="track">{val.song_name}</button>
-                  <button className ="track">{val.album_name}</button>
-                  <button className ="track">{val.artist_name}</button>
+                  <button className ="track" onClick={() => setSource(val.song_src)}>{val.song_name}</button>
+                  <button className ="track" onClick={() => setSource(val.song_src)}>{val.album_name}</button>
+                  <button className ="track" onClick={() => setSource(val.song_src)}>{val.artist_name}</button>
                 </div>
               );
             })
           }
-
         </div>
         {/* Friends */}
         <div id = "right" className = "right">
         <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
+        {friend_ids.map((val, key) => {
+              return (
+                <div className="friends">
+                  <button className="toUserButtons" onClick={()=>toFriendInfo(val.friend)}>{val.friend}</button>
+                </div>
+              );
+           })
+          }
         </div>
+
         <div className ="buttom">
         <AudioPlayer
-              // src="https://drive.google.com/file/d/1-6TgFFkkBkja4-ucvHadrTucep4_UfKC/view?usp=sharing"
-              src="https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3"
-              // src="../public/Used.mp3"
-              // src={music}
+              src={source}
               onPlay={e => console.log("onPlay")}
-              // other props here
         />
         </div>
         

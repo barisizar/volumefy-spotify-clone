@@ -75,6 +75,9 @@ const MyMusic = () => {
   const toFriend = () => {
     history.push("/Friend_artist")
   }
+  const toLibrary = () => {
+    history.push("/Library_artist")
+  }
   const toFriendInfo = (friend_id) => {
     console.log("friend_id", friend_id)
     localStorage.setItem("friend_id", friend_id);
@@ -98,7 +101,7 @@ const MyMusic = () => {
           <button className="homeButton" onClick={toHome}>Home</button><br/><br/>
           <button className="profileButton" onClick={toProfile}>Profile</button><br/><br/>
           <button className="searchButton" onClick={toSearch}>Search</button><br/><br/>
-          <button className="libraryButton">Library</button><br/><br/>
+          <button className="libraryButton" onClick={toLibrary}>Library</button><br/><br/>
           <button className="mymusicButton">My Music</button>
         </div>
         <div id = "middle" className = "middle">

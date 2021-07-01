@@ -12,12 +12,12 @@ const Library_artist = () => {
 
   const [user_id, setUser_id] = useState("");
   const [friend_ids, setFriend_ids] = useState([]);
-  const [genres, setGenres] = useState([]);
+  const [likedSongs, setLikedSongs] = useState([]);
+  const [source, setSource] = useState([]);
 
   let history = useHistory();
 
   React.useEffect(() => {
-
 
     // Get the user_id from the local storage.
     const user_id = localStorage.getItem("user_id");
@@ -30,7 +30,15 @@ const Library_artist = () => {
       if (response.data) {
         console.log("response.data",response.data)
         setFriend_ids(response.data);
-        // console.log("friend_ids:", friend_ids)
+      }
+    });
+
+    // Take the liked songs.
+    Axios.post("http://localhost:3001/getLikedSongs", {
+      user_id: user_id,
+    }).then((response) => {
+      if (response.data) {
+        setLikedSongs(response.data);
       }
     });
 
@@ -59,6 +67,9 @@ const Library_artist = () => {
   const toFriend = () => {
     history.push("/Friend_artist")
   }
+  const toLibrary = () => {
+    history.push("/Library_artist")
+  }
   const toFriendInfo = (friend_id) => {
     console.log("friend_id", friend_id)
     localStorage.setItem("friend_id", friend_id);
@@ -81,24 +92,37 @@ const Library_artist = () => {
           <button className="homeButton" onClick={toHome}>Home</button><br/><br/>
           <button className="profileButton" onClick={toProfile}>Profile</button><br/><br/>
           <button className="searchButton" onClick={toSearch}>Search</button><br/><br/>
-          <button className="libraryButton">Library</button><br/><br/>
+          <button className="libraryButton" onClick={toLibrary}>Library</button><br/><br/>
           <button className="mymusicButton" onClick={toMyMusic}>My Music</button>
         </div>
         <div id = "middle" className = "middle">
-            
+          <h4 className="songInfoLeft">Song</h4><h4 className="songInfoMiddle">Album</h4><h4 className="songInfoRight">Artist</h4>
+          {likedSongs.map((val, key) => {
+                return (
+                  <div className="songs3">
+                    <button className ="track" onClick={() => setSource(val.song_src)}>{val.song_name}</button>
+                    <button className ="track" onClick={() => setSource(val.song_src)}>{val.album_name}</button>
+                    <button className ="track" onClick={() => setSource(val.song_src)}>{val.artist_name}</button>
+                  </div>
+                );
+            })
+          }
         </div>
         <div id = "right" className = "right">
           <button className="friendButton" onClick={toFriend}>Friends</button><br/><br/>
-          
+          {friend_ids.map((val, key) => {
+              return (
+                <div className="friends">
+                  <button className="toUserButtons" onClick={()=>toFriendInfo(val.friend)}>{val.friend}</button>
+                </div>
+              );
+           })
+          }
         </div>
         <div className ="buttom">
         <AudioPlayer
-              // src="https://drive.google.com/file/d/1-6TgFFkkBkja4-ucvHadrTucep4_UfKC/view?usp=sharing"
-              src="https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3"
-              // src="../public/Used.mp3"
-              // src={music}
+              src={source}
               onPlay={e => console.log("onPlay")}
-              // other props here
         />
         </div>
         

@@ -8,7 +8,7 @@ import {useState} from "react";
 import AudioPlayer from "react-h5-audio-player";
 import Axios from "axios";
 
-const Genre_artist = () => {
+const Genre = () => {
 
   const [user_id, setUser_id] = useState("");
   const [genre_id, setGenre_id] = useState("");
@@ -21,6 +21,10 @@ const Genre_artist = () => {
   let history = useHistory();
 
   React.useEffect(() => {
+    const isArtist = localStorage.getItem("artist")
+    if(isArtist == 1){
+      history.push("/Genre_artist")
+    }
 
     // Get the user_id from the local storage.
     const user_id = localStorage.getItem("user_id");
@@ -73,6 +77,9 @@ const Genre_artist = () => {
   const toMyMusic = () => {
     history.push("/MyMusic")
   }
+  const toLibrary = () => {
+    history.push("/Library_artist")
+  }
   const toFriendInfo = (friend_id) => {
     console.log("friend_id", friend_id)
     localStorage.setItem("friend_id", friend_id);
@@ -95,15 +102,18 @@ const Genre_artist = () => {
           <button className="homeButton" onClick={toHome}>Home</button><br/><br/>
           <button className="profileButton" onClick={toProfile}>Profile</button><br/><br/>
           <button className="searchButton" onClick={toSearch}>Search</button><br/><br/>
-          <button className="libraryButton">Library</button><br /><br />
+          <button className="libraryButton" onClick={toLibrary}>Library</button><br/><br/>
           <button className="mymusicButton" onClick={toMyMusic}>My Music</button>
         </div>
         <div id = "middle" className = "middle">
+        <h4 className="songInfoLeft">Song</h4><h4 className="songInfoMiddle">Album</h4><h4 className="songInfoRight">Artist</h4>
         {songs.map((val, key) => {
               return (
                 <div className="songs3">
                   {/* onClick={()=>toFriendInfo(val.song_src)} */}
-                  <button className="toUserButtons"  onClick={() => setSource(val.song_src)} >{val.song_name}</button>
+                  <button className ="track" onClick={() => setSource(val.song_src)}>{val.song_name}</button>
+                  <button className ="track" onClick={() => setSource(val.song_src)}>{val.album_name}</button>
+                  <button className ="track" onClick={() => setSource(val.song_src)}>{val.artist_name}</button>
                 </div>
               );
           })
@@ -124,7 +134,6 @@ const Genre_artist = () => {
         <AudioPlayer
               src={source}
               onPlay={e => console.log("onPlay")}
-
         />
         </div>
     </div>
@@ -132,4 +141,4 @@ const Genre_artist = () => {
   );
 }
 
-export default Genre_artist;
+export default Genre;

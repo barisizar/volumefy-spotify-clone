@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const accessTokenSecret = 'mhpsecret';
+const accessTokenSecret = 'secret';
 
 
 const auth = (req, res, next) => {

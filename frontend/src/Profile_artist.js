@@ -26,10 +26,7 @@ const Profile = () => {
       Axios.post("http://localhost:3001/user", {
         user_id: user_id,
       }).then((res) => {
-        // console.log("res",res);
-        // console.log("res.data",res.data);
         setUser(res.data[0]);
-        // console.log("userrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",user.user_id);
        })
     // Take the friend ids.
     Axios.post("http://localhost:3001/getFriends", {
@@ -39,7 +36,7 @@ const Profile = () => {
         setFriend_ids(response.data);
       }
     });
-  })
+  },[])
 
   // This method is to delete the access token from the local storage
   // and route back to the "/".
@@ -79,6 +76,9 @@ const Profile = () => {
   const toArtist = () => {
     history.push("/Artist");
   }
+  const toLibrary = () => {
+    history.push("/Library_artist")
+  }
   const toFriendInfo = (friend_id) => {
     console.log("friend_id", friend_id)
     localStorage.setItem("friend_id", friend_id);
@@ -103,7 +103,7 @@ const Profile = () => {
           <button className="homeButton" onClick={toHome}>Home</button><br/><br/>
           <button className="profileButton" onClick={toProfile}>Profile</button><br/><br/>
           <button className="searchButton" onClick={toSearch}>Search</button><br/><br/>
-          <button className="libraryButton">Library</button><br /><br />
+          <button className="libraryButton" onClick={toLibrary}>Library</button><br/><br/>
           <button className="mymusicButton" onClick={toMyMusic}>My Music</button>
         </div>
 

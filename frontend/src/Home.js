@@ -66,6 +66,9 @@ const Home = () => {
   const toFriend = () => {
     history.push("/Friend")
   }
+  const toLibrary = () => {
+    history.push("/Library")
+  }
   const toFriendInfo = (friend_id) => {
     console.log("friend_id", friend_id)
     localStorage.setItem("friend_id", friend_id);
@@ -93,7 +96,7 @@ const Home = () => {
           <button className="homeButton" onClick={toHome}>Home</button><br/><br/>
           <button className="profileButton" onClick={toProfile}>Profile</button><br/><br/>
           <button className="searchButton" onClick={toSearch}>Search</button><br/><br/>
-          <button className="libraryButton">Library</button>
+          <button className="libraryButton" onClick={toLibrary}>Library</button><br/><br/>
         </div>
         <div id = "middle" className = "middle">
           {genres.map((val, key) => {

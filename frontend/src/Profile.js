@@ -33,10 +33,9 @@ const Profile = () => {
     }).then((response) => {
       if (response.data) {
         setFriend_ids(response.data);
-        // console.log("friend_ids:", friend_ids)
       }
     });
-  })
+  },[])
 
   // This method is to delete the access token from the local storage
   // and route back to the "/".
@@ -45,43 +44,36 @@ const Profile = () => {
     history.push("/");
   };
 
-  // This method is to route to the home page.
+  // following are to route to the relevant page.
   const toHome = () => {
     history.push("/Home")
   }
-
-  // This method is to route to the profile page.
   const toProfile = () => {
     history.push("/Profile")
   }
-
-  // This method is to route to the search page.
   const toSearch = () => {
     history.push("/Search")
   }
-
   const toGender = () => {
     history.push("/Gender")
   }
-
   const toAge = () => {
     history.push("/Age")
   }
-
   const toCountry = () => {
     history.push("/Country")
   }
-
   const toPhone = () => {
     history.push("/Phone")
   }
-
   const toArtist = () => {
     history.push("/Artist");
   }
-
   const toFriend = () => {
     history.push("/Friend")
+  }
+  const toLibrary = () => {
+    history.push("/Library")
   }
   const toFriendInfo = (friend_id) => {
     console.log("friend_id", friend_id)
@@ -107,7 +99,7 @@ const Profile = () => {
           <button className="homeButton" onClick={toHome}>Home</button><br/><br/>
           <button className="profileButton" onClick={toProfile}>Profile</button><br/><br/>
           <button className="searchButton" onClick={toSearch}>Search</button><br/><br/>
-          <button className="libraryButton">Library</button>
+          <button className="libraryButton" onClick={toLibrary}>Library</button><br/><br/>
         </div>
         
         <div className="middle_h"> 

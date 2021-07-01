@@ -345,6 +345,12 @@ button{
     width:200px;
     height: 200px;
     float:left; 
+    cursor: pointer;
+  }
+
+  .genreDiv:hover{
+    background-color: white;
+    opacity: 0.6;
   }
 
   .genreCover{

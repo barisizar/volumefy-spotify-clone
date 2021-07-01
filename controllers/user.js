@@ -6,7 +6,7 @@ const { response } = require("express");
 const saltRounds = 10;
 
 // The passwords will be encrypted using this keyword.
-const accessTokenSecret = 'mhpsecret';
+const accessTokenSecret = 'secret';
 
 const home = (req, res) => {
   res.json({ message: "Welcome to server." });
@@ -37,7 +37,7 @@ const createUser = async(req, res) => {
 // This method is to create the users.
 const createArtist = (req, res) => {
   console.log(req.body);
-  const artist_id = req.body.id;
+  const artist_id = req.body.artist_id;
   const artist_name = req.body.artist_name;
 
   db.query(
@@ -498,10 +498,13 @@ const getSongs = (req, res) => {
   });
 };
 
+
+
+
 // This method is to get songs by genre.
 const getSongsByGenre = (req, res) => {
   const genre_id = req.body.genre_id;
-  db.query("SELECT s.song_name, s.song_src from vol.genres g left join vol.songs s on g.genre_id = s.genre_id where g.genre_id = ?",genre_id, 
+  db.query("SELECT s.song_name, s.song_src, al.album_name, ar.artist_name FROM vol.genres g JOIN vol.songs s ON g.genre_id = s.genre_id JOIN vol.albums al ON al.album_id = s.album_id JOIN vol.artists ar ON ar.artist_id = al.artist_id WHERE g.genre_id = ?", genre_id,
   (err, result) => {
     if (err) {
       console.log(err);
