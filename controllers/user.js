@@ -26,6 +26,7 @@ const createUser = async (req, res) => {
         console.log(err);
       } else {
         const expiration = "2h";
+<<<<<<< Updated upstream
             const accessToken = jwt.sign({ username: username}, accessTokenSecret, {
                     expiresIn :"2h"
                 });
@@ -36,6 +37,27 @@ const createUser = async (req, res) => {
               success: "created successfully",
             });
             console.log(req.cookies)
+=======
+        const accessToken = jwt.sign(
+          { username: username },
+          accessTokenSecret,
+          {
+            expiresIn: "2h",
+          }
+        );
+        res
+          .cookie("token", accessToken, {
+            expires: new Date(Date.now() + expiration),
+            secure: false,
+            httpOnly: true,
+          })
+          .send({
+            code: 200,
+            token: accessToken,
+            success: "created successfully",
+          });
+        console.log(req.cookies);
+>>>>>>> Stashed changes
       }
     }
   );
@@ -68,6 +90,7 @@ const loginUser = async (req, res) => {
             // const start = Date.now();
             // console.log(start);
             const expiration = "2h";
+<<<<<<< Updated upstream
             const accessToken = jwt.sign({ username: username}, accessTokenSecret, {
                     expiresIn :"2h"
                 });
@@ -79,6 +102,28 @@ const loginUser = async (req, res) => {
               success: "login successful",
               // cookie:(req.signedCookies)
             });
+=======
+            const accessToken = jwt.sign(
+              { username: username },
+              accessTokenSecret,
+              {
+                expiresIn: "2h",
+              }
+            );
+            // console.log(accessToken)
+            res
+              .cookie("token", accessToken, {
+                expires: new Date(Date.now() + expiration),
+                secure: false,
+                httpOnly: true,
+              })
+              .send({
+                code: 200,
+                token: accessToken,
+                success: "login successful",
+                // cookie:(req.signedCookies)
+              });
+>>>>>>> Stashed changes
             console.log(req.cookies.token);
           } else {
             res.send({
